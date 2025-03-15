@@ -16,6 +16,14 @@ export class MongoConnect {
     }
   }
 
+  static async disconnectDB() {
+    try {
+      await mongoose.disconnect();
+    } catch (error) {
+      console.error("MongoDB disconnection error:", error);
+    }
+  }
+
   private _initializeEventListeners() {
     mongoose.connection.on("connected", () => {
       console.log("MongoDB connected successfully");
