@@ -9,9 +9,9 @@ import { container } from "tsyringe";
 
 export class Server {
   private _app: Application;
-  private port: number | string;
+  private port: number;
 
-  constructor(port: number | string) {
+  constructor(port: number) {
     this._app = express();
     this.port = port;
 
@@ -42,7 +42,6 @@ export class Server {
   }
 
   private initializeRoutes(): void {
-    // this._app.use("/api/v1/auth", new AuthRoutes().router);
     const authRoutes = container.resolve(AuthRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
   }
