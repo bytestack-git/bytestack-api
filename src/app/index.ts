@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { MongoConnect } from "../infrastructure/database/mongoose/connect/connection";
 import { Server } from "../presentation/http/server";
 import { config } from "../shared/config";
