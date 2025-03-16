@@ -1,26 +1,23 @@
+import { injectable, inject } from "tsyringe";
 import { Request, Response } from "express";
-import { inject, injectable } from "tsyringe";
-import { ISignupController } from "../../../domain/interfaces/controllerInterface/auth/signup.controller.interface";
+import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
+import { ISendOtpController } from "../../../domain/interfaces/controllerInterface/auth/send-otp.controller.interface";
+import { HTTP_STATUS } from "../../../shared/constants/status-codes"; 
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
 
 @injectable()
-export class SignupController implements ISignupController {
+export class SendOtpController implements ISendOtpController {
   constructor(
-    @inject("ISignupUseCase") private signupUseCase: ISignupUseCase
+    @inject("ISendEmailUseCase") private sendEmailUseCase: ISendEmailUseCase
   ) {}
 
   async handle(req: Request, res: Response): Promise<void> {
-    const { name, email, password, otp, googleId } = req.body;
+    const { email, type } = req.body;
     try {
-      const { status, message, success } = await this.signupUseCase.execute({
-        name,
+      const { message, status, success } = await this.sendEmailUseCase.execute(
         email,
-        password,
-        googleId,
-        otp,
-      });
+        type
+      );
 
       res.status(status).json({ message, success });
     } catch (error) {
@@ -37,7 +34,8 @@ export class SignupController implements ISignupController {
 
       if (
         message === ERROR_MSG.REQUIRED_FIELD_MISSING ||
-        message === ERROR_MSG.INVALID_DATA
+        message === ERROR_MSG.INVALID_DATA ||
+        message === ERROR_MSG.INVALID_EMAIL_TYPE
       ) {
         status = HTTP_STATUS.BAD_REQUEST;
       }

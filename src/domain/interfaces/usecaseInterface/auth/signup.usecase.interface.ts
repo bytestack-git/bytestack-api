@@ -1,9 +1,7 @@
+import { UserDTO } from "../../../../shared/dtos/user.dto";
+
 export interface ISignupUseCase {
-  execute(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<{
+  execute(userdata: UserDTO): Promise<{
     status: number;
     message: string;
     success: boolean;

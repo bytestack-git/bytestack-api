@@ -1,4 +1,3 @@
-// eslint.config.js
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
@@ -8,7 +7,7 @@ import pluginPromise from "eslint-plugin-promise";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts}"],
+    files: ["src/**/*.ts", "src/**/*.js"],
   },
   {
     languageOptions: {
@@ -27,24 +26,38 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: "module",
         project: "./tsconfig.json",
-        tsconfigRootDir: process.cwd(),
-        sourceType: "commonjs",
+      },
+    },
+  },
+  // Import Resolver for TypeScript
+  {
+    settings: {
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: "./tsconfig.json",
+        },
       },
     },
   },
   // Custom rules
   {
     rules: {
-      "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "import/no-unresolved": "error",
-      "promise/always-return": "warn", // Now works with the plugin
+      "promise/always-return": "warn",
     },
   },
   // Ignore patterns
   {
-    ignores: ["node_modules/", "dist/", "**/*.test.ts"],
+    ignores: ["eslint.config.mjs", "node_modules/", "dist/", "**/*.test.ts"],
   },
 ];

@@ -1,16 +1,19 @@
 import "reflect-metadata";
 import { MongoConnect } from "../infrastructure/database/mongoose/connect/connection";
 import { Server } from "../presentation/http/server";
-import { config } from "../shared/config";
+import { config } from "../shared/config/config";
+import { initializeRedis } from "../infrastructure/database/redis/init";
 import { RedisConnect } from "../infrastructure/database/redis/connect/connection";
 
 const startServer = async () => {
-  const database = new MongoConnect(config.database.URI);
-  const redis = new RedisConnect();
-  const server = new Server(config.server.PORT);
+  await initializeRedis();
 
+  const database = new MongoConnect(config.database.URI);
   await database.connectDB();
-  await redis.connectRedis();
+
+  await import("../infrastructure/di/container");
+
+  const server = new Server(config.server.PORT);
   server.listen();
 
   const shutdown = async () => {

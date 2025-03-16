@@ -2,6 +2,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
+  domain: {
+    DOMAIN_NAME: process.env.DOMAIN_NAME,
+  },
+
   cors: {
     ALLOWED_ORIGIN: process.env.CORS_ALLOWED_ORIGIN || "http://localhost:5173",
   },

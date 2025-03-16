@@ -1,27 +1,30 @@
-// src/infrastructure/database/redis/connect/connection.ts
 import { createClient, RedisClientType } from "redis";
-import { config } from "../../../../shared/config";
+import { config } from "../../../../shared/config/config";
 
 export class RedisConnect {
-  private static _client: RedisClientType;
+  private static _client: RedisClientType | undefined;
+  private static _instance: RedisConnect | undefined;
 
-  constructor() {
-    this._initializeClient();
-    this._initializeEventListeners();
+  private constructor() {
+    this.initializeClient();
+    this.initializeEventListeners();
   }
 
-  private _initializeClient(): void {
+  private initializeClient(): void {
     RedisConnect._client = createClient({
       username: config.redis.REDIS_USERNAME,
       password: config.redis.REDIS_PASSWORD,
       socket: {
         host: config.redis.REDIS_HOST,
         port: config.redis.REDIS_PORT,
+        connectTimeout: 10000,
       },
     });
   }
 
-  private _initializeEventListeners(): void {
+  private initializeEventListeners(): void {
+    if (!RedisConnect._client) return;
+
     RedisConnect._client.on("error", (error) => {
       console.error("Redis connection error:", error);
     });
@@ -35,33 +38,40 @@ export class RedisConnect {
     });
   }
 
-  async connectRedis() {
-    try {
-      await RedisConnect._client.connect();
-    } catch (error) {
-      console.error("Failed to connect to Redis:", error);
-      throw error;
+  public static async getInstance(): Promise<RedisConnect> {
+    if (!RedisConnect._instance) {
+      RedisConnect._instance = new RedisConnect();
+      await RedisConnect._client?.connect();
     }
+    return RedisConnect._instance;
   }
 
-  static async disconnectRedis() {
+  public static async getClient(): Promise<RedisClientType> {
+    await RedisConnect.getInstance();
+    if (!RedisConnect._client) {
+      throw new Error("Redis client is not initialized");
+    }
+    if (!RedisConnect._client.isOpen) {
+      await RedisConnect._client.connect();
+    }
+    return RedisConnect._client;
+  }
+
+  public static async disconnectRedis(): Promise<void> {
     if (!RedisConnect._client) {
       console.warn("Redis client is not initialized; skipping disconnection");
       return;
     }
     try {
-      await RedisConnect._client.disconnect();
+      if (RedisConnect._client.isOpen) {
+        await RedisConnect._client.quit();
+      }
+      RedisConnect._client = undefined;
+      RedisConnect._instance = undefined;
       console.log("Redis disconnected successfully");
     } catch (error) {
       console.error("Redis disconnection error:", error);
       throw error;
     }
-  }
-
-  static getClient(): RedisClientType {
-    if (!RedisConnect._client) {
-      throw new Error("Redis client is not initialized");
-    }
-    return RedisConnect._client;
   }
 }
