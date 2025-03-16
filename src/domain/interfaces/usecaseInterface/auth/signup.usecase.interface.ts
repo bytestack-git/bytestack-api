@@ -1,9 +1,7 @@
+import { UserSignupDTO } from "../../../../shared/validation/schemas";
+
 export interface ISignupUseCase {
-  execute(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<{
+  execute(data: UserSignupDTO): Promise<{
     status: number;
     message: string;
     success: boolean;

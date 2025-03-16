@@ -1,48 +1,3 @@
-// src/shared/constants.ts
-
-// HTTP Status Codes
-export const HTTP_STATUS = {
-  OK: 200, // Successful request
-  CREATED: 201, // Resource successfully created
-  ACCEPTED: 202, // Request accepted, processing in progress
-  NO_CONTENT: 204, // Successful request with no content to return
-  BAD_REQUEST: 400, // Invalid request
-  UNAUTHORIZED: 401, // Authentication failed
-  FORBIDDEN: 403, // Access denied
-  NOT_FOUND: 404, // Resource not found
-  CONFLICT: 409, // Conflict
-  UNPROCESSABLE_ENTITY: 422, // Semantic errors
-  INTERNAL_SERVER_ERROR: 500, // Server-side error
-  SERVICE_UNAVAILABLE: 503, // Service unavailable
-};
-
-// Success Messages
-export const SUCCESS_MSG = {
-  // General
-  OPERATION_SUCCESSFUL: "Operation completed successfully.",
-  RESOURCE_FETCHED: "Resource fetched successfully.",
-
-  // Auth
-  LOGIN_SUCCESSFUL: "Login successful.",
-  SIGNUP_SUCCESSFUL: "Signup successful.",
-  MFA_ENABLED: "Multi-factor authentication enabled successfully.",
-
-  // Blog
-  BLOG_CREATED: "Blog created successfully.",
-  BLOG_UPDATED: "Blog updated successfully.",
-  BLOG_DELETED: "Blog deleted successfully.",
-  PLAGIARISM_CHECK_PASSED: "Plagiarism check passed.",
-
-  // Chat
-  MESSAGE_SENT: "Message sent successfully.",
-  CHAT_INITIATED: "Chat session initiated successfully.",
-
-  // Payout
-  PAYOUT_APPROVED: "Payout approved successfully.",
-  PAYOUT_REJECTED: "Payout rejected successfully.",
-};
-
-// Error Messages
 export const ERROR_MSG = {
   // General
   INVALID_REQUEST: "Invalid request. Please check your input and try again.",
@@ -57,7 +12,11 @@ export const ERROR_MSG = {
   REQUIRED_FIELD_MISSING: "Required field is missing.",
   INVALID_FORMAT: "Invalid format for the provided data.",
 
-  // Auth
+  // OTP
+  INVALID_OTP: "Invalid OTP.",
+  OTP_EXPIRED: "OTP has expired",
+
+  // Authentication
   CONFLICT: "email already exist",
   INVALID_CREDENTIALS: "Invalid username or password.",
   UNAUTHORIZED_ACCESS: "Unauthorized access. Please log in.",
@@ -67,6 +26,9 @@ export const ERROR_MSG = {
   INVALID_TOKEN: "Invalid token. Please log in again.",
   MFA_REQUIRED: "Multi-factor authentication is required.",
   INVALID_MFA_CODE: "Invalid MFA code.",
+  INVALID_EMAIL_TYPE: "Invalid email type.",
+  EMAIL_SEND_FAILED: "Failed to send email.",
+  EMAIL_ALREADY_EXIST: "Email already exist",
 
   // Blog
   BLOG_NOT_FOUND: "Blog not found.",

@@ -2,10 +2,10 @@ import express, { Application } from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
-import morgan from "morgan";
-import { config } from "../../shared/config";
+import { config } from "../../shared/config/config";
 import { AuthRoutes } from "../routes/auth/auth.route";
 import { container } from "tsyringe";
+import { logger } from "../../shared/utils/logger";
 
 export class Server {
   private _app: Application;
@@ -29,7 +29,7 @@ export class Server {
       })
     );
 
-    this._app.use(morgan("combined"));
+    this._app.use(logger);
     this._app.use(cookieParser());
     this._app.use(express.json());
 
