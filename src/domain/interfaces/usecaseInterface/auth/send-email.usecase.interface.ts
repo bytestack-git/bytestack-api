@@ -1,6 +1,7 @@
+import { SendEmailDTO } from "../../../../shared/validation/schemas";
+
 export interface ISendEmailUseCase {
   execute(
-    email: string,
-    type: "otp" | "forgot-password" | "resend-otp"
+    data: SendEmailDTO
   ): Promise<{ status: number; message: string; success: boolean }>;
 }

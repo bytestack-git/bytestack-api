@@ -58,6 +58,14 @@ export default [
   },
   // Ignore patterns
   {
-    ignores: ["eslint.config.mjs", "node_modules/", "dist/", "**/*.test.ts"],
+    ignores: [
+      "eslint.config.mjs",
+      "node_modules/",
+      "dist/",
+      "**/*.test.ts",
+      "**/*.test.js",
+      "jest.config.js",
+      "jest.config.mjs",
+    ],
   },
 ];

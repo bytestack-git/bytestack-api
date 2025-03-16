@@ -1,39 +1,48 @@
 import { injectable, inject } from "tsyringe";
+import { IOTPGeneratorService } from "../../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
-import { IOTPService } from "../../../domain/interfaces/serviceInterface/auth/otp.service.interface";
+import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
+import {
+  sendEmailSchema,
+  SendEmailDTO,
+  InternalOtpType,
+} from "../../../shared/validation/schemas";
+import { getEmailTemplate } from "../../services/email/email-templates.service";
+import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { config } from "../../../shared/config/config";
-import { getEmailTemplate } from "../../services/email/email-templates.service";
 
 @injectable()
 export class SendEmailUseCase implements ISendEmailUseCase {
   constructor(
     @inject("IUserRepository") private userRepository: IUserRepository,
     @inject("IEmailService") private emailService: IEmailService,
-    @inject("IOTPService") private otpService: IOTPService
+    @inject("IOTPCacheService") private otpCacheService: IOTPCacheService,
+    @inject("IOTPGeneratorService")
+    private otpGeneratorService: IOTPGeneratorService
   ) {}
 
   async execute(
-    email: string,
-    type: "otp" | "forgot-password" | "resend-otp"
+    data: SendEmailDTO
   ): Promise<{ status: number; message: string; success: boolean }> {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      throw new Error(ERROR_MSG.INVALID_DATA);
-    }
+    const validatedData = sendEmailSchema.parse(data);
+    const { email, type } = validatedData;
+
+    const otpType = type as InternalOtpType;
 
     const user = await this.userRepository.findByEmail(email);
-    if (user && type === "otp") {
+    if (user && otpType === "otp") {
       throw new Error(ERROR_MSG.EMAIL_ALREADY_EXIST);
     }
 
-    const otp = this.otpService.generateOTP();
+    //ToDo if (!user && type === "forgot-password") throw new Error(ERROR_MSG.USER_NOT_FOUND);
 
-    await this.otpService.storeOTP(email, otp, 180);
+    const otp = this.otpGeneratorService.generateOTP();
+
+    await this.otpCacheService.storeOTP(email, otp, 180);
 
     const { subject, html } = getEmailTemplate(type, otp);
 

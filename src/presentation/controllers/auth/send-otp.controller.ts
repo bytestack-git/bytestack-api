@@ -2,7 +2,7 @@ import { injectable, inject } from "tsyringe";
 import { Request, Response } from "express";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
 import { ISendOtpController } from "../../../domain/interfaces/controllerInterface/auth/send-otp.controller.interface";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes"; 
+import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
@@ -14,10 +14,10 @@ export class SendOtpController implements ISendOtpController {
   async handle(req: Request, res: Response): Promise<void> {
     const { email, type } = req.body;
     try {
-      const { message, status, success } = await this.sendEmailUseCase.execute(
+      const { message, status, success } = await this.sendEmailUseCase.execute({
         email,
-        type
-      );
+        type,
+      });
 
       res.status(status).json({ message, success });
     } catch (error) {

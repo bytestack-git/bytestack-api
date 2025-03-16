@@ -3,7 +3,6 @@ import nodemailer, { Transporter } from "nodemailer";
 import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
 import { IEmailEntity } from "../../../domain/entities/services/email.entity";
 import { config } from "../../../shared/config/config";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class EmailService implements IEmailService {
@@ -21,14 +20,6 @@ export class EmailService implements IEmailService {
       ...options,
     };
 
-    try {
-      await this.transporter.sendMail(mailOptions);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Email Send Error:", error.message);
-      }
-      
-      throw new Error(ERROR_MSG.EMAIL_SEND_FAILED);
-    }
+    await this.transporter.sendMail(mailOptions);
   }
 }

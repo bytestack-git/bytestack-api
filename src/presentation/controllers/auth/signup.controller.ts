@@ -12,13 +12,12 @@ export class SignupController implements ISignupController {
   ) {}
 
   async handle(req: Request, res: Response): Promise<void> {
-    const { name, email, password, otp, googleId } = req.body;
+    const { name, email, password, otp } = req.body;
     try {
       const { status, message, success } = await this.signupUseCase.execute({
         name,
         email,
         password,
-        googleId,
         otp,
       });
 
@@ -37,7 +36,9 @@ export class SignupController implements ISignupController {
 
       if (
         message === ERROR_MSG.REQUIRED_FIELD_MISSING ||
-        message === ERROR_MSG.INVALID_DATA
+        message === ERROR_MSG.INVALID_DATA ||
+        message === ERROR_MSG.INVALID_OTP ||
+        message === ERROR_MSG.OTP_EXPIRED
       ) {
         status = HTTP_STATUS.BAD_REQUEST;
       }
