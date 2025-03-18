@@ -46,6 +46,20 @@ export const userSignupSchema = z.object({
   otp: otpSchema,
 });
 
+// Reset password schema
+export const resetPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  otp: otpSchema,
+  newPassword: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+      "Password must contain uppercase, lowercase, number, and special character"
+    ),
+});
+
 // Type inference
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
+export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;

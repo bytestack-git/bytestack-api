@@ -4,11 +4,8 @@ import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/a
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
-import {
-  sendEmailSchema,
-  SendEmailDTO,
-  InternalOtpType,
-} from "../../../shared/validation/schemas";
+import { sendEmailSchema } from "../../../shared/validation/schemas";
+import { SendEmailDTO } from "../../../shared/validation/schemas";
 import { getEmailTemplate } from "../../services/email/email-templates.service";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
@@ -35,7 +32,9 @@ export class SendEmailUseCase implements ISendEmailUseCase {
 
     if (user && type === "otp") throw new Error(ERROR_MSG.EMAIL_ALREADY_EXIST);
 
-    //ToDo if (!user && type === "forgot-password") throw new Error(ERROR_MSG.USER_NOT_FOUND);
+    if (type === "forgot-password" && !user) {
+      throw new Error(ERROR_MSG.EMAIL_NOT_FOUND);
+    }
 
     const otp = this.otpGeneratorService.generateOTP();
 
