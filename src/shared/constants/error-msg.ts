@@ -13,11 +13,12 @@ export const ERROR_MSG = {
   INVALID_FORMAT: "Invalid format for the provided data.",
 
   // OTP
-  INVALID_OTP: "Invalid OTP.",
-  OTP_EXPIRED: "OTP has expired",
+  INVALID_OTP:
+    "The OTP you entered is incorrect. Please try again.",
+  OTP_EXPIRED: "The OTP has expired. Please request a new one.",
 
   // Authentication
-  CONFLICT: "email already exist",
+  CONFLICT: "Email already exist",
   INVALID_CREDENTIALS: "Invalid username or password.",
   UNAUTHORIZED_ACCESS: "Unauthorized access. Please log in.",
   FORBIDDEN_ACCESS:
@@ -29,6 +30,7 @@ export const ERROR_MSG = {
   INVALID_EMAIL_TYPE: "Invalid email type.",
   EMAIL_SEND_FAILED: "Failed to send email.",
   EMAIL_ALREADY_EXIST: "Email already exist",
+  EMAIL_NOT_FOUND: "Email not found",
 
   // Blog
   BLOG_NOT_FOUND: "Blog not found.",

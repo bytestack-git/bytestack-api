@@ -7,7 +7,6 @@ export class RedisConnect {
 
   private constructor() {
     this.initializeClient();
-    this.initializeEventListeners();
   }
 
   private initializeClient(): void {
@@ -17,14 +16,22 @@ export class RedisConnect {
       socket: {
         host: config.redis.REDIS_HOST,
         port: config.redis.REDIS_PORT,
-        connectTimeout: 10000,
+        connectTimeout: 10000, // 10s timeout
+        keepAlive: 5000, // Keep connection alive
+        reconnectStrategy: (retries) => Math.min(retries * 50, 1000), // Retry delay
       },
     });
-  }
 
-  private initializeEventListeners(): void {
-    RedisConnect._client?.on("error", (error) => {
-      throw new Error(`Redis connection error: ${error}`);
+    RedisConnect._client.on("error", (error) => {
+      console.error("Redis connection error:", error.message);
+    });
+
+    RedisConnect._client.on("connect", () => {
+      console.log("Redis connected successfully");
+    });
+
+    RedisConnect._client.on("end", () => {
+      console.warn("Redis connection closed");
     });
   }
 
@@ -36,18 +43,23 @@ export class RedisConnect {
         throw new Error("Redis client is not initialized");
       }
 
-      await RedisConnect._client.connect();
+      try {
+        await RedisConnect._client.connect();
+      } catch (error) {
+        console.error("Redis connection failed:", error);
+      }
     }
     return RedisConnect._instance;
   }
 
   public static async getClient(): Promise<RedisClientType> {
     await RedisConnect.getInstance();
-    if (!RedisConnect._client) {
-      throw new Error("Redis client is not initialized");
+    if (!RedisConnect._client || !RedisConnect._client.isOpen) {
+      console.warn("Redis client is not open. Reconnecting...");
+      await RedisConnect._client?.connect();
     }
-    if (!RedisConnect._client.isOpen) {
-      await RedisConnect._client.connect();
+    if (!RedisConnect._client) {
+      throw new Error("Redis client is not available");
     }
     return RedisConnect._client;
   }
@@ -57,6 +69,7 @@ export class RedisConnect {
       await RedisConnect._client.quit();
       RedisConnect._client = null;
       RedisConnect._instance = null;
+      console.log("Redis disconnected successfully");
     }
   }
 }

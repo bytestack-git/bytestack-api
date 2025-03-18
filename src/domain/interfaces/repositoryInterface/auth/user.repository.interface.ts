@@ -4,4 +4,5 @@ export interface IUserRepository {
   save(user: IUserEntity): Promise<IUserEntity>;
   findByEmail(email: string): Promise<IUserEntity | null>;
   findById(id: string): Promise<IUserEntity | null>;
+  updatePassword(email: string, newPassword: string): Promise<void>;
 }

@@ -23,7 +23,7 @@ export class OTPVerificationService implements IOTPVerificationService {
 
     const isValid = inputOTP.trim() === otpData.otp.trim();
 
-    await this.otpCacheService.deleteOTP(email);
+    if (isValid) await this.otpCacheService.deleteOTP(email);
 
     if (!isValid) {
       throw new Error(ERROR_MSG.INVALID_OTP);

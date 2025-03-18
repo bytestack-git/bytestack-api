@@ -14,4 +14,8 @@ export class UserRepository implements IUserRepository {
   async findById(id: string): Promise<IUserEntity | null> {
     return await UserModel.findById(id).lean();
   }
+
+  async updatePassword(email: string, newPassword: string): Promise<void> {
+    await UserModel.updateOne({ email }, { password: newPassword });
+  }
 }
