@@ -14,62 +14,35 @@ export class OTPCacheService implements IOTPCacheService {
     otp: string,
     ttlSeconds: number = 1
   ): Promise<void> {
-    try {
-      const client = await this.getClient();
-      await this.deleteOTP(email);
+    const client = await this.getClient();
+    await this.deleteOTP(email);
 
-      const otpData = {
-        otp,
-        email,
-        expiresAt: Date.now() + ttlSeconds * 1000,
-      };
+    const otpData = {
+      otp,
+      email,
+      expiresAt: Date.now() + ttlSeconds * 1000,
+    };
 
-      await client.setEx(email, ttlSeconds, JSON.stringify(otpData));
-    } catch (error) {
-      console.error("storeOTP error:", error);
-      throw new Error(ERROR_MSG.REDIS_ERROR);
-    }
+    await client.setEx(email, ttlSeconds, JSON.stringify(otpData));
   }
 
   async getOTP(
     email: string
   ): Promise<{ otp: string; email: string; expiresAt: number } | null> {
-    try {
-      const client = await this.getClient();
-      const storedData = await client.get(email);
+    const client = await this.getClient();
+    const storedData = await client.get(email);
 
-      if (!storedData) {
-        return null;
-      }
-
-      const otpData = JSON.parse(storedData);
-
-      if (Date.now() > otpData.expiresAt) {
-        await this.deleteOTP(email);
-        throw new Error(ERROR_MSG.OTP_EXPIRED);
-      }
-
-      return otpData;
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === ERROR_MSG.OTP_EXPIRED) {
-          throw error;
-        }
-        console.error("getOTP error:", error);
-        throw new Error(ERROR_MSG.REDIS_ERROR);
-      }
-      console.error("getOTP unexpected error:", error);
-      throw new Error(ERROR_MSG.REDIS_ERROR);
+    if (!storedData) {
+      return null;
     }
+
+    const otpData = JSON.parse(storedData);
+
+    return otpData;
   }
 
   async deleteOTP(email: string): Promise<void> {
-    try {
-      const client = await this.getClient();
-      await client.del(email);
-    } catch (error) {
-      console.error("deleteOTP error:", error);
-      throw new Error(ERROR_MSG.REDIS_ERROR);
-    }
+    const client = await this.getClient();
+    await client.del(email);
   }
 }

@@ -31,12 +31,9 @@ export class SendEmailUseCase implements ISendEmailUseCase {
     const validatedData = sendEmailSchema.parse(data);
     const { email, type } = validatedData;
 
-    const otpType = type as InternalOtpType;
-
     const user = await this.userRepository.findByEmail(email);
-    if (user && otpType === "otp") {
-      throw new Error(ERROR_MSG.EMAIL_ALREADY_EXIST);
-    }
+
+    if (user && type === "otp") throw new Error(ERROR_MSG.EMAIL_ALREADY_EXIST);
 
     //ToDo if (!user && type === "forgot-password") throw new Error(ERROR_MSG.USER_NOT_FOUND);
 
