@@ -59,7 +59,13 @@ export const resetPasswordSchema = z.object({
     ),
 });
 
+export const loginSchema = z.object({
+  email: emailSchema,
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
 // Type inference
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
+export type LoginDTO = z.infer<typeof loginSchema>;

@@ -1,7 +1,7 @@
 // src/presentation/controllers/auth/reset-password.controller.ts
 import { injectable, inject } from "tsyringe";
 import { Request, Response } from "express";
-import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/reset-password.usecase.interface";
+import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
 import { IResetPasswordController } from "../../../domain/interfaces/controllerInterface/auth/reset-password.controller.interface";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";

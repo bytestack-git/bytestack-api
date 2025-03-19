@@ -13,9 +13,12 @@ export const ERROR_MSG = {
   INVALID_FORMAT: "Invalid format for the provided data.",
 
   // OTP
-  INVALID_OTP:
-    "The OTP you entered is incorrect. Please try again.",
+  INVALID_OTP: "The OTP you entered is incorrect. Please try again.",
   OTP_EXPIRED: "The OTP has expired. Please request a new one.",
+
+  // Validation Messages
+  INVALID_EMAIL_PASSWORD:
+    "Invalid email or password. Please check and try again.",
 
   // Authentication
   CONFLICT: "Email already exist",

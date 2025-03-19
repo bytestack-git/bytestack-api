@@ -6,6 +6,10 @@ import { ResetPasswordController } from "../../presentation/controllers/auth/res
 
 import "./container";
 import "./service.registry";
+import { LoginController } from "../../presentation/controllers/auth/login.controller";
+import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
+import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
+import { AuthMiddleware } from "../../presentation/middleware/auth.middleware";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -15,3 +19,16 @@ export const sendOtpController =
 
 export const resetPasswordController =
   container.resolve<ResetPasswordController>("IResetPasswordController");
+
+export const loginController =
+  container.resolve<LoginController>("ILoginController");
+
+export const refreshTokenController = container.resolve<RefreshTokenController>(
+  "IRefreshTokenController"
+);
+
+export const logoutController =
+  container.resolve<LogoutController>("ILogoutController");
+
+export const authMiddleware =
+  container.resolve<AuthMiddleware>("AuthMiddleware");

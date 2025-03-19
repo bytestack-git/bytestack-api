@@ -34,4 +34,8 @@ export const config = {
     REDIS_PORT: Number(process.env.REDIS_PORT),
     REDIS_HOST: process.env.REDIS_HOST,
   },
+
+  jwt: {
+    JWT_SECRET: process.env.JWT_SECRET,
+  },
 };

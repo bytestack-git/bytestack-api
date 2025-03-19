@@ -1,11 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { BaseRoute } from "../base.route";
 import {
   signupController,
   sendOtpController,
   resetPasswordController,
+  loginController,
+  refreshTokenController,
+  logoutController,
+  authMiddleware,
 } from "../../../infrastructure/di/resolver";
-
 export class AuthRoutes extends BaseRoute {
   constructor() {
     super();
@@ -29,5 +32,29 @@ export class AuthRoutes extends BaseRoute {
     this.router.post("/reset-password", (req: Request, res: Response) => {
       resetPasswordController.handle(req, res);
     });
+
+    this.router.post("/login", (req: Request, res: Response) => {
+      loginController.handle(req, res);
+    });
+
+    this.router.post("/refresh-token", (req: Request, res: Response) => {
+      refreshTokenController.handle(req, res);
+    });
+
+    this.router.post("/logout", (req: Request, res: Response) => {
+      logoutController.handle(req, res);
+    });
+
+    // Protected route for testing
+    this.router.get(
+      "/protected",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
+      (req: Request, res: Response) => {
+        res
+          .status(200)
+          .json({ message: "Protected route accessed", user: req.user });
+      }
+    );
   }
 }

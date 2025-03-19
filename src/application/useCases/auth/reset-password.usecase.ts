@@ -1,5 +1,5 @@
 import { injectable, inject } from "tsyringe";
-import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/reset-password.usecase.interface";
+import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import {
