@@ -6,6 +6,7 @@ import { config } from "../../shared/config/config";
 import { AuthRoutes } from "../routes/auth/auth.route";
 import { container } from "tsyringe";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
+import { errorHandler } from "../middleware/error.middleware";
 
 export class Server {
   private _app: Application;
@@ -17,6 +18,7 @@ export class Server {
 
     this.initializeMiddlewares();
     this.initializeRoutes();
+    this.initializeErrorHandler();
   }
 
   private initializeMiddlewares(): void {
@@ -44,6 +46,10 @@ export class Server {
   private initializeRoutes(): void {
     const authRoutes = container.resolve(AuthRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
+  }
+
+  private initializeErrorHandler(): void {
+    this._app.use(errorHandler as express.ErrorRequestHandler);
   }
 
   public listen(): void {

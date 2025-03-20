@@ -4,9 +4,13 @@ import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/a
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
-import { sendEmailSchema } from "../../../shared/validation/schemas";
-import { SendEmailDTO } from "../../../shared/validation/schemas";
+import {
+  sendEmailSchema,
+  SendEmailDTO,
+} from "../../../shared/validation/schemas";
 import { getEmailTemplate } from "../../services/email/email-templates.service";
+import { BaseError } from "../../../domain/errors/base.error";
+import { ZodError } from "zod";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
@@ -25,29 +29,75 @@ export class SendEmailUseCase implements ISendEmailUseCase {
   async execute(
     data: SendEmailDTO
   ): Promise<{ status: number; message: string; success: boolean }> {
-    const validatedData = sendEmailSchema.parse(data);
+    // Validate input using schema
+    let validatedData: SendEmailDTO;
+    try {
+      validatedData = sendEmailSchema.parse(data);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw new BaseError(
+          ERROR_MSG.INVALID_DATA,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+      throw new BaseError(
+        "Failed to validate input data",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
     const { email, type } = validatedData;
 
-    const user = await this.userRepository.findByEmail(email);
-
-    if (user && type === "otp") throw new Error(ERROR_MSG.EMAIL_ALREADY_EXIST);
-
-    if (type === "forgot-password" && !user) {
-      throw new Error(ERROR_MSG.EMAIL_NOT_FOUND);
+    // Validate email type
+    const validTypes = ["otp", "forgot-password"];
+    if (!validTypes.includes(type)) {
+      throw new BaseError(
+        ERROR_MSG.INVALID_EMAIL_TYPE,
+        HTTP_STATUS.BAD_REQUEST,
+        true
+      );
     }
 
-    const otp = this.otpGeneratorService.generateOTP();
+    // Check user existence based on type
+    const user = await this.userRepository.findByEmail(email);
 
+    if (user && type === "otp") {
+      throw new BaseError(
+        ERROR_MSG.EMAIL_ALREADY_EXIST,
+        HTTP_STATUS.CONFLICT,
+        true
+      );
+    }
+
+    if (type === "forgot-password" && !user) {
+      throw new BaseError(
+        ERROR_MSG.EMAIL_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND,
+        true
+      );
+    }
+
+    // Generate and store OTP
+    const otp = this.otpGeneratorService.generateOTP();
     await this.otpCacheService.storeOTP(email, otp, 180);
 
+    // Send email
     const { subject, html } = getEmailTemplate(type, otp);
-
-    await this.emailService.sendEmail({
-      from: `${config.domain.DOMAIN_NAME} <${config.email.AUTH.user}>`,
-      to: email,
-      subject,
-      html,
-    });
+    try {
+      await this.emailService.sendEmail({
+        from: `${config.domain.DOMAIN_NAME} <${config.email.AUTH.user}>`,
+        to: email,
+        subject,
+        html,
+      });
+    } catch (error) {
+      throw new BaseError(
+        "Failed to send email",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
 
     return {
       status: HTTP_STATUS.OK,

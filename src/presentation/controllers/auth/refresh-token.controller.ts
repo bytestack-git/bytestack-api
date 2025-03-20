@@ -1,7 +1,9 @@
 import { injectable, inject } from "tsyringe";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterface/auth/refresh-token.usecase.interface";
 import { IRefreshTokenController } from "../../../domain/interfaces/controllerInterface/auth/refresh-token.controller.interface";
+import { BaseError } from "../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 
 @injectable()
 export class RefreshTokenController implements IRefreshTokenController {
@@ -10,11 +12,15 @@ export class RefreshTokenController implements IRefreshTokenController {
     private refreshTokenUseCase: IRefreshTokenUseCase
   ) {}
 
-  async handle(req: Request, res: Response): Promise<void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) {
-        throw new Error("Refresh token not found");
+        throw new BaseError(
+          "Refresh token not found",
+          HTTP_STATUS.UNAUTHORIZED,
+          true
+        );
       }
 
       const { status, message, success, accessToken } =
@@ -29,7 +35,8 @@ export class RefreshTokenController implements IRefreshTokenController {
 
       res.status(status).json({ message, success });
     } catch (error) {
-      //  ToDO handle error
+      // Pass the error to the errorHandler middleware
+      next(error);
     }
   }
 }

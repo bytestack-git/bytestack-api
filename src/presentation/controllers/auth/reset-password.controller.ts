@@ -1,10 +1,10 @@
-// src/presentation/controllers/auth/reset-password.controller.ts
 import { injectable, inject } from "tsyringe";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
 import { IResetPasswordController } from "../../../domain/interfaces/controllerInterface/auth/reset-password.controller.interface";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class ResetPasswordController implements IResetPasswordController {
@@ -13,9 +13,19 @@ export class ResetPasswordController implements IResetPasswordController {
     private resetPasswordUseCase: IResetPasswordUseCase
   ) {}
 
-  async handle(req: Request, res: Response): Promise<void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { email, otp, newPassword } = req.body;
+
     try {
-      const { email, otp, newPassword } = req.body;
+      // Basic input validation
+      if (!email || !otp || !newPassword) {
+        throw new BaseError(
+          ERROR_MSG.REQUIRED_FIELD_MISSING,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+
       const { status, message, success } =
         await this.resetPasswordUseCase.execute({
           email,
@@ -25,27 +35,8 @@ export class ResetPasswordController implements IResetPasswordController {
 
       res.status(status).json({ message, success });
     } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : ERROR_MSG.INTERNAL_SERVER_ERROR;
-
-      let status = HTTP_STATUS.INTERNAL_SERVER_ERROR;
-
-      if (message === ERROR_MSG.EMAIL_NOT_FOUND) {
-        status = HTTP_STATUS.NOT_FOUND;
-      }
-
-      if (
-        message === ERROR_MSG.OTP_EXPIRED ||
-        message === ERROR_MSG.INVALID_DATA ||
-        message === ERROR_MSG.INVALID_EMAIL_TYPE ||
-        message === ERROR_MSG.INVALID_OTP
-      ) {
-        status = HTTP_STATUS.BAD_REQUEST;
-      }
-
-      res.status(status).json({ message });
+      // Pass the error to the errorHandler middleware
+      next(error);
     }
   }
 }

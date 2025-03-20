@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { ISignupController } from "../../../domain/interfaces/controllerInterface/auth/signup.controller.interface";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
 
 @injectable()
@@ -11,8 +9,9 @@ export class SignupController implements ISignupController {
     @inject("ISignupUseCase") private signupUseCase: ISignupUseCase
   ) {}
 
-  async handle(req: Request, res: Response): Promise<void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { name, email, password, otp } = req.body;
+
     try {
       const { status, message, success } = await this.signupUseCase.execute({
         name,
@@ -23,27 +22,7 @@ export class SignupController implements ISignupController {
 
       res.status(status).json({ message, success });
     } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : ERROR_MSG.INTERNAL_SERVER_ERROR;
-
-      let status = HTTP_STATUS.INTERNAL_SERVER_ERROR;
-
-      if (message === ERROR_MSG.EMAIL_ALREADY_EXIST) {
-        status = HTTP_STATUS.CONFLICT;
-      }
-
-      if (
-        message === ERROR_MSG.REQUIRED_FIELD_MISSING ||
-        message === ERROR_MSG.INVALID_DATA ||
-        message === ERROR_MSG.INVALID_OTP ||
-        message === ERROR_MSG.OTP_EXPIRED
-      ) {
-        status = HTTP_STATUS.BAD_REQUEST;
-      }
-
-      res.status(status).json({ message });
+      next(error);
     }
   }
 }

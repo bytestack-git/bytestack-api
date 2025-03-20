@@ -2,10 +2,14 @@ import { injectable, inject } from "tsyringe";
 import { ILoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/login.usecase.interface";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { loginSchema, LoginDTO } from "../../../shared/validation/schemas";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { loginSchema, LoginDTO } from "../../../shared/validation/schemas";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
+import { BaseError } from "../../../domain/errors/base.error";
+import { ZodError } from "zod";
+import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class LoginUseCase implements ILoginUseCase {
@@ -22,27 +26,64 @@ export class LoginUseCase implements ILoginUseCase {
     user: IUserEntity;
     tokens?: { accessToken: string; refreshToken: string };
   }> {
-    loginSchema.parse(data);
-    const { email, password } = data;
+    // Validate input using schema
+    let validatedData: LoginDTO;
+    try {
+      validatedData = loginSchema.parse(data);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw new BaseError(
+          ERROR_MSG.INVALID_DATA,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+      throw new BaseError(
+        "Failed to validate input data",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
+    const { email, password } = validatedData;
 
+    // Check if user exists
     const user = await this.userRepository.findByEmail(email);
     if (!user || !user.password || !user._id) {
-      throw Error(ERROR_MSG.INVALID_EMAIL_PASSWORD);
+      throw new BaseError(
+        ERROR_MSG.INVALID_EMAIL_PASSWORD,
+        HTTP_STATUS.UNAUTHORIZED,
+        true
+      );
     }
 
-    const isMatch = this.hashService.compare(password, user.password);
-    if (!isMatch) throw new Error(ERROR_MSG.INVALID_EMAIL_PASSWORD);
+    // Verify password
+    const isMatch = await this.hashService.compare(password, user.password);
+    if (!isMatch) {
+      throw new BaseError(
+        ERROR_MSG.INVALID_EMAIL_PASSWORD,
+        HTTP_STATUS.UNAUTHORIZED,
+        true
+      );
+    }
 
     const userId = user._id.toString();
 
+    // Generate tokens
     const accessToken = this.tokenService.generateAccessToken(userId);
     const refreshToken = this.tokenService.generateRefreshToken(userId);
 
+    // Store refresh token
+    await this.tokenService.storeRefreshToken(
+      userId,
+      refreshToken,
+      this.tokenService.getRefreshTokenExpiry()
+    );
+
     return {
-      status: 200,
-      message: "Login successful",
+      status: HTTP_STATUS.OK,
+      message: SUCCESS_MSG.LOGIN_SUCCESSFUL,
       success: true,
-      user: user,
+      user,
       tokens: { accessToken, refreshToken },
     };
   }
