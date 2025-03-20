@@ -41,9 +41,14 @@ export class AuthRoutes extends BaseRoute {
       refreshTokenController.handle(req, res);
     });
 
-    this.router.post("/logout", (req: Request, res: Response) => {
-      logoutController.handle(req, res);
-    });
+    this.router.post(
+      "/logout",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
+      (req: Request, res: Response) => {
+        logoutController.handle(req, res);
+      }
+    );
 
     // Protected route for testing
     this.router.get(

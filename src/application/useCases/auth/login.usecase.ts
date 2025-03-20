@@ -5,6 +5,7 @@ import { ITokenService } from "../../../domain/interfaces/serviceInterface/secur
 import { loginSchema, LoginDTO } from "../../../shared/validation/schemas";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { IUserEntity } from "../../../domain/entities/models/user.entity";
 
 @injectable()
 export class LoginUseCase implements ILoginUseCase {
@@ -18,6 +19,7 @@ export class LoginUseCase implements ILoginUseCase {
     status: number;
     message: string;
     success: boolean;
+    user: IUserEntity;
     tokens?: { accessToken: string; refreshToken: string };
   }> {
     loginSchema.parse(data);
@@ -40,6 +42,7 @@ export class LoginUseCase implements ILoginUseCase {
       status: 200,
       message: "Login successful",
       success: true,
+      user: user,
       tokens: { accessToken, refreshToken },
     };
   }
