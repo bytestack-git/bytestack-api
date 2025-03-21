@@ -23,7 +23,7 @@ export class LoginUseCase implements ILoginUseCase {
     status: number;
     message: string;
     success: boolean;
-    user: IUserEntity;
+    user: Partial<IUserEntity>;
     tokens?: { accessToken: string; refreshToken: string };
   }> {
     // Validate input using schema
@@ -79,11 +79,17 @@ export class LoginUseCase implements ILoginUseCase {
       this.tokenService.getRefreshTokenExpiry()
     );
 
+    const userData = {
+      email: user.email,
+      avatar: user.avatar,
+      name: user.name,
+    };
+
     return {
       status: HTTP_STATUS.OK,
       message: SUCCESS_MSG.LOGIN_SUCCESSFUL,
       success: true,
-      user,
+      user: userData,
       tokens: { accessToken, refreshToken },
     };
   }

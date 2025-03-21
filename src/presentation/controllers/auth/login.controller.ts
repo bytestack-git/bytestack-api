@@ -23,7 +23,7 @@ export class LoginController implements ILoginController {
         );
       }
 
-      const { status, message, success, tokens } =
+      const { status, message, success, tokens, user } =
         await this.loginUseCase.execute({ email, password });
 
       if (tokens) {
@@ -41,7 +41,7 @@ export class LoginController implements ILoginController {
         });
       }
 
-      res.status(status).json({ message, success });
+      res.status(status).json({ message, success, user });
     } catch (error) {
       // Pass the error to the errorHandler middleware
       next(error);
