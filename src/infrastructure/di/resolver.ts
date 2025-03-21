@@ -10,6 +10,7 @@ import { LoginController } from "../../presentation/controllers/auth/login.contr
 import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
 import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
 import { AuthMiddleware } from "../../presentation/middleware/auth.middleware";
+import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -32,3 +33,6 @@ export const logoutController =
 
 export const authMiddleware =
   container.resolve<AuthMiddleware>("AuthMiddleware");
+
+export const getUserController =
+  container.resolve<GetUserController>("IGetUserController");

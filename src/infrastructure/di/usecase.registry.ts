@@ -11,6 +11,8 @@ import { LoginUseCase } from "../../application/useCases/auth/login.usecase";
 import { ILoginUseCase } from "../../domain/interfaces/usecaseInterface/auth/login.usecase.interface";
 import { LogoutUseCase } from "../../application/useCases/auth/logout.usecase";
 import { ILogoutUseCase } from "../../domain/interfaces/usecaseInterface/auth/logout.usecase.interface";
+import { GetUserUseCase } from "../../application/useCases/user/get-user.usecase";
+import { IGetUserUseCase } from "../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -33,4 +35,8 @@ container.register<ILoginUseCase>("ILoginUseCase", {
 
 container.register<ILogoutUseCase>("ILogoutUseCase", {
   useClass: LogoutUseCase,
+});
+
+container.register<IGetUserUseCase>("IGetUserUseCase", {
+  useClass: GetUserUseCase,
 });

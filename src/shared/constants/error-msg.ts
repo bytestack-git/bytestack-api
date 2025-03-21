@@ -35,6 +35,9 @@ export const ERROR_MSG = {
   EMAIL_ALREADY_EXIST: "Email already exist",
   EMAIL_NOT_FOUND: "Email not found",
 
+  //user 
+  USER_NOT_FOUND: "User not found.",
+
   // Blog
   BLOG_NOT_FOUND: "Blog not found.",
   DUPLICATE_BLOG_TITLE: "A blog with this title already exists.",

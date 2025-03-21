@@ -45,9 +45,12 @@ export class AuthRoutes extends BaseRoute {
       }
     );
 
-    this.router.post("/login", (req: Request, res: Response, next: NextFunction) => {
-      loginController.handle(req, res, next);
-    });
+    this.router.post(
+      "/login",
+      (req: Request, res: Response, next: NextFunction) => {
+        loginController.handle(req, res, next);
+      }
+    );
 
     this.router.post(
       "/refresh-token",
@@ -62,18 +65,6 @@ export class AuthRoutes extends BaseRoute {
         authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
         logoutController.handle(req, res, next);
-      }
-    );
-
-    // Protected route for testing
-    this.router.get(
-      "/protected",
-      (req: Request, res: Response, next: NextFunction) =>
-        authMiddleware.authenticate(req, res, next),
-      (req: Request, res: Response) => {
-        res
-          .status(200)
-          .json({ message: "Protected route accessed", user: req.user });
       }
     );
   }

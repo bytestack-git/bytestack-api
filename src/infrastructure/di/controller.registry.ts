@@ -11,6 +11,8 @@ import { IRefreshTokenController } from "../../domain/interfaces/controllerInter
 import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
 import { ILogoutController } from "../../domain/interfaces/controllerInterface/auth/logout.controller.interface";
 import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
+import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
+import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -34,4 +36,12 @@ container.register<IRefreshTokenController>("IRefreshTokenController", {
 
 container.register<ILogoutController>("ILogoutController", {
   useClass: LogoutController,
+});
+
+container.register<ILogoutController>("ILogoutController", {
+  useClass: LogoutController,
+});
+
+container.register<IGetUserController>("IGetUserController", {
+  useClass: GetUserController,
 });

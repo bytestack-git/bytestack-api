@@ -35,7 +35,6 @@ export class ResetPasswordController implements IResetPasswordController {
 
       res.status(status).json({ message, success });
     } catch (error) {
-      // Pass the error to the errorHandler middleware
       next(error);
     }
   }

@@ -7,6 +7,7 @@ import { AuthRoutes } from "../routes/auth/auth.route";
 import { container } from "tsyringe";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
+import { UserRoutes } from "../routes/users/user.route";
 
 export class Server {
   private _app: Application;
@@ -45,7 +46,9 @@ export class Server {
 
   private initializeRoutes(): void {
     const authRoutes = container.resolve(AuthRoutes);
+    const userRoutes = container.resolve(UserRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
+    this._app.use("/api/v1/users", userRoutes.router);
   }
 
   private initializeErrorHandler(): void {
