@@ -82,7 +82,7 @@ export const getEmailTemplate = (
         .reset-link {
           display: inline-block;
           padding: 10px 20px;
-          background-color: #007bff;
+          background-color:rgba(157, 157, 157, 0.27);
           color: #ffffff;
           text-decoration: none;
           border-radius: 5px;
