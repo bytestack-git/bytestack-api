@@ -13,6 +13,8 @@ import { LogoutUseCase } from "../../application/useCases/auth/logout.usecase";
 import { ILogoutUseCase } from "../../domain/interfaces/usecaseInterface/auth/logout.usecase.interface";
 import { GetUserUseCase } from "../../application/useCases/user/get-user.usecase";
 import { IGetUserUseCase } from "../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
+import { IForgotPasswordUseCase } from "../../domain/interfaces/usecaseInterface/auth/forgot-password.usecase.interface";
+import { ForgotPasswordUseCase } from "../../application/useCases/auth/forgot-password.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -23,6 +25,10 @@ container.register<ISendEmailUseCase>("ISendEmailUseCase", {
 
 container.register<IResetPasswordUseCase>("IResetPasswordUseCase", {
   useClass: ResetPasswordUseCase,
+});
+
+container.register<IForgotPasswordUseCase>("IForgotPasswordUseCase", {
+  useClass: ForgotPasswordUseCase,
 });
 
 container.register<IRefreshTokenUseCase>("IRefreshTokenUseCase", {

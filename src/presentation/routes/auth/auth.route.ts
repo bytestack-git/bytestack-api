@@ -8,6 +8,7 @@ import {
   refreshTokenController,
   logoutController,
   authMiddleware,
+  forgotPasswordController,
 } from "../../../infrastructure/di/resolver";
 export class AuthRoutes extends BaseRoute {
   constructor() {
@@ -32,9 +33,7 @@ export class AuthRoutes extends BaseRoute {
     this.router.post(
       "/forgot-password",
       (req: Request, res: Response, next: NextFunction) => {
-        const { email } = req.body;
-        req.body = { email, type: "forgot-password" };
-        sendOtpController.handle(req, res, next);
+        forgotPasswordController.handle(req, res, next);
       }
     );
 

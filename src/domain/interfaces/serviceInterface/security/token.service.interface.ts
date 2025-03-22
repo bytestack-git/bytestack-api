@@ -1,9 +1,12 @@
 import { ITokenPayload } from "../../../entities/models/token.entity";
 
 export interface ITokenService {
-  generateAccessToken(userId: string): string;
+  generateAccessToken(userId: string, purpose?: "access" | "reset"): string;
   generateRefreshToken(userId: string): string;
-  verifyToken(token: string): ITokenPayload | null;
+  verifyToken(
+    token: string,
+    expectedPurpose?: "access" | "refresh" | "reset"
+  ): ITokenPayload;
   blacklistToken(token: string, expirationSeconds: number): Promise<void>;
   isTokenBlacklisted(token: string): Promise<boolean>;
   storeRefreshToken(

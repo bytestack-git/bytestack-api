@@ -13,6 +13,8 @@ import { ILogoutController } from "../../domain/interfaces/controllerInterface/a
 import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
 import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
 import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
+import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/auth/forgot-password.controller.interface";
+import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -32,6 +34,10 @@ container.register<ILoginController>("ILoginController", {
 
 container.register<IRefreshTokenController>("IRefreshTokenController", {
   useClass: RefreshTokenController,
+});
+
+container.register<IForgotPasswordController>("IForgotPasswordController", {
+  useClass: ForgotPasswordController,
 });
 
 container.register<ILogoutController>("ILogoutController", {

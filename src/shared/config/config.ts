@@ -4,6 +4,7 @@ dotenv.config();
 export const config = {
   domain: {
     DOMAIN_NAME: process.env.DOMAIN_NAME,
+    ORIGIN: process.env.ORIGIN,
   },
 
   cors: {

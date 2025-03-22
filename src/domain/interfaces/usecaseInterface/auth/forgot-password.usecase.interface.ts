@@ -1,6 +1,6 @@
-export interface IResetPasswordUseCase {
+export interface IForgotPasswordUseCase {
   execute(data: {
-    token: string;
-    newPassword: string;
+    email: string;
+    type: string;
   }): Promise<{ status: number; message: string; success: boolean }>;
 }

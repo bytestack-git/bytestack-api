@@ -1,6 +1,7 @@
 export const getEmailTemplate = (
   type: string,
-  otp?: string
+  otp?: string,
+  resetLink?: string
 ): { subject: string; html: string } => {
   let subject = "";
   let message = "";
@@ -18,7 +19,12 @@ export const getEmailTemplate = (
 
     case "forgot-password":
       subject = "Password Reset Request for ByteStack";
-      message = `Use the following OTP to reset your password and regain access to your account.`;
+      message = `We received a request to reset your password. Click the link below to reset your password. This link will expire in 15 minutes.`;
+      break;
+
+    case "password-updated":
+      subject = "Your ByteStack Password Has Been Updated";
+      message = `Your password has been successfully updated. If you did not initiate this change, please contact support immediately.`;
       break;
 
     default:
@@ -73,6 +79,16 @@ export const getEmailTemplate = (
           margin-bottom: 20px;
         }
   
+        .reset-link {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #007bff;
+          color: #ffffff;
+          text-decoration: none;
+          border-radius: 5px;
+          margin-bottom: 20px;
+        }
+  
         .footer {
           margin-top: 30px;
           font-size: 12px;
@@ -85,8 +101,18 @@ export const getEmailTemplate = (
       <div class="container">
         <h1>${subject}</h1>
         <p>${message}</p>
-        <div class="otp">${otp || "XXXXXX"}</div>
-        <p>This code is valid for <strong>3 minutes</strong>. Please do not share this code with anyone.</p>
+        ${
+          type === "forgot-password" && resetLink
+            ? `<a href="${resetLink}" class="reset-link">Reset Password</a>`
+            : type === "password-updated"
+              ? ""
+              : `<div class="otp">${otp || "XXXXXX"}</div>`
+        }
+        ${
+          type === "otp" || type === "resend-otp"
+            ? "<p>This code is valid for <strong>3 minutes</strong>. Please do not share this code with anyone.</p>"
+            : ""
+        }
         <p>If you didn’t request this, you can safely ignore this email.</p>
       </div>
     </body>

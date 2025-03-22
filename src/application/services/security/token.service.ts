@@ -36,59 +36,25 @@ export class TokenService implements ITokenService {
     }
   }
 
-  generateAccessToken(userId: string): string {
-    if (!userId) {
-      throw new BaseError(
-        "User ID is required to generate access token",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
-    try {
-      return sign({ id: userId }, this.JWT_SECRET, {
-        expiresIn: this.ACCESS_TOKEN_EXPIRY,
-      });
-    } catch (error) {
-      throw new BaseError(
-        "Failed to generate access token",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
+  generateAccessToken(
+    userId: string,
+    purpose: "access" | "reset" = "access"
+  ): string {
+    return sign({ id: userId, purpose }, this.JWT_SECRET, {
+      expiresIn: this.ACCESS_TOKEN_EXPIRY,
+    });
   }
 
   generateRefreshToken(userId: string): string {
-    if (!userId) {
-      throw new BaseError(
-        "User ID is required to generate refresh token",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
-    try {
-      return sign({ id: userId }, this.JWT_SECRET, {
-        expiresIn: this.REFRESH_TOKEN_EXPIRY,
-      });
-    } catch (error) {
-      throw new BaseError(
-        "Failed to generate refresh token",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
+    return sign({ id: userId, purpose: "refresh" }, this.JWT_SECRET, {
+      expiresIn: this.REFRESH_TOKEN_EXPIRY,
+    });
   }
 
-  verifyToken(token: string): ITokenPayload {
-    if (!token) {
-      throw new BaseError(
-        "Token is required for verification",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
+  verifyToken(
+    token: string,
+    expectedPurpose?: "access" | "refresh" | "reset"
+  ): ITokenPayload {
     try {
       const payload = verify(token, this.JWT_SECRET) as ITokenPayload;
       if (!payload || !payload.id) {
@@ -98,6 +64,15 @@ export class TokenService implements ITokenService {
           true
         );
       }
+
+      if (expectedPurpose && payload.purpose !== expectedPurpose) {
+        throw new BaseError(
+          `Token purpose mismatch: expected ${expectedPurpose}, got ${payload.purpose}`,
+          HTTP_STATUS.UNAUTHORIZED,
+          true
+        );
+      }
+
       return payload;
     } catch (error) {
       throw new BaseError(
@@ -112,21 +87,6 @@ export class TokenService implements ITokenService {
     token: string,
     expirationSeconds: number
   ): Promise<void> {
-    if (!token) {
-      throw new BaseError(
-        "Token is required for blacklisting",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-    if (expirationSeconds <= 0) {
-      throw new BaseError(
-        "Expiration seconds must be positive",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
     const client = await this.getClient();
     try {
       await client.setEx(`blacklist:${token}`, expirationSeconds, "1");
@@ -140,25 +100,9 @@ export class TokenService implements ITokenService {
   }
 
   async isTokenBlacklisted(token: string): Promise<boolean> {
-    if (!token) {
-      throw new BaseError(
-        "Token is required to check blacklist",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
     const client = await this.getClient();
-    try {
-      const isBlacklisted = await client.get(`blacklist:${token}`);
-      return !!isBlacklisted;
-    } catch (error) {
-      throw new BaseError(
-        "Failed to check if token is blacklisted",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
+    const isBlacklisted = await client.get(`blacklist:${token}`);
+    return !!isBlacklisted;
   }
 
   async storeRefreshToken(
@@ -166,13 +110,6 @@ export class TokenService implements ITokenService {
     token: string,
     expirationSeconds: number
   ): Promise<void> {
-    if (!userId || !token) {
-      throw new BaseError(
-        "User ID and token are required to store refresh token",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
     if (expirationSeconds <= 0) {
       throw new BaseError(
         "Expiration seconds must be positive",
@@ -194,52 +131,20 @@ export class TokenService implements ITokenService {
   }
 
   async getRefreshToken(userId: string): Promise<string | null> {
-    if (!userId) {
-      throw new BaseError(
-        "User ID is required to get refresh token",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
     const client = await this.getClient();
-    try {
-      return await client.get(`refresh:${userId}`);
-    } catch (error) {
-      throw new BaseError(
-        "Failed to retrieve refresh token",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
+    return await client.get(`refresh:${userId}`);
   }
 
   async deleteRefreshToken(userId: string): Promise<void> {
-    if (!userId) {
-      throw new BaseError(
-        "User ID is required to delete refresh token",
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
-    }
-
     const client = await this.getClient();
-    try {
-      await client.del(`refresh:${userId}`);
-    } catch (error) {
-      throw new BaseError(
-        "Failed to delete refresh token",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
+    await client.del(`refresh:${userId}`);
   }
 
   getAccessTokenExpiry(): number {
-    return 15 * 60; // 15 minutes in seconds
+    return 15 * 60;
   }
 
   getRefreshTokenExpiry(): number {
-    return 7 * 24 * 60 * 60; // 7 days in seconds
+    return 7 * 24 * 60 * 60;
   }
 }
