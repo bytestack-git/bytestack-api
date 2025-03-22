@@ -15,7 +15,7 @@ export class UserRepository implements IUserRepository {
     return await UserModel.findById(id).lean();
   }
 
-  async updatePassword(email: string, newPassword: string): Promise<void> {
-    await UserModel.updateOne({ email }, { password: newPassword });
+  async updatePassword(id: string, newPassword: string): Promise<void> {
+    await UserModel.updateOne({ _id: id }, { password: newPassword });
   }
 }

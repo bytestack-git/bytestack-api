@@ -12,6 +12,8 @@ import {
 } from "../../../shared/validation/schemas";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { BaseError } from "../../../domain/errors/base.error";
+import { ZodError } from "zod";
 
 @injectable()
 export class SignupUseCase implements ISignupUseCase {
@@ -26,22 +28,52 @@ export class SignupUseCase implements ISignupUseCase {
   async execute(
     data: UserSignupDTO
   ): Promise<{ status: number; message: string; success: boolean }> {
-    const validatedData = userSignupSchema.parse(data);
+    // Validate input using schema
+    let validatedData: UserSignupDTO;
+    try {
+      validatedData = userSignupSchema.parse(data);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw new BaseError(
+          ERROR_MSG.INVALID_DATA,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+      throw new BaseError(
+        "Failed to validate input data",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
     const { name, email, password, otp } = validatedData;
 
+    // Check if email already exists
+    const existingUser = await this.userRepository.findByEmail(email);
+    if (existingUser) {
+      throw new BaseError(
+        ERROR_MSG.EMAIL_ALREADY_EXIST,
+        HTTP_STATUS.CONFLICT,
+        true
+      );
+    }
+
+    // Check if OTP exists
     const otpData = await this.otpCacheService.getOTP(email);
+    if (!otpData) {
+      throw new BaseError(ERROR_MSG.OTP_EXPIRED, HTTP_STATUS.BAD_REQUEST, true);
+    }
 
-    if (!otpData) throw new Error(ERROR_MSG.OTP_EXPIRED);
+    // Verify OTP 
+    await this.otpVerificationService.verifyOTP(email, otp);
 
-    const isOTPValid = await this.otpVerificationService.verifyOTP(email, otp);
-
-    if (!isOTPValid) throw new Error(ERROR_MSG.INVALID_OTP);
-
+    // Hash the password
     const hashedPassword = await this.hashService.hash(password);
 
+    // Create user entity
     const user: IUserEntity = {
-      name: name,
-      email: email,
+      name,
+      email,
       password: hashedPassword,
       avatar: "default_avatar.png",
       isBlogger: false,
@@ -55,7 +87,16 @@ export class SignupUseCase implements ISignupUseCase {
       isBanned: false,
     };
 
-    await this.userRepository.save(user);
+    // Save the user
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      throw new BaseError(
+        "Failed to save user",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
 
     return {
       status: HTTP_STATUS.CREATED,

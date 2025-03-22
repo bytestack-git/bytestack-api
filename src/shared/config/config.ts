@@ -4,6 +4,7 @@ dotenv.config();
 export const config = {
   domain: {
     DOMAIN_NAME: process.env.DOMAIN_NAME,
+    ORIGIN: process.env.ORIGIN,
   },
 
   cors: {
@@ -33,5 +34,9 @@ export const config = {
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,
     REDIS_PORT: Number(process.env.REDIS_PORT),
     REDIS_HOST: process.env.REDIS_HOST,
+  },
+
+  jwt: {
+    JWT_SECRET: process.env.JWT_SECRET,
   },
 };

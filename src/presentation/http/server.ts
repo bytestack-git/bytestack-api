@@ -5,7 +5,9 @@ import cookieParser from "cookie-parser";
 import { config } from "../../shared/config/config";
 import { AuthRoutes } from "../routes/auth/auth.route";
 import { container } from "tsyringe";
-import { logger } from "../../shared/utils/logger";
+import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
+import { errorHandler } from "../middleware/error.middleware";
+import { UserRoutes } from "../routes/users/user.route";
 
 export class Server {
   private _app: Application;
@@ -17,6 +19,7 @@ export class Server {
 
     this.initializeMiddlewares();
     this.initializeRoutes();
+    this.initializeErrorHandler();
   }
 
   private initializeMiddlewares(): void {
@@ -29,7 +32,7 @@ export class Server {
       })
     );
 
-    this._app.use(logger);
+    this._app.use(requestLogger);
     this._app.use(cookieParser());
     this._app.use(express.json());
 
@@ -43,7 +46,13 @@ export class Server {
 
   private initializeRoutes(): void {
     const authRoutes = container.resolve(AuthRoutes);
+    const userRoutes = container.resolve(UserRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
+    this._app.use("/api/v1/users", userRoutes.router);
+  }
+
+  private initializeErrorHandler(): void {
+    this._app.use(errorHandler as express.ErrorRequestHandler);
   }
 
   public listen(): void {

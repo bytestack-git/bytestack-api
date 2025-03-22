@@ -9,9 +9,23 @@ import { OTPVerificationService } from "../../application/services/otp/otp-verif
 import { IOTPVerificationService } from "../../domain/interfaces/serviceInterface/otp/otp-verification.service.interface";
 import { OTPGeneratorService } from "../../application/services/otp/otp-generator";
 import { IOTPGeneratorService } from "../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
+import { TokenService } from "../../application/services/security/token.service";
+import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
 
 container.register<IHashService>("IHashService", { useClass: HashService });
-container.register<IOTPCacheService>("IOTPCacheService", { useClass: OTPCacheService });
-container.register<IOTPVerificationService>("IOTPVerificationService", { useClass: OTPVerificationService });
+
+container.register<IOTPCacheService>("IOTPCacheService", {
+  useClass: OTPCacheService,
+});
+
+container.register<IOTPVerificationService>("IOTPVerificationService", {
+  useClass: OTPVerificationService,
+});
+
 container.register<IEmailService>("IEmailService", { useClass: EmailService });
-container.register<IOTPGeneratorService>("IOTPGeneratorService", { useClass: OTPGeneratorService });
+
+container.register<IOTPGeneratorService>("IOTPGeneratorService", {
+  useClass: OTPGeneratorService,
+});
+
+container.register<ITokenService>("ITokenService", { useClass: TokenService });

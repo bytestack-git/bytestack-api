@@ -11,6 +11,8 @@ export const SUCCESS_MSG = {
   SIGNUP_SUCCESSFUL: "Signup successful.",
   MFA_ENABLED: "Multi-factor authentication enabled successfully.",
   OTP_SENT: "OTP sent successfully.",
+  PASSWORD_RESET_SUCCESSFUL: "Password reset successfully",
+  LOGOUT_SUCCESSFUL: "logged successfully.",
 
   // Blog
   BLOG_CREATED: "Blog created successfully.",
@@ -25,4 +27,7 @@ export const SUCCESS_MSG = {
   // Payout
   PAYOUT_APPROVED: "Payout approved successfully.",
   PAYOUT_REJECTED: "Payout rejected successfully.",
+  
+  //user
+  USER_FETCHED_SUCCESSFULLY: "User fetched successfully."
 };

@@ -1,7 +1,6 @@
 import { injectable } from "tsyringe";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import { getRedisClient } from "../../../infrastructure/database/redis/init";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class OTPCacheService implements IOTPCacheService {

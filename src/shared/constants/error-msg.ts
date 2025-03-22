@@ -13,9 +13,12 @@ export const ERROR_MSG = {
   INVALID_FORMAT: "Invalid format for the provided data.",
 
   // OTP
-  INVALID_OTP:
-    "The OTP you entered is incorrect. Please try again.",
+  INVALID_OTP: "The OTP you entered is incorrect. Please try again.",
   OTP_EXPIRED: "The OTP has expired. Please request a new one.",
+
+  // Validation Messages
+  INVALID_EMAIL_PASSWORD:
+    "Invalid email or password. Please check and try again.",
 
   // Authentication
   CONFLICT: "Email already exist",
@@ -31,6 +34,9 @@ export const ERROR_MSG = {
   EMAIL_SEND_FAILED: "Failed to send email.",
   EMAIL_ALREADY_EXIST: "Email already exist",
   EMAIL_NOT_FOUND: "Email not found",
+
+  //user 
+  USER_NOT_FOUND: "User not found.",
 
   // Blog
   BLOG_NOT_FOUND: "Blog not found.",
