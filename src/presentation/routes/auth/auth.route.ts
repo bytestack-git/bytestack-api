@@ -66,7 +66,9 @@ export class AuthRoutes extends BaseRoute {
 
     this.router.post(
       "/logout",
-      authMiddleware.authenticate,
+      (req: Request, res: Response, next: NextFunction) => {
+        authMiddleware.authenticate(req, res, next);
+      },
       (req: Request, res: Response, next: NextFunction) => {
         logoutController.handle(req, res, next);
       }
