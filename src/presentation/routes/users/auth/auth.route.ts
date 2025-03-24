@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { BaseRoute } from "../base.route";
+import { BaseRoute } from "../../base.route";
 import {
   signupController,
   sendOtpController,
@@ -9,8 +9,8 @@ import {
   logoutController,
   authMiddleware,
   forgotPasswordController,
-} from "../../../infrastructure/di/resolver";
-import { rateLimiter } from "../../middleware/rate-limit.middleware";
+} from "../../../../infrastructure/di/resolver";
+import { rateLimiter } from "../../../middleware/rate-limit.middleware";
 export class AuthRoutes extends BaseRoute {
   constructor() {
     super();

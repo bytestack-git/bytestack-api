@@ -3,7 +3,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import { config } from "../../shared/config/config";
-import { AuthRoutes } from "../routes/auth/auth.route";
+import { AuthRoutes } from "../routes/users/auth/auth.route";
 import { container } from "tsyringe";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
