@@ -15,6 +15,8 @@ import { GetUserUseCase } from "../../application/useCases/user/get-user.usecase
 import { IGetUserUseCase } from "../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
 import { IForgotPasswordUseCase } from "../../domain/interfaces/usecaseInterface/auth/forgot-password.usecase.interface";
 import { ForgotPasswordUseCase } from "../../application/useCases/auth/forgot-password.usecase";
+import { IAdminSigninUseCase } from "../../domain/interfaces/usecaseInterface/admin/signin.usecase.interface";
+import { AdminSigninUseCase } from "../../application/useCases/admin/signin.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -45,4 +47,8 @@ container.register<ILogoutUseCase>("ILogoutUseCase", {
 
 container.register<IGetUserUseCase>("IGetUserUseCase", {
   useClass: GetUserUseCase,
+});
+
+container.register<IAdminSigninUseCase>("IAdminSigninUseCase", {
+  useClass: AdminSigninUseCase,
 });

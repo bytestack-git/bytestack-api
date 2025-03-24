@@ -106,6 +106,7 @@ export class SendEmailUseCase implements ISendEmailUseCase {
       html = template.html;
     } else {
       const otp = this.otpGeneratorService.generateOTP();
+      console.log("=> OTP", otp);
       await this.otpCacheService.storeOTP(email, otp, 180);
 
       const template = getEmailTemplate(type, otp);

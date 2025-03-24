@@ -15,13 +15,6 @@ export class TokenService implements ITokenService {
 
   constructor() {
     this.JWT_SECRET = config.jwt.JWT_SECRET as string;
-    if (!this.JWT_SECRET) {
-      throw new BaseError(
-        "JWT_SECRET is not configured",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
   }
 
   private async getClient() {
@@ -38,15 +31,24 @@ export class TokenService implements ITokenService {
 
   generateAccessToken(
     userId: string,
-    purpose: "access" | "reset" = "access"
+    purpose: "access" | "reset" = "access",
+    role?: "admin" | "user"
   ): string {
-    return sign({ id: userId, purpose }, this.JWT_SECRET, {
+    const payload: Partial<ITokenPayload> = { id: userId, purpose };
+    if (role) {
+      payload.role = role;
+    }
+    return sign(payload, this.JWT_SECRET, {
       expiresIn: this.ACCESS_TOKEN_EXPIRY,
     });
   }
 
-  generateRefreshToken(userId: string): string {
-    return sign({ id: userId, purpose: "refresh" }, this.JWT_SECRET, {
+  generateRefreshToken(userId: string, role?: "admin" | "user"): string {
+    const payload: Partial<ITokenPayload> = { id: userId, purpose: "refresh" };
+    if (role) {
+      payload.role = role;
+    }
+    return sign(payload, this.JWT_SECRET, {
       expiresIn: this.REFRESH_TOKEN_EXPIRY,
     });
   }

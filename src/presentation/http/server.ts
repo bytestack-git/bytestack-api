@@ -8,6 +8,7 @@ import { container } from "tsyringe";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
 import { UserRoutes } from "../routes/users/user.route";
+import { AdminRoutes } from "../routes/admin/admin.route";
 
 export class Server {
   private _app: Application;
@@ -47,8 +48,10 @@ export class Server {
   private initializeRoutes(): void {
     const authRoutes = container.resolve(AuthRoutes);
     const userRoutes = container.resolve(UserRoutes);
+    const adminRoutes = container.resolve(AdminRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
     this._app.use("/api/v1/users", userRoutes.router);
+    this._app.use("/api/v1/admin", adminRoutes.router);
   }
 
   private initializeErrorHandler(): void {
