@@ -14,6 +14,7 @@ import { GetUserController } from "../../presentation/controllers/user/get-user.
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminMiddleware } from "../../presentation/middleware/admin.middleware";
+import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 
 // auth
 export const signupController =
@@ -45,6 +46,10 @@ export const getUserController =
 //admin
 export const adminSigninController = container.resolve<AdminSigninController>(
   "IAdminSigninController"
+);
+
+export const adminLogoutController = container.resolve<AdminLogoutController>(
+  "IAdminLogoutController"
 );
 
 // middleware

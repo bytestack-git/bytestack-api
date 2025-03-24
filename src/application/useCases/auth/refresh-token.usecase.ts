@@ -4,7 +4,6 @@ import { ITokenService } from "../../../domain/interfaces/serviceInterface/secur
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
@@ -14,7 +13,10 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
     @inject("IUserRepository") private userRepository: IUserRepository
   ) {}
 
-  async execute(refreshToken: string): Promise<{
+  async execute(
+    refreshToken: string,
+    expectedRole?: "admin" | "user"
+  ): Promise<{
     status: number;
     message: string;
     success: boolean;
@@ -33,6 +35,7 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
     let payload;
     try {
       payload = this.tokenService.verifyToken(refreshToken);
+      console.log(payload);
       if (!payload) {
         throw new BaseError(
           "Invalid refresh token",
@@ -64,7 +67,11 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
     // Generate new access token
     let newAccessToken: string;
     try {
-      newAccessToken = this.tokenService.generateAccessToken(payload.id);
+      newAccessToken = this.tokenService.generateAccessToken(
+        payload.id,
+        "access",
+        payload.role
+      );
     } catch (error) {
       throw new BaseError(
         "Failed to generate access token",

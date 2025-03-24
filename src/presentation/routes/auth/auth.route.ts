@@ -60,7 +60,7 @@ export class AuthRoutes extends BaseRoute {
     this.router.post(
       "/refresh-token",
       (req: Request, res: Response, next: NextFunction) => {
-        refreshTokenController.handle(req, res, next);
+        refreshTokenController.handle(req, res, next, "user");
       }
     );
 

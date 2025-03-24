@@ -12,7 +12,12 @@ export class RefreshTokenController implements IRefreshTokenController {
     private refreshTokenUseCase: IRefreshTokenUseCase
   ) {}
 
-  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async handle(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    expectedRole?: "admin" | "user"
+  ): Promise<void> {
     try {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) {
@@ -24,7 +29,9 @@ export class RefreshTokenController implements IRefreshTokenController {
       }
 
       const { status, message, success, accessToken } =
-        await this.refreshTokenUseCase.execute(refreshToken);
+        await this.refreshTokenUseCase.execute(refreshToken, expectedRole);
+
+      const cookiePath = expectedRole === "admin" ? "/admin" : "/";
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
@@ -35,6 +42,9 @@ export class RefreshTokenController implements IRefreshTokenController {
 
       res.status(status).json({ message, success });
     } catch (error) {
+      const cookiePath = expectedRole === "admin" ? "/admin" : "/";
+      res.clearCookie("accessToken", { path: cookiePath });
+      res.clearCookie("refreshToken", { path: cookiePath });
       next(error);
     }
   }

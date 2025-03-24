@@ -2,8 +2,10 @@ import { NextFunction, Request, Response } from "express";
 
 import { BaseRoute } from "../base.route";
 import {
+  adminLogoutController,
   adminMiddleware,
   adminSigninController,
+  refreshTokenController,
 } from "../../../infrastructure/di/resolver";
 
 export class AdminRoutes extends BaseRoute {
@@ -18,14 +20,21 @@ export class AdminRoutes extends BaseRoute {
         adminSigninController.handle(req, res, next);
       }
     );
+    
+    this.router.post(
+      "/refresh-token",
+      (req: Request, res: Response, next: NextFunction) => {
+        refreshTokenController.handle(req, res, next, "admin");
+      }
+    );
 
     this.router.post(
-      "/test",
+      "/logout",
       (req: Request, res: Response, next: NextFunction) => {
         adminMiddleware.authenticate(req, res, next);
       },
-      (req, res) => {
-        console.log(req.body);
+      (req: Request, res: Response, next: NextFunction) => {
+        adminLogoutController.handle(req, res, next);
       }
     );
   }
