@@ -15,6 +15,7 @@ import { ForgotPasswordController } from "../../presentation/controllers/auth/fo
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminMiddleware } from "../../presentation/middleware/admin.middleware";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
+import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
 
 // auth
 export const signupController =
@@ -58,3 +59,7 @@ export const authMiddleware =
 
 export const adminMiddleware =
   container.resolve<AdminMiddleware>("IAdminMiddleware");
+
+export const getAllUsersController = container.resolve<GetAllUsersController>(
+  "IGetAllUsersController"
+);

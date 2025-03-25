@@ -1,7 +1,7 @@
 import { injectable, inject } from "tsyringe";
 import { IOTPVerificationService } from "../../../domain/interfaces/serviceInterface/otp/otp-verification.service.interface";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";

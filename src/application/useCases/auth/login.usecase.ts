@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { ILoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/login.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
 import { loginSchema, LoginDTO } from "../../../shared/validation/schemas";

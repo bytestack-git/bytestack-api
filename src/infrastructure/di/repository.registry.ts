@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import { UserRepository } from "../repositories/user/user.repository";
-import { IUserRepository } from "../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { IAdminRepository } from "../../domain/interfaces/repositoryInterface/admin/admin.repository.interface";
 import { AdminRepository } from "../repositories/admin/admin.repository";
 

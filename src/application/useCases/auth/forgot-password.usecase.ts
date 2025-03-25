@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { IForgotPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/forgot-password.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
 import {
   sendEmailSchema,

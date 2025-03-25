@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
 import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
 import { IOTPGeneratorService } from "../../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";

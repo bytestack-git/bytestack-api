@@ -1,7 +1,7 @@
 import { injectable, inject } from "tsyringe";
 import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterface/auth/refresh-token.usecase.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
@@ -35,7 +35,6 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
     let payload;
     try {
       payload = this.tokenService.verifyToken(refreshToken);
-      console.log(payload);
       if (!payload) {
         throw new BaseError(
           "Invalid refresh token",
@@ -50,16 +49,6 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
       throw new BaseError(
         "Invalid or expired refresh token",
         HTTP_STATUS.UNAUTHORIZED,
-        true
-      );
-    }
-
-    // Check if user exists
-    const user = await this.userRepository.findById(payload.id);
-    if (!user) {
-      throw new BaseError(
-        ERROR_MSG.EMAIL_NOT_FOUND,
-        HTTP_STATUS.NOT_FOUND,
         true
       );
     }

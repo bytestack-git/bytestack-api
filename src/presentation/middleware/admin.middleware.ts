@@ -45,8 +45,8 @@ export class AdminMiddleware implements IAdminMiddleware {
       req.user = { id: payload.id };
       next();
     } catch (error) {
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
+      // res.clearCookie("accessToken");
+      // res.clearCookie("refreshToken");
       next(error);
     }
   }

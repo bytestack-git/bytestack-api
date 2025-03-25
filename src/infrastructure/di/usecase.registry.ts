@@ -20,6 +20,8 @@ import { AdminSigninUseCase } from "../../application/useCases/admin/signin.usec
 import { IAdminLogoutUseCase } from "../../domain/interfaces/usecaseInterface/admin/admin-logout.usecase.interface";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 import { AdminLogoutUseCase } from "../../application/useCases/admin/admin-logout.usecase";
+import { IGetAllUsersUsecase } from "../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
+import { GetAllUsersUsecase } from "../../application/useCases/admin/get-all-users.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -58,4 +60,8 @@ container.register<IAdminSigninUseCase>("IAdminSigninUseCase", {
 
 container.register<IAdminLogoutUseCase>("IAdminLogoutUseCase", {
   useClass: AdminLogoutUseCase,
+});
+
+container.register<IGetAllUsersUsecase>("IGetAllUsersUsecase", {
+  useClass: GetAllUsersUsecase,
 });
