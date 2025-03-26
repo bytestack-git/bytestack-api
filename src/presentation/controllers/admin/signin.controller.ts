@@ -14,14 +14,14 @@ export class AdminSigninController implements IAdminSigninController {
     try {
       const result = await this.adminSigninUseCase.execute(req.body);
 
-      res.cookie("accessToken", result.accessToken, {
+      res.cookie("_accessToken", result.accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         maxAge: 15 * 60 * 1000,
       });
 
-      res.cookie("refreshToken", result.refreshToken, {
+      res.cookie("_refreshToken", result.refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",

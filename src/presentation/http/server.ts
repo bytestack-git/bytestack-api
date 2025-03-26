@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { config } from "../../shared/config/config";
 import { AuthRoutes } from "../routes/users/auth/auth.route";
 import { container } from "tsyringe";
-import { requestLogger } from "../../shared/logger/request-logger.middleware";
+import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
 import { UserRoutes } from "../routes/users/user.route";
 import { AdminRoutes } from "../routes/admin/admin.route";

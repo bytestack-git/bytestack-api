@@ -19,7 +19,13 @@ export class RefreshTokenController implements IRefreshTokenController {
     expectedRole?: "admin" | "user"
   ): Promise<void> {
     try {
-      const refreshToken = req.cookies.refreshToken;
+      const refreshTokenName =
+        expectedRole === "admin" ? "_refreshToken" : "refreshToken";
+      const accessTokenName =
+        expectedRole === "admin" ? "_accessToken" : "accessToken";
+
+      const refreshToken = req.cookies[refreshTokenName];
+
       if (!refreshToken) {
         throw new BaseError(
           "Refresh token not found",
@@ -31,20 +37,15 @@ export class RefreshTokenController implements IRefreshTokenController {
       const { status, message, success, accessToken } =
         await this.refreshTokenUseCase.execute(refreshToken, expectedRole);
 
-      const cookiePath = expectedRole === "admin" ? "/admin" : "/";
-
-      res.cookie("accessToken", accessToken, {
+      res.cookie(accessTokenName, accessToken, {
         httpOnly: true,
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        maxAge: 15 * 60 * 1000,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
       });
 
       res.status(status).json({ message, success });
     } catch (error) {
-      const cookiePath = expectedRole === "admin" ? "/admin" : "/";
-      res.clearCookie("accessToken", { path: cookiePath });
-      res.clearCookie("refreshToken", { path: cookiePath });
       next(error);
     }
   }

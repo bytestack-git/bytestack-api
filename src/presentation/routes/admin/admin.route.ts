@@ -25,7 +25,6 @@ export class AdminRoutes extends BaseRoute {
     this.router.post(
       "/refresh-token",
       (req: Request, res: Response, next: NextFunction) => {
-        console.log("object");
         refreshTokenController.handle(req, res, next, "admin");
       }
     );

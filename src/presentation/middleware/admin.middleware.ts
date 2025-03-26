@@ -15,7 +15,7 @@ export class AdminMiddleware implements IAdminMiddleware {
     next: NextFunction
   ): Promise<void> {
     try {
-      const token = req.cookies.accessToken;
+      const token = req.cookies._accessToken;
       if (!token) {
         throw new BaseError(
           "Access token missing in cookies",
@@ -45,8 +45,6 @@ export class AdminMiddleware implements IAdminMiddleware {
       req.user = { id: payload.id };
       next();
     } catch (error) {
-      // res.clearCookie("accessToken");
-      // res.clearCookie("refreshToken");
       next(error);
     }
   }

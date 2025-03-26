@@ -9,11 +9,7 @@ import { IAdminLogoutUseCase } from "../../../domain/interfaces/usecaseInterface
 export class AdminLogoutUseCase implements IAdminLogoutUseCase {
   constructor(@inject("ITokenService") private tokenService: ITokenService) {}
 
-  async execute(refreshToken: string): Promise<{
-    status: number;
-    message: string;
-    success: boolean;
-  }> {
+  async execute(refreshToken: string): Promise<void> {
     // Verify the refresh token
     const payload = this.tokenService.verifyToken(refreshToken, "refresh");
     if (payload.role !== "admin") {
@@ -25,11 +21,5 @@ export class AdminLogoutUseCase implements IAdminLogoutUseCase {
       refreshToken,
       this.tokenService.getRefreshTokenExpiry()
     );
-
-    return {
-      status: 200,
-      message: SUCCESS_MSG.LOGOUT_SUCCESSFUL,
-      success: true,
-    };
   }
 }
