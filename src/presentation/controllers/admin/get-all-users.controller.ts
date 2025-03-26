@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { IGetAllUsersController } from "../../../domain/interfaces/controllerInterface/admin/get-all-users.controller.interface";
 import { IGetAllUsersUsecase } from "../../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
-import { ApiResponse } from "../../../shared/dtos/response.types";
+import { DataResponse } from "../../../shared/dtos/response.types";
 import { ValidationError } from "../../../domain/errors/validation.error";
 
 @injectable()
@@ -14,13 +14,11 @@ export class GetAllUsersController implements IGetAllUsersController {
 
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      // Extract and validate query parameters
       const { page = "1", limit = "10", search = "", status } = req.query;
 
       const pageNum = Number(page);
       const limitNum = Number(limit);
 
-      // Validate query parameters
       if (isNaN(pageNum) || pageNum < 1) {
         throw new ValidationError("Page must be a positive integer");
       }
@@ -35,11 +33,9 @@ export class GetAllUsersController implements IGetAllUsersController {
         status: String(status),
       };
 
-      // Execute the use case
       const result = await this.getAllUsersUsecase.execute(paginationData);
-      console.log(result.users);
-      // Prepare the response with standard structure
-      const response: ApiResponse<typeof result.users> = {
+
+      const response: DataResponse<typeof result.users> = {
         success: true,
         data: result.users || [],
         meta: {

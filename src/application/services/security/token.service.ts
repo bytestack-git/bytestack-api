@@ -20,7 +20,7 @@ export class TokenService implements ITokenService {
   private async getClient() {
     try {
       return await getRedisClient();
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to connect to Redis client",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -53,10 +53,7 @@ export class TokenService implements ITokenService {
     });
   }
 
-  verifyToken(
-    token: string,
-    expectedPurpose?: "access" | "refresh" | "reset"
-  ): ITokenPayload {
+  verifyToken(token: string): ITokenPayload {
     try {
       const payload = verify(token, this.JWT_SECRET) as ITokenPayload;
       if (!payload || !payload.id) {
@@ -66,17 +63,8 @@ export class TokenService implements ITokenService {
           true
         );
       }
-
-      if (expectedPurpose && payload.purpose !== expectedPurpose) {
-        throw new BaseError(
-          `Token purpose mismatch: expected ${expectedPurpose}, got ${payload.purpose}`,
-          HTTP_STATUS.UNAUTHORIZED,
-          true
-        );
-      }
-
       return payload;
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Invalid or expired token",
         HTTP_STATUS.UNAUTHORIZED,

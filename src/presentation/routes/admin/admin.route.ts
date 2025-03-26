@@ -7,6 +7,7 @@ import {
   adminSigninController,
   getAllUsersController,
   refreshTokenController,
+  updateUserController,
 } from "../../../infrastructure/di/resolver";
 
 export class AdminRoutes extends BaseRoute {
@@ -45,9 +46,7 @@ export class AdminRoutes extends BaseRoute {
         adminMiddleware.authenticate(req, res, next);
       },
       (req: Request, res: Response, next: NextFunction) => {
-        req.body.id = req.params.id;
-        console.log(req.body);
-        // getAllUsersController.handle(req, res, next);
+        updateUserController.handle(req, res, next);
       }
     );
 

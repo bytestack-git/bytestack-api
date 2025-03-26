@@ -38,18 +38,21 @@ export class SendEmailUseCase implements ISendEmailUseCase {
     } catch (error) {
       if (error instanceof ZodError) {
         const errorMessage = error.errors.map((err) => err.message).join(", ");
+
         throw new BaseError(
           `Invalid data provided: ${errorMessage}`,
           HTTP_STATUS.BAD_REQUEST,
           true
         );
       }
+
       throw new BaseError(
         "Failed to validate input data",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
         false
       );
     }
+
     const { email, type } = validatedData;
 
     const user = await this.userRepository.findByEmail(email);
@@ -121,6 +124,7 @@ export class SendEmailUseCase implements ISendEmailUseCase {
       subject,
       html,
     });
+    
     return {
       status: HTTP_STATUS.OK,
       message:

@@ -22,6 +22,8 @@ import { AdminLogoutController } from "../../presentation/controllers/admin/admi
 import { AdminLogoutUseCase } from "../../application/useCases/admin/admin-logout.usecase";
 import { IGetAllUsersUsecase } from "../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
 import { GetAllUsersUsecase } from "../../application/useCases/admin/get-all-users.usecase";
+import { IUpdateUserUsecase } from "../../domain/interfaces/usecaseInterface/admin/update-user.usecase.interface";
+import { UpdateUserUsecase } from "../../application/useCases/admin/update-user.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -64,4 +66,8 @@ container.register<IAdminLogoutUseCase>("IAdminLogoutUseCase", {
 
 container.register<IGetAllUsersUsecase>("IGetAllUsersUsecase", {
   useClass: GetAllUsersUsecase,
+});
+
+container.register<IUpdateUserUsecase>("IUpdateUserUsecase", {
+  useClass: UpdateUserUsecase,
 });

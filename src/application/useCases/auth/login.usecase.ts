@@ -56,6 +56,10 @@ export class LoginUseCase implements ILoginUseCase {
       );
     }
 
+    if (user && user.isBanned) {
+      throw new BaseError("Your account has been banned", 403, true);
+    }
+
     // Verify password
     const isMatch = await this.hashService.compare(password, user.password);
     if (!isMatch) {

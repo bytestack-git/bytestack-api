@@ -20,6 +20,8 @@ import { AdminSigninController } from "../../presentation/controllers/admin/sign
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 import { IAdminLogoutController } from "../../domain/interfaces/controllerInterface/admin/admin-logout.controller.interface";
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
+import { IUpdateUserController } from "../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
+import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -64,4 +66,8 @@ container.register<IAdminLogoutController>("IAdminLogoutController", {
 
 container.register<IAdminLogoutController>("IGetAllUsersController", {
   useClass: GetAllUsersController,
+});
+
+container.register<IUpdateUserController>("IUpdateUserController", {
+  useClass: UpdateUserController,
 });

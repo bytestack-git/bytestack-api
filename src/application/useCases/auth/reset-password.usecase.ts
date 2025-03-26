@@ -44,6 +44,7 @@ export class ResetPasswordUseCase implements IResetPasswordUseCase {
         false
       );
     }
+    
     const { token, newPassword } = validatedData;
 
     const payload = this.tokenService.verifyToken(token, "reset");

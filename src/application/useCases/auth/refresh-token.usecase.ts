@@ -15,7 +15,6 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
 
   async execute(
     refreshToken: string,
-    expectedRole?: "admin" | "user"
   ): Promise<{
     status: number;
     message: string;
@@ -61,7 +60,7 @@ export class RefreshTokenUseCase implements IRefreshTokenUseCase {
         "access",
         payload.role
       );
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to generate access token",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

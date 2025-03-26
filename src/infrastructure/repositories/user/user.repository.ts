@@ -26,7 +26,7 @@ export class UserRepository implements IUserRepository {
     const { page, limit, search, status } = data;
     const skip = (page - 1) * limit;
 
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
