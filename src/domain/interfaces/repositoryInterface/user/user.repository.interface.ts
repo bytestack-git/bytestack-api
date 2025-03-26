@@ -7,4 +7,5 @@ export interface IUserRepository {
   findById(id: string): Promise<IUserEntity | null>;
   updatePassword(email: string, newPassword: string): Promise<void>;
   findAll(data: Pagination): Promise<{ users: IUserEntity[]; total: number }>;
+  update(id: string, updates: Partial<IUserEntity>): Promise<IUserEntity | null>;
 }

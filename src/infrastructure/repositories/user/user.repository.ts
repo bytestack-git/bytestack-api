@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { Pagination } from "../../../shared/dtos/pagination.dto";
@@ -49,5 +48,12 @@ export class UserRepository implements IUserRepository {
     ]);
 
     return { users, total };
+  }
+
+  async update(
+    id: string,
+    updates: Partial<IUserEntity>
+  ): Promise<IUserEntity | null> {
+    return await UserModel.findByIdAndUpdate(id, { $set: updates });
   }
 }
