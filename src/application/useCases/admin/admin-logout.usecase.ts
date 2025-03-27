@@ -2,7 +2,6 @@ import { injectable, inject } from "tsyringe";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { IAdminLogoutUseCase } from "../../../domain/interfaces/usecaseInterface/admin/admin-logout.usecase.interface";
 
 @injectable()

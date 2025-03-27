@@ -64,7 +64,7 @@ export class SignupUseCase implements ISignupUseCase {
       throw new BaseError(ERROR_MSG.OTP_EXPIRED, HTTP_STATUS.BAD_REQUEST, true);
     }
 
-    // Verify OTP 
+    // Verify OTP
     await this.otpVerificationService.verifyOTP(email, otp);
 
     // Hash the password
@@ -90,7 +90,7 @@ export class SignupUseCase implements ISignupUseCase {
     // Save the user
     try {
       await this.userRepository.save(user);
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to save user",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

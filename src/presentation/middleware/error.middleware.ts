@@ -6,7 +6,7 @@ export const errorHandler = (
   error: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   // if (!(error instanceof BaseError) || !error.isOperational) {
   //   logger.error(error.message, {

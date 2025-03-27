@@ -6,6 +6,6 @@ export interface IRefreshTokenUseCase {
     status: number;
     message: string;
     success: boolean;
-    accessToken: string;
+    accessToken?: string;
   }>;
 }

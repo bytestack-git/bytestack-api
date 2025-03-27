@@ -4,6 +4,7 @@ import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterfac
 import { IRefreshTokenController } from "../../../domain/interfaces/controllerInterface/auth/refresh-token.controller.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class RefreshTokenController implements IRefreshTokenController {
@@ -28,8 +29,8 @@ export class RefreshTokenController implements IRefreshTokenController {
 
       if (!refreshToken) {
         throw new BaseError(
-          "Refresh token not found",
-          HTTP_STATUS.UNAUTHORIZED,
+          ERROR_MSG.REQUIRED_FIELD_MISSING,
+          HTTP_STATUS.BAD_REQUEST,
           true
         );
       }
@@ -44,6 +45,7 @@ export class RefreshTokenController implements IRefreshTokenController {
         sameSite: "strict",
       });
 
+      console.log("====", message);
       res.status(status).json({ message, success });
     } catch (error) {
       next(error);

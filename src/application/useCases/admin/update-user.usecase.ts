@@ -24,39 +24,40 @@ export class UpdateUserUsecase implements IUpdateUserUsecase {
     userId: string,
     data: { isBanned?: boolean }
   ): Promise<IUserEntity | null> {
-    // let validationResult: updateUserDTO;
-    // try {
-    //   validationResult = updateUserSchema.parse({ userId, data });
-    // } catch (error) {
-    //   if (error instanceof ZodError) {
-    //     throw new BaseError(
-    //       ERROR_MSG.INVALID_DATA,
-    //       HTTP_STATUS.BAD_REQUEST,
-    //       true
-    //     );
-    //   }
-    //   throw new BaseError(
-    //     "Failed to validate input data",
-    //     HTTP_STATUS.INTERNAL_SERVER_ERROR,
-    //     false
-    //   );
-    // }
+    let validationResult: updateUserDTO;
+    try {
+      validationResult = updateUserSchema.parse({ userId, data });
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw new BaseError(
+          ERROR_MSG.INVALID_DATA,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+      throw new BaseError(
+        "Failed to validate input data",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
 
-    // const { userId, data } = validationResult;
+    const { userId: validatedUserId, data: validatedData } = validationResult;
 
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(validatedUserId);
     if (!user) {
       throw new NotFoundError("User not found");
     }
 
     const updateData: { isBanned?: boolean } = {};
-    if (data.isBanned !== undefined) updateData.isBanned = data.isBanned;
+    if (validatedData.isBanned !== undefined)
+      updateData.isBanned = validatedData.isBanned;
 
-    if (data.isBanned !== undefined) {
-      if (data.isBanned === true && user.isBanned === false) {
-        await this.cacheService.addBlockedUser(userId);
-      } else if (data.isBanned === false && user.isBanned === true) {
-        await this.cacheService.removeBlockedUser(userId);
+    if (validatedData.isBanned !== undefined) {
+      if (validatedData.isBanned === true && user.isBanned === false) {
+        await this.cacheService.addBlockedUser(validatedUserId);
+      } else if (validatedData.isBanned === false && user.isBanned === true) {
+        await this.cacheService.removeBlockedUser(validatedUserId);
       }
     }
 
