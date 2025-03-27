@@ -11,6 +11,8 @@ import { OTPGeneratorService } from "../../application/services/otp/otp-generato
 import { IOTPGeneratorService } from "../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
 import { TokenService } from "../../application/services/security/token.service";
 import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
+import { ICacheService } from "../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
+import { CacheService } from "../../application/services/cache/cache.service";
 
 container.register<IHashService>("IHashService", { useClass: HashService });
 
@@ -29,3 +31,7 @@ container.register<IOTPGeneratorService>("IOTPGeneratorService", {
 });
 
 container.register<ITokenService>("ITokenService", { useClass: TokenService });
+
+container.register<ICacheService>("ICacheService", {
+  useClass: CacheService,
+});

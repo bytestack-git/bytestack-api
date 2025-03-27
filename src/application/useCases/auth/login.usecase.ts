@@ -80,13 +80,6 @@ export class LoginUseCase implements ILoginUseCase {
     );
     const refreshToken = this.tokenService.generateRefreshToken(userId, "user");
 
-    // Store refresh token
-    await this.tokenService.storeRefreshToken(
-      userId,
-      refreshToken,
-      this.tokenService.getRefreshTokenExpiry()
-    );
-
     const userData = {
       email: user.email,
       avatar: user.avatar,

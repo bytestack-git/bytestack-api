@@ -1,7 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterface/auth/refresh-token.usecase.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
@@ -10,7 +9,6 @@ import { ERROR_MSG } from "../../../shared/constants/error-msg";
 export class RefreshTokenUseCase implements IRefreshTokenUseCase {
   constructor(
     @inject("ITokenService") private tokenService: ITokenService,
-    @inject("IUserRepository") private userRepository: IUserRepository
   ) {}
 
   async execute(

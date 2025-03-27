@@ -80,7 +80,7 @@ export class TokenService implements ITokenService {
     const client = await this.getClient();
     try {
       await client.setEx(`blacklist:${token}`, expirationSeconds, "1");
-    } catch (error) {
+    } catch{
       throw new BaseError(
         "Failed to blacklist token",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -111,7 +111,7 @@ export class TokenService implements ITokenService {
     const client = await this.getClient();
     try {
       await client.setEx(`refresh:${userId}`, expirationSeconds, token);
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to store refresh token",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

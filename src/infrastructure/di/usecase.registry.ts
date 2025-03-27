@@ -18,7 +18,6 @@ import { ForgotPasswordUseCase } from "../../application/useCases/auth/forgot-pa
 import { IAdminSigninUseCase } from "../../domain/interfaces/usecaseInterface/admin/signin.usecase.interface";
 import { AdminSigninUseCase } from "../../application/useCases/admin/signin.usecase";
 import { IAdminLogoutUseCase } from "../../domain/interfaces/usecaseInterface/admin/admin-logout.usecase.interface";
-import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 import { AdminLogoutUseCase } from "../../application/useCases/admin/admin-logout.usecase";
 import { IGetAllUsersUsecase } from "../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
 import { GetAllUsersUsecase } from "../../application/useCases/admin/get-all-users.usecase";

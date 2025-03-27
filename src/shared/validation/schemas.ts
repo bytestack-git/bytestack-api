@@ -16,7 +16,12 @@ export const otpSchema = z
   .regex(/^\d+$/, { message: "OTP must contain only numbers" });
 
 // Internal OTP type enum
-const internalOtpType = ["otp", "resend-otp", "forgot-password", "password-updated"] as const;
+const internalOtpType = [
+  "otp",
+  "resend-otp",
+  "forgot-password",
+  "password-updated",
+] as const;
 export type InternalOtpType = (typeof internalOtpType)[number];
 
 // Send email schema
@@ -63,8 +68,23 @@ export const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+export const updateUserSchema = z.object({
+  userId: z
+    .string()
+    .min(1, "User ID is required")
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid user ID format"),
+  data: z
+    .object({
+      isBanned: z.boolean().optional(),
+    })
+    .refine((data) => data.isBanned !== undefined, {
+      message: "At least one field (isBanned) must be provided",
+    }),
+});
+
 // Type inference
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
+export type updateUserDTO = z.infer<typeof updateUserSchema>

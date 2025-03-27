@@ -124,7 +124,7 @@ export class SendEmailUseCase implements ISendEmailUseCase {
       subject,
       html,
     });
-    
+
     return {
       status: HTTP_STATUS.OK,
       message:

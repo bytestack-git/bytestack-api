@@ -1,9 +1,9 @@
-import { injectable, inject, container } from "tsyringe";
+import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { IAuthMiddleware } from "../../domain/interfaces/middlewareInterface/auth/auth.middleware.interface";
-import { IUserRepository } from "../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { BaseError } from "../../domain/errors/base.error";
+import { ICacheService } from "../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -13,7 +13,10 @@ declare module "express-serve-static-core" {
 
 @injectable()
 export class AuthMiddleware implements IAuthMiddleware {
-  constructor(@inject("ITokenService") private tokenService: ITokenService) {}
+  constructor(
+    @inject("ITokenService") private tokenService: ITokenService,
+    @inject("ICacheService") private cacheService: ICacheService
+  ) {}
 
   async authenticate(
     req: Request,
@@ -46,13 +49,11 @@ export class AuthMiddleware implements IAuthMiddleware {
         return;
       }
 
-      const userRepository =
-        container.resolve<IUserRepository>("IUserRepository");
-      const user = await userRepository.findById(payload.id);
-
-      if (user && user.isBanned) {
-        res.clearCookie("userToken");
-        throw new BaseError("Your account has been banned", 403, true);
+      const isBanned = await this.cacheService.isUserBlocked(payload.id);
+      if (isBanned) {
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        throw new BaseError("Your account has been banned", 404, true);
       }
 
       req.user = { id: payload.id };
