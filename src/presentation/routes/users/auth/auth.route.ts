@@ -7,7 +7,6 @@ import {
   loginController,
   refreshTokenController,
   logoutController,
-  authMiddleware,
   forgotPasswordController,
 } from "../../../../infrastructure/di/resolver";
 import { rateLimiter } from "../../../middleware/rate-limit.middleware";

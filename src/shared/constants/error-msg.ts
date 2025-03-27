@@ -34,6 +34,7 @@ export const ERROR_MSG = {
   EMAIL_SEND_FAILED: "Failed to send email.",
   EMAIL_ALREADY_EXIST: "Email already exist",
   EMAIL_NOT_FOUND: "Email not found",
+  ALREADY_LOGGED_OUT: "You are already logged out.",
 
   //user 
   USER_NOT_FOUND: "User not found.",
