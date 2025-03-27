@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { IGetUserUseCase } from "../../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";

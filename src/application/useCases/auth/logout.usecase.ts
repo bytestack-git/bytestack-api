@@ -4,8 +4,6 @@ import { ITokenService } from "../../../domain/interfaces/serviceInterface/secur
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { ITokenPayload } from "../../../domain/entities/models/token.entity";
 
 @injectable()
 export class LogoutUseCase implements ILogoutUseCase {
@@ -53,7 +51,7 @@ export class LogoutUseCase implements ILogoutUseCase {
     if (remainingTTL > 0) {
       try {
         await this.tokenService.blacklistToken(accessToken, remainingTTL);
-      } catch (error) {
+      } catch {
         throw new BaseError(
           "Failed to blacklist access token",
           HTTP_STATUS.INTERNAL_SERVER_ERROR,

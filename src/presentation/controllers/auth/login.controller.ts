@@ -43,7 +43,6 @@ export class LoginController implements ILoginController {
 
       res.status(status).json({ message, success, user });
     } catch (error) {
-      // Pass the error to the errorHandler middleware
       next(error);
     }
   }

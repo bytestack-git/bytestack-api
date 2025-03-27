@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
@@ -44,6 +44,7 @@ export class ResetPasswordUseCase implements IResetPasswordUseCase {
         false
       );
     }
+    
     const { token, newPassword } = validatedData;
 
     const payload = this.tokenService.verifyToken(token, "reset");

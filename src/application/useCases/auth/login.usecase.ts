@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { ILoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/login.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/auth/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
 import { loginSchema, LoginDTO } from "../../../shared/validation/schemas";
@@ -56,6 +56,10 @@ export class LoginUseCase implements ILoginUseCase {
       );
     }
 
+    if (user && user.isBanned) {
+      throw new BaseError("Your account has been banned", 403, true);
+    }
+
     // Verify password
     const isMatch = await this.hashService.compare(password, user.password);
     if (!isMatch) {
@@ -69,15 +73,12 @@ export class LoginUseCase implements ILoginUseCase {
     const userId = user._id.toString();
 
     // Generate tokens
-    const accessToken = this.tokenService.generateAccessToken(userId);
-    const refreshToken = this.tokenService.generateRefreshToken(userId);
-
-    // Store refresh token
-    await this.tokenService.storeRefreshToken(
+    const accessToken = this.tokenService.generateAccessToken(
       userId,
-      refreshToken,
-      this.tokenService.getRefreshTokenExpiry()
+      "access",
+      "user"
     );
+    const refreshToken = this.tokenService.generateRefreshToken(userId, "user");
 
     const userData = {
       email: user.email,

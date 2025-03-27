@@ -12,6 +12,11 @@ import { LogoutController } from "../../presentation/controllers/auth/logout.con
 import { AuthMiddleware } from "../../presentation/middleware/auth.middleware";
 import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
+import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
+import { AdminMiddleware } from "../../presentation/middleware/admin.middleware";
+import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
+import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
+import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 
 // auth
 export const signupController =
@@ -36,9 +41,30 @@ export const forgotPasswordController =
 export const logoutController =
   container.resolve<LogoutController>("ILogoutController");
 
-export const authMiddleware =
-  container.resolve<AuthMiddleware>("AuthMiddleware");
-
 // user
 export const getUserController =
   container.resolve<GetUserController>("IGetUserController");
+
+//admin
+export const adminSigninController = container.resolve<AdminSigninController>(
+  "IAdminSigninController"
+);
+
+export const adminLogoutController = container.resolve<AdminLogoutController>(
+  "IAdminLogoutController"
+);
+
+export const updateUserController = container.resolve<UpdateUserController>(
+  "IUpdateUserController"
+);
+
+// middleware
+export const authMiddleware =
+  container.resolve<AuthMiddleware>("IAuthMiddleware");
+
+export const adminMiddleware =
+  container.resolve<AdminMiddleware>("IAdminMiddleware");
+
+export const getAllUsersController = container.resolve<GetAllUsersController>(
+  "IGetAllUsersController"
+);

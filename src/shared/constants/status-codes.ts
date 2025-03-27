@@ -3,7 +3,7 @@ export const HTTP_STATUS = {
   CREATED: 201, // Resource successfully created
   ACCEPTED: 202, // Request accepted, processing in progress
   NO_CONTENT: 204, // Successful request with no content to return
-  NOT_MODIFIED: 304, // Resource not modified (used for caching)
+  NOT_MODIFIED: 304, // Resource not modified
   BAD_REQUEST: 400, // Invalid request
   UNAUTHORIZED: 401, // Authentication failed
   FORBIDDEN: 403, // Access denied

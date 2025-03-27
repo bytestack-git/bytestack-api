@@ -15,6 +15,13 @@ import { GetUserController } from "../../presentation/controllers/user/get-user.
 import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
 import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/auth/forgot-password.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
+import { IAdminSigninController } from "../../domain/interfaces/controllerInterface/admin/signin.controller.interface";
+import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
+import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
+import { IAdminLogoutController } from "../../domain/interfaces/controllerInterface/admin/admin-logout.controller.interface";
+import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
+import { IUpdateUserController } from "../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
+import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -44,10 +51,23 @@ container.register<ILogoutController>("ILogoutController", {
   useClass: LogoutController,
 });
 
-container.register<ILogoutController>("ILogoutController", {
-  useClass: LogoutController,
-});
-
 container.register<IGetUserController>("IGetUserController", {
   useClass: GetUserController,
+});
+
+//admin
+container.register<IAdminSigninController>("IAdminSigninController", {
+  useClass: AdminSigninController,
+});
+
+container.register<IAdminLogoutController>("IAdminLogoutController", {
+  useClass: AdminLogoutController,
+});
+
+container.register<IAdminLogoutController>("IGetAllUsersController", {
+  useClass: GetAllUsersController,
+});
+
+container.register<IUpdateUserController>("IUpdateUserController", {
+  useClass: UpdateUserController,
 });

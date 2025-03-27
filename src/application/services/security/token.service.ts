@@ -15,19 +15,12 @@ export class TokenService implements ITokenService {
 
   constructor() {
     this.JWT_SECRET = config.jwt.JWT_SECRET as string;
-    if (!this.JWT_SECRET) {
-      throw new BaseError(
-        "JWT_SECRET is not configured",
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        false
-      );
-    }
   }
 
   private async getClient() {
     try {
       return await getRedisClient();
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to connect to Redis client",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -38,23 +31,29 @@ export class TokenService implements ITokenService {
 
   generateAccessToken(
     userId: string,
-    purpose: "access" | "reset" = "access"
+    purpose: "access" | "reset" = "access",
+    role?: "admin" | "user"
   ): string {
-    return sign({ id: userId, purpose }, this.JWT_SECRET, {
+    const payload: Partial<ITokenPayload> = { id: userId, purpose };
+    if (role) {
+      payload.role = role;
+    }
+    return sign(payload, this.JWT_SECRET, {
       expiresIn: this.ACCESS_TOKEN_EXPIRY,
     });
   }
 
-  generateRefreshToken(userId: string): string {
-    return sign({ id: userId, purpose: "refresh" }, this.JWT_SECRET, {
+  generateRefreshToken(userId: string, role?: "admin" | "user"): string {
+    const payload: Partial<ITokenPayload> = { id: userId, purpose: "refresh" };
+    if (role) {
+      payload.role = role;
+    }
+    return sign(payload, this.JWT_SECRET, {
       expiresIn: this.REFRESH_TOKEN_EXPIRY,
     });
   }
 
-  verifyToken(
-    token: string,
-    expectedPurpose?: "access" | "refresh" | "reset"
-  ): ITokenPayload {
+  verifyToken(token: string): ITokenPayload {
     try {
       const payload = verify(token, this.JWT_SECRET) as ITokenPayload;
       if (!payload || !payload.id) {
@@ -64,17 +63,8 @@ export class TokenService implements ITokenService {
           true
         );
       }
-
-      if (expectedPurpose && payload.purpose !== expectedPurpose) {
-        throw new BaseError(
-          `Token purpose mismatch: expected ${expectedPurpose}, got ${payload.purpose}`,
-          HTTP_STATUS.UNAUTHORIZED,
-          true
-        );
-      }
-
       return payload;
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Invalid or expired token",
         HTTP_STATUS.UNAUTHORIZED,
@@ -90,7 +80,7 @@ export class TokenService implements ITokenService {
     const client = await this.getClient();
     try {
       await client.setEx(`blacklist:${token}`, expirationSeconds, "1");
-    } catch (error) {
+    } catch{
       throw new BaseError(
         "Failed to blacklist token",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -121,7 +111,7 @@ export class TokenService implements ITokenService {
     const client = await this.getClient();
     try {
       await client.setEx(`refresh:${userId}`, expirationSeconds, token);
-    } catch (error) {
+    } catch {
       throw new BaseError(
         "Failed to store refresh token",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

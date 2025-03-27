@@ -1,8 +1,12 @@
 import { ITokenPayload } from "../../../entities/models/token.entity";
 
 export interface ITokenService {
-  generateAccessToken(userId: string, purpose?: "access" | "reset"): string;
-  generateRefreshToken(userId: string): string;
+  generateAccessToken(
+    userId: string,
+    purpose?: "access" | "reset",
+    role?: "admin" | "user",
+  ): string;
+  generateRefreshToken(userId: string, role?: "admin" | "user"): string;
   verifyToken(
     token: string,
     expectedPurpose?: "access" | "refresh" | "reset"

@@ -17,7 +17,7 @@ export class LogoutController implements ILogoutController {
       const accessToken = req.cookies.accessToken;
       if (!accessToken) {
         throw new BaseError(
-          "You are already logged out.",
+          ERROR_MSG.ALREADY_LOGGED_OUT,
           HTTP_STATUS.UNAUTHORIZED,
           true
         );

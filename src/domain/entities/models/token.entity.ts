@@ -3,4 +3,5 @@ export interface ITokenPayload {
   iat: number;
   exp: number;
   purpose?: "access" | "refresh" | "reset";
+  role?: "admin" | "user";
 }
