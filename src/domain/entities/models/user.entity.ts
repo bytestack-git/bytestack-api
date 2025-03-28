@@ -11,6 +11,7 @@ export interface IUserEntity {
   links?: string[];
   isBlogger: boolean;
   isSubscribed: boolean;
+  githubId?: string;
   googleId?: string;
   subType: "trial" | "monthly" | "yearly" | null;
   subEndDate: Date | null;

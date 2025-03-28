@@ -36,6 +36,18 @@ export const UserSchema = new Schema<IUserModel>(
       type: Boolean,
       default: false,
     },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      required: false,
+    },
+    githubId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      required: false,
+    },
     isSubscribed: {
       type: Boolean,
       default: false,
@@ -75,6 +87,6 @@ export const UserSchema = new Schema<IUserModel>(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
