@@ -56,4 +56,16 @@ export class UserRepository implements IUserRepository {
   ): Promise<IUserEntity | null> {
     return await UserModel.findByIdAndUpdate(id, { $set: updates });
   }
+
+  async findByProviderId(
+    provider: "google" | "github",
+    providerId: string
+  ): Promise<IUserEntity | null> {
+    if (provider === "google") {
+      return await UserModel.findOne({ googleId: providerId });
+    } else if (provider === "github") {
+      return await UserModel.findOne({ githubId: providerId });
+    }
+    return null;
+  }
 }

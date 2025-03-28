@@ -8,4 +8,5 @@ export interface IUserRepository {
   updatePassword(email: string, newPassword: string): Promise<void>;
   findAll(data: Pagination): Promise<{ users: IUserEntity[]; total: number }>;
   update(id: string, updates: Partial<IUserEntity>): Promise<IUserEntity | null>;
+  findByProviderId(provider: "google" | "github", providerId: string): Promise<IUserEntity | null>;
 }
