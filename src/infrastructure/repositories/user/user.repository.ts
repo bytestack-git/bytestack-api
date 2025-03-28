@@ -43,7 +43,7 @@ export class UserRepository implements IUserRepository {
     }
 
     const [users, total] = await Promise.all([
-      UserModel.find(query).skip(skip).limit(limit).lean(),
+      UserModel.find(query).sort({ _id: -1 }).skip(skip).limit(limit).lean(),
       UserModel.countDocuments(query),
     ]);
 
@@ -55,5 +55,17 @@ export class UserRepository implements IUserRepository {
     updates: Partial<IUserEntity>
   ): Promise<IUserEntity | null> {
     return await UserModel.findByIdAndUpdate(id, { $set: updates });
+  }
+
+  async findByProviderId(
+    provider: "google" | "github",
+    providerId: string
+  ): Promise<IUserEntity | null> {
+    if (provider === "google") {
+      return await UserModel.findOne({ googleId: providerId });
+    } else if (provider === "github") {
+      return await UserModel.findOne({ githubId: providerId });
+    }
+    return null;
   }
 }

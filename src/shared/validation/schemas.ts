@@ -82,9 +82,14 @@ export const updateUserSchema = z.object({
     }),
 });
 
+export const oauthCodeSchema = z.object({
+  code: z.string(),
+});
+
 // Type inference
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
 export type updateUserDTO = z.infer<typeof updateUserSchema>
+export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;

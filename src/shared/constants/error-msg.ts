@@ -35,8 +35,10 @@ export const ERROR_MSG = {
   EMAIL_ALREADY_EXIST: "Email already exist",
   EMAIL_NOT_FOUND: "Email not found",
   ALREADY_LOGGED_OUT: "You are already logged out.",
+  INVALID_CODE: "Invalid OAuth code",
+  TOKEN_EXCHANGE_FAILED: "Failed to exchange OAuth code for token",
 
-  //user 
+  //user
   USER_NOT_FOUND: "User not found.",
 
   // Blog

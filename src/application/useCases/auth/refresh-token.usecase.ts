@@ -3,46 +3,31 @@ import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterfac
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
 
 @injectable()
 export class RefreshTokenUseCase implements IRefreshTokenUseCase {
-  constructor(
-    @inject("ITokenService") private tokenService: ITokenService,
-  ) {}
+  constructor(@inject("ITokenService") private tokenService: ITokenService) {}
 
-  async execute(
-    refreshToken: string,
-  ): Promise<{
+  async execute(refreshToken: string): Promise<{
     status: number;
     message: string;
     success: boolean;
-    accessToken: string;
+    accessToken?: string;
   }> {
     // Validate input
+
     if (!refreshToken) {
       throw new BaseError(
-        ERROR_MSG.REQUIRED_FIELD_MISSING,
-        HTTP_STATUS.BAD_REQUEST,
+        "Refresh token not found",
+        HTTP_STATUS.FORBIDDEN,
         true
       );
     }
 
     // Verify refresh token
-    let payload;
-    try {
-      payload = this.tokenService.verifyToken(refreshToken);
-      if (!payload) {
-        throw new BaseError(
-          "Invalid refresh token",
-          HTTP_STATUS.UNAUTHORIZED,
-          true
-        );
-      }
-    } catch (error) {
-      if (error instanceof BaseError) {
-        throw error;
-      }
+    const payload = this.tokenService.verifyToken(refreshToken);
+
+    if (!payload) {
       throw new BaseError(
         "Invalid or expired refresh token",
         HTTP_STATUS.UNAUTHORIZED,

@@ -8,7 +8,7 @@ interface LogMetadata {
   status?: number;
   responseTime?: string;
   contentLength?: string;
-  body?: Record<string, any>;
+  body?: Record<string, unknown>;
   path?: string;
   stack?: string;
 }
