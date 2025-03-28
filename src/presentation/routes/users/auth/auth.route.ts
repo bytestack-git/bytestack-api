@@ -8,6 +8,8 @@ import {
   refreshTokenController,
   logoutController,
   forgotPasswordController,
+  googleOAuthController,
+  githubOAuthController,
 } from "../../../../infrastructure/di/resolver";
 import { rateLimiter } from "../../../middleware/rate-limit.middleware";
 export class AuthRoutes extends BaseRoute {
@@ -60,6 +62,20 @@ export class AuthRoutes extends BaseRoute {
       "/refresh-token",
       (req: Request, res: Response, next: NextFunction) => {
         refreshTokenController.handle(req, res, next, "user");
+      }
+    );
+
+    this.router.post(
+      "/google",
+      (req: Request, res: Response, next: NextFunction) => {
+        googleOAuthController.handleGoogleOAuth(req, res, next);
+      }
+    );
+
+    this.router.post(
+      "/github",
+      (req: Request, res: Response, next: NextFunction) => {
+        githubOAuthController.handleGitHubOAuth(req, res, next);
       }
     );
 

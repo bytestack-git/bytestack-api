@@ -17,8 +17,10 @@ import { AdminMiddleware } from "../../presentation/middleware/admin.middleware"
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
+import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
+import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
 
-// auth
+// ----------------------------- auth -----------------------------
 export const signupController =
   container.resolve<SignupController>("ISignupController");
 
@@ -35,17 +37,25 @@ export const refreshTokenController = container.resolve<RefreshTokenController>(
   "IRefreshTokenController"
 );
 
+export const googleOAuthController = container.resolve<GoogleOAuthController>(
+  "IGoogleOAuthController"
+);
+
+export const githubOAuthController = container.resolve<IGitHubOAuthController>(
+  "IGitHubOAuthController"
+);
+
 export const forgotPasswordController =
   container.resolve<ForgotPasswordController>("IForgotPasswordController");
 
 export const logoutController =
   container.resolve<LogoutController>("ILogoutController");
 
-// user
+// ----------------------------- user -----------------------------
 export const getUserController =
   container.resolve<GetUserController>("IGetUserController");
 
-//admin
+// ----------------------------- admin -----------------------------
 export const adminSigninController = container.resolve<AdminSigninController>(
   "IAdminSigninController"
 );
@@ -58,13 +68,13 @@ export const updateUserController = container.resolve<UpdateUserController>(
   "IUpdateUserController"
 );
 
-// middleware
+export const getAllUsersController = container.resolve<GetAllUsersController>(
+  "IGetAllUsersController"
+);
+
+// ----------------------------- middleware -----------------------------
 export const authMiddleware =
   container.resolve<AuthMiddleware>("IAuthMiddleware");
 
 export const adminMiddleware =
   container.resolve<AdminMiddleware>("IAdminMiddleware");
-
-export const getAllUsersController = container.resolve<GetAllUsersController>(
-  "IGetAllUsersController"
-);

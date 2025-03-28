@@ -43,7 +43,7 @@ export class UserRepository implements IUserRepository {
     }
 
     const [users, total] = await Promise.all([
-      UserModel.find(query).skip(skip).limit(limit).lean(),
+      UserModel.find(query).sort({ _id: -1 }).skip(skip).limit(limit).lean(),
       UserModel.countDocuments(query),
     ]);
 

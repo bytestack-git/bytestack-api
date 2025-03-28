@@ -13,6 +13,10 @@ import { TokenService } from "../../application/services/security/token.service"
 import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { ICacheService } from "../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
 import { CacheService } from "../../application/services/cache/cache.service";
+import { IGoogleOAuthService } from "../../domain/interfaces/serviceInterface/auth/google-oauth.service.interface";
+import { GoogleOAuthService } from "../../application/services/auth/google-oauth.service";
+import { IGitHubOAuthService } from "../../domain/interfaces/serviceInterface/auth/github-oauth.service.interface";
+import { GitHubOAuthService } from "../../application/services/auth/github-oauth.service";
 
 container.register<IHashService>("IHashService", { useClass: HashService });
 
@@ -34,4 +38,12 @@ container.register<ITokenService>("ITokenService", { useClass: TokenService });
 
 container.register<ICacheService>("ICacheService", {
   useClass: CacheService,
+});
+
+container.register<IGoogleOAuthService>("IGoogleOAuthService", {
+  useClass: GoogleOAuthService,
+});
+
+container.register<IGitHubOAuthService>("IGitHubOAuthService", {
+  useClass: GitHubOAuthService,
 });

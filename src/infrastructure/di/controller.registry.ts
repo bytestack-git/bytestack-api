@@ -22,6 +22,10 @@ import { IAdminLogoutController } from "../../domain/interfaces/controllerInterf
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
 import { IUpdateUserController } from "../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
+import { IGoogleOAuthController } from "../../domain/interfaces/controllerInterface/auth/google-oauth.controller.interface";
+import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
+import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
+import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -70,4 +74,12 @@ container.register<IAdminLogoutController>("IGetAllUsersController", {
 
 container.register<IUpdateUserController>("IUpdateUserController", {
   useClass: UpdateUserController,
+});
+
+container.register<IGoogleOAuthController>("IGoogleOAuthController", {
+  useClass: GoogleOAuthController,
+});
+
+container.register<IGitHubOAuthController>("IGitHubOAuthController", {
+  useClass: GitHubOAuthController,
 });

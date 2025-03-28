@@ -23,6 +23,10 @@ import { IGetAllUsersUsecase } from "../../domain/interfaces/usecaseInterface/ad
 import { GetAllUsersUsecase } from "../../application/useCases/admin/get-all-users.usecase";
 import { IUpdateUserUsecase } from "../../domain/interfaces/usecaseInterface/admin/update-user.usecase.interface";
 import { UpdateUserUsecase } from "../../application/useCases/admin/update-user.usecase";
+import { IGoogleOAuthLoginUseCase } from "../../domain/interfaces/usecaseInterface/auth/google-oauth.usecase.interface";
+import { GoogleOAuthLoginUseCase } from "../../application/useCases/auth/google-oauth.usecase";
+import { IGitHubOAuthLoginUseCase } from "../../domain/interfaces/usecaseInterface/auth/github-oauth.usecase.interface";
+import { GitHubOAuthLoginUseCase } from "../../application/useCases/auth/github-oauth.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -69,4 +73,12 @@ container.register<IGetAllUsersUsecase>("IGetAllUsersUsecase", {
 
 container.register<IUpdateUserUsecase>("IUpdateUserUsecase", {
   useClass: UpdateUserUsecase,
+});
+
+container.register<IGoogleOAuthLoginUseCase>("IGoogleOAuthLoginUseCase", {
+  useClass: GoogleOAuthLoginUseCase,
+});
+
+container.register<IGitHubOAuthLoginUseCase>("IGitHubOAuthLoginUseCase", {
+  useClass: GitHubOAuthLoginUseCase,
 });
