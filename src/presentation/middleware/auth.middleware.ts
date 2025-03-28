@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
 import { IAuthMiddleware } from "../../domain/interfaces/middlewareInterface/auth/auth.middleware.interface";
 import { BaseError } from "../../domain/errors/base.error";
-import { ICacheService } from "../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
+import { ICacheService } from "../../domain/interfaces/serviceInterface/cache/cache.service.interface";
 
 declare module "express-serve-static-core" {
   interface Request {

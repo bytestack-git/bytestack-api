@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { ICacheService } from "../../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
+import { ICacheService } from "../../../domain/interfaces/serviceInterface/cache/cache.service.interface";
 import { getRedisClient } from "../../../infrastructure/database/redis/init";
 
 @injectable()

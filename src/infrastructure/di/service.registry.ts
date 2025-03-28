@@ -11,7 +11,7 @@ import { OTPGeneratorService } from "../../application/services/otp/otp-generato
 import { IOTPGeneratorService } from "../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
 import { TokenService } from "../../application/services/security/token.service";
 import { ITokenService } from "../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { ICacheService } from "../../domain/interfaces/serviceInterface/cashe/cache.service.interface";
+import { ICacheService } from "../../domain/interfaces/serviceInterface/cache/cache.service.interface";
 import { CacheService } from "../../application/services/cache/cache.service";
 import { IGoogleOAuthService } from "../../domain/interfaces/serviceInterface/auth/google-oauth.service.interface";
 import { GoogleOAuthService } from "../../application/services/auth/google-oauth.service";
