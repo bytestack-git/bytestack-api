@@ -1,10 +1,10 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterface/auth/refresh-token.usecase.interface";
-import { IRefreshTokenController } from "../../../domain/interfaces/controllerInterface/auth/refresh-token.controller.interface";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { IRefreshTokenUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/refresh-token.usecase.interface";
+import { IRefreshTokenController } from "../../../../domain/interfaces/controllerInterface/user/auth/refresh-token.controller.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
 export class RefreshTokenController implements IRefreshTokenController {

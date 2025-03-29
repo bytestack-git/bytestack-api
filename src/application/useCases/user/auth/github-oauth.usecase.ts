@@ -1,18 +1,18 @@
 import { injectable, inject } from "tsyringe";
-import { IGoogleOAuthLoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/google-oauth.usecase.interface";
-import { IGoogleOAuthService } from "../../../domain/interfaces/serviceInterface/auth/google-oauth.service.interface";
-import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { IUserEntity } from "../../../domain/entities/models/user.entity";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { IGitHubOAuthLoginUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/github-oauth.usecase.interface";
+import { IGitHubOAuthService } from "../../../../domain/interfaces/serviceInterface/auth/github-oauth.service.interface";
+import { ITokenService } from "../../../../domain/interfaces/serviceInterface/security/token.service.interface";
+import { IUserEntity } from "../../../../domain/entities/models/user.entity";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
-export class GoogleOAuthLoginUseCase implements IGoogleOAuthLoginUseCase {
+export class GitHubOAuthLoginUseCase implements IGitHubOAuthLoginUseCase {
   constructor(
-    @inject("IGoogleOAuthService")
-    private googleOAuthService: IGoogleOAuthService,
+    @inject("IGitHubOAuthService")
+    private gitHubOAuthService: IGitHubOAuthService,
     @inject("ITokenService") private tokenService: ITokenService
   ) {}
 
@@ -24,13 +24,13 @@ export class GoogleOAuthLoginUseCase implements IGoogleOAuthLoginUseCase {
     tokens: { accessToken: string; refreshToken: string };
   }> {
     const accessToken =
-      await this.googleOAuthService.exchangeGoogleCodeForToken(code);
+      await this.gitHubOAuthService.exchangeGitHubCodeForToken(code);
 
     const oauthUser =
-      await this.googleOAuthService.validateGoogleToken(accessToken);
+      await this.gitHubOAuthService.validateGitHubToken(accessToken);
 
     const user =
-      await this.googleOAuthService.findOrCreateGoogleUser(oauthUser);
+      await this.gitHubOAuthService.findOrCreateGitHubUser(oauthUser);
 
     if (user.isBanned) {
       throw new BaseError(

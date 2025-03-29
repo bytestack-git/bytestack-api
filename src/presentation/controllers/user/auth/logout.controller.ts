@@ -1,10 +1,10 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { ILogoutUseCase } from "../../../domain/interfaces/usecaseInterface/auth/logout.usecase.interface";
-import { ILogoutController } from "../../../domain/interfaces/controllerInterface/auth/logout.controller.interface";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { ILogoutUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/logout.usecase.interface";
+import { ILogoutController } from "../../../../domain/interfaces/controllerInterface/user/auth/logout.controller.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
 export class LogoutController implements ILogoutController {

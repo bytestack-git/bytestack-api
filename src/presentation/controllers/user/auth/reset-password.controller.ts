@@ -1,7 +1,7 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
-import { IResetPasswordController } from "../../../domain/interfaces/controllerInterface/auth/reset-password.controller.interface";
+import { IResetPasswordUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/reset-password.usecase.interface";
+import { IResetPasswordController } from "../../../../domain/interfaces/controllerInterface/user/auth/reset-password.controller.interface";
 
 @injectable()
 export class ResetPasswordController implements IResetPasswordController {

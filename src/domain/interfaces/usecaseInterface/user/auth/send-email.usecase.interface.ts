@@ -1,4 +1,4 @@
-import { SendEmailDTO } from "../../../../shared/validation/schemas";
+import { SendEmailDTO } from "../../../../../shared/validation/schemas";
 
 export interface ISendEmailUseCase {
   execute(

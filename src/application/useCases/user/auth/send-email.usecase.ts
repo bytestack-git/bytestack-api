@@ -1,21 +1,21 @@
 import { injectable, inject } from "tsyringe";
-import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
-import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
-import { IEmailService } from "../../../domain/interfaces/serviceInterface/email/email.service.interface";
-import { IOTPGeneratorService } from "../../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
-import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
+import { ISendEmailUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/send-email.usecase.interface";
+import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IOTPCacheService } from "../../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
+import { IEmailService } from "../../../../domain/interfaces/serviceInterface/email/email.service.interface";
+import { IOTPGeneratorService } from "../../../../domain/interfaces/serviceInterface/otp/otp-generate.service.interface";
+import { ITokenService } from "../../../../domain/interfaces/serviceInterface/security/token.service.interface";
 import {
   sendEmailSchema,
   SendEmailDTO,
-} from "../../../shared/validation/schemas";
-import { getEmailTemplate } from "../../services/email/email-templates.service";
-import { BaseError } from "../../../domain/errors/base.error";
+} from "../../../../shared/validation/schemas";
+import { getEmailTemplate } from "../../../services/email/email-templates.service";
+import { BaseError } from "../../../../domain/errors/base.error";
 import { ZodError } from "zod";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { config } from "../../../shared/config/config";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
+import { config } from "../../../../shared/config/config";
 
 @injectable()
 export class SendEmailUseCase implements ISendEmailUseCase {

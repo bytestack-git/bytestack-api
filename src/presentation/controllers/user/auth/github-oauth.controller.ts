@@ -1,23 +1,23 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IGoogleOAuthLoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/google-oauth.usecase.interface";
-import { IGoogleOAuthController } from "../../../domain/interfaces/controllerInterface/auth/google-oauth.controller.interface";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IGitHubOAuthLoginUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/github-oauth.usecase.interface";
+import { IGitHubOAuthController } from "../../../../domain/interfaces/controllerInterface/user/auth/github-oauth.controller.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 import {
   oauthCodeSchema,
   OAuthCodeDTO,
-} from "../../../shared/validation/schemas";
+} from "../../../../shared/validation/schemas";
 import { ZodError } from "zod";
 
 @injectable()
-export class GoogleOAuthController implements IGoogleOAuthController {
+export class GitHubOAuthController implements IGitHubOAuthController {
   constructor(
-    @inject("IGoogleOAuthLoginUseCase")
-    private googleOAuthLoginUseCase: IGoogleOAuthLoginUseCase
+    @inject("IGitHubOAuthLoginUseCase")
+    private gitHubOAuthLoginUseCase: IGitHubOAuthLoginUseCase
   ) {}
 
-  async handleGoogleOAuth(
+  async handleGitHubOAuth(
     req: Request,
     res: Response,
     next: NextFunction
@@ -49,7 +49,7 @@ export class GoogleOAuthController implements IGoogleOAuthController {
         success,
         tokens,
         user: userData,
-      } = await this.googleOAuthLoginUseCase.execute(code);
+      } = await this.gitHubOAuthLoginUseCase.execute(code);
 
       if (tokens) {
         res.cookie("accessToken", tokens.accessToken, {

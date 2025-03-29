@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
-import { ISignupController } from "../../../domain/interfaces/controllerInterface/auth/signup.controller.interface";
-import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
+import { ISignupController } from "../../../../domain/interfaces/controllerInterface/user/auth/signup.controller.interface";
+import { ISignupUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/signup.usecase.interface";
 
 @injectable()
 export class SignupController implements ISignupController {

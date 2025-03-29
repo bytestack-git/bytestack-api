@@ -1,18 +1,18 @@
 import { injectable, inject } from "tsyringe";
-import { IOTPVerificationService } from "../../../domain/interfaces/serviceInterface/otp/otp-verification.service.interface";
-import { IOTPCacheService } from "../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
-import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
-import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
-import { IUserEntity } from "../../../domain/entities/models/user.entity";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IOTPVerificationService } from "../../../../domain/interfaces/serviceInterface/otp/otp-verification.service.interface";
+import { IOTPCacheService } from "../../../../domain/interfaces/serviceInterface/otp/otp-cache.service.interface";
+import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { ISignupUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/signup.usecase.interface";
+import { IHashService } from "../../../../domain/interfaces/serviceInterface/security/hash.service.interface";
+import { IUserEntity } from "../../../../domain/entities/models/user.entity";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 import {
   UserSignupDTO,
   userSignupSchema,
-} from "../../../shared/validation/schemas";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { BaseError } from "../../../domain/errors/base.error";
+} from "../../../../shared/validation/schemas";
+import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
+import { BaseError } from "../../../../domain/errors/base.error";
 import { ZodError } from "zod";
 
 @injectable()

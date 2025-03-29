@@ -1,8 +1,8 @@
 import { injectable, inject } from "tsyringe";
-import { IRefreshTokenUseCase } from "../../../domain/interfaces/usecaseInterface/auth/refresh-token.usecase.interface";
-import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IRefreshTokenUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/refresh-token.usecase.interface";
+import { ITokenService } from "../../../../domain/interfaces/serviceInterface/security/token.service.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 
 @injectable()
 export class RefreshTokenUseCase implements IRefreshTokenUseCase {

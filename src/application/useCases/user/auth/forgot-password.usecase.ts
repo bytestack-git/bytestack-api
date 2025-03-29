@@ -1,15 +1,15 @@
 import { injectable, inject } from "tsyringe";
-import { IForgotPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/forgot-password.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
-import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
+import { IForgotPasswordUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/forgot-password.usecase.interface";
+import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { ISendEmailUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/send-email.usecase.interface";
 import {
   sendEmailSchema,
   SendEmailDTO,
-} from "../../../shared/validation/schemas";
-import { BaseError } from "../../../domain/errors/base.error";
+} from "../../../../shared/validation/schemas";
+import { BaseError } from "../../../../domain/errors/base.error";
 import { ZodError } from "zod";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
 export class ForgotPasswordUseCase implements IForgotPasswordUseCase {

@@ -1,18 +1,18 @@
 import { injectable, inject } from "tsyringe";
-import { IResetPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/reset-password.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
-import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { IHashService } from "../../../domain/interfaces/serviceInterface/security/hash.service.interface";
-import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
-import { BaseError } from "../../../domain/errors/base.error";
+import { IResetPasswordUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/reset-password.usecase.interface";
+import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { ITokenService } from "../../../../domain/interfaces/serviceInterface/security/token.service.interface";
+import { IHashService } from "../../../../domain/interfaces/serviceInterface/security/hash.service.interface";
+import { ISendEmailUseCase } from "../../../../domain/interfaces/usecaseInterface/user/auth/send-email.usecase.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
 import { z } from "zod";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 import {
   ResetPasswordDTO,
   resetPasswordSchema,
-} from "../../../shared/validation/schemas";
+} from "../../../../shared/validation/schemas";
 
 @injectable()
 export class ResetPasswordUseCase implements IResetPasswordUseCase {
