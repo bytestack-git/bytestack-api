@@ -26,6 +26,8 @@ import { IGoogleOAuthController } from "../../domain/interfaces/controllerInterf
 import { GoogleOAuthController } from "../../presentation/controllers/user/auth/google-oauth.controller";
 import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/user/auth/github-oauth.controller.interface";
 import { GitHubOAuthController } from "../../presentation/controllers/user/auth/github-oauth.controller";
+import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/user/profile/update-profile.controller.interface";
+import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
 
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
@@ -82,4 +84,9 @@ container.register<IGoogleOAuthController>("IGoogleOAuthController", {
 
 container.register<IGitHubOAuthController>("IGitHubOAuthController", {
   useClass: GitHubOAuthController,
+});
+
+// user
+container.register<IUpdateProfileController>("IUpdateProfileController", {
+  useClass: UpdateProfileController,
 });

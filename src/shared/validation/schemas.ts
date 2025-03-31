@@ -36,7 +36,9 @@ export const sendEmailSchema = z.object({
 
 // User signup schema
 export const userSignupSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }).trim(),
+  name: z.string()
+  .min(1, { message: "Name is required" })
+  .max(10, {message: "Enter a valid name"}).trim(),
   email: emailSchema,
   password: z
     .string()
@@ -86,10 +88,18 @@ export const oauthCodeSchema = z.object({
   code: z.string(),
 });
 
+export const updateProfileSchema = z.object({
+  userId: z
+    .string()
+    .min(1, "User ID is required")
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid user ID format"),
+  
+});
+
 // Type inference
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
-export type updateUserDTO = z.infer<typeof updateUserSchema>
+export type updateUserDTO = z.infer<typeof updateUserSchema>;
 export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;

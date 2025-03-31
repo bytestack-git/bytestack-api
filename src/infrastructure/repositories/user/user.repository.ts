@@ -54,7 +54,11 @@ export class UserRepository implements IUserRepository {
     id: string,
     updates: Partial<IUserEntity>
   ): Promise<IUserEntity | null> {
-    return await UserModel.findByIdAndUpdate(id, { $set: updates });
+    return await UserModel.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true }
+    ).lean();
   }
 
   async findByProviderId(

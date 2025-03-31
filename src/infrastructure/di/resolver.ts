@@ -19,6 +19,7 @@ import { GetAllUsersController } from "../../presentation/controllers/admin/get-
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 import { GoogleOAuthController } from "../../presentation/controllers/user/auth/google-oauth.controller";
 import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/user/auth/github-oauth.controller.interface";
+import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
 
 // ----------------------------- auth -----------------------------
 export const signupController =
@@ -54,6 +55,9 @@ export const logoutController =
 // ----------------------------- user -----------------------------
 export const getUserController =
   container.resolve<GetUserController>("IGetUserController");
+
+export const updateProfileController =
+  container.resolve<UpdateProfileController>("IUpdateProfileController");
 
 // ----------------------------- admin -----------------------------
 export const adminSigninController = container.resolve<AdminSigninController>(

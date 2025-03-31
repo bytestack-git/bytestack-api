@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import { inject, injectable } from "tsyringe";
 import { IGetAllUsersController } from "../../../domain/interfaces/controllerInterface/admin/get-all-users.controller.interface";
 import { IGetAllUsersUsecase } from "../../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";

@@ -16,7 +16,7 @@ export class GetUserController implements IGetUserController {
       const userId = req.user;
       if (!userId) {
         throw new BaseError(
-          "User ID not found in request",
+          "User not found in request",
           HTTP_STATUS.UNAUTHORIZED,
           true
         );
