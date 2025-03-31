@@ -28,22 +28,8 @@ export class GetUserUseCase implements IGetUserUseCase {
       );
     }
 
-    const userData: Partial<IUserEntity> = {
-      name: user.name,
-      bio: user.bio,
-      email: user.email,
-      avatar: user.avatar,
-      followedTopics: user.followedTopics,
-      headline: user.headline,
-      isBlogger: user.isBlogger,
-      isSubscribed: user.isSubscribed,
-      techInterests: user.techInterests,
-      searchHistory: user.searchHistory,
-      links: user.links,
-      subEndDate: user.subEndDate,
-      subType: user.subType,
-      trialEndDate: user.trialEndDate,
-    };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, isBanned, githubId, googleId, ...userData } = user;
 
     return {
       status: HTTP_STATUS.OK,
