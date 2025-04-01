@@ -32,7 +32,6 @@ export class S3Service implements IS3Service {
       Key: key,
       Expires: URL_EXPIRATION_SECONDS,
       ContentType: fileType,
-      ACL: "public-read", // Make the image publicly readable
     };
 
     try {
@@ -43,7 +42,7 @@ export class S3Service implements IS3Service {
       throw new BaseError(
         ERROR_MSG.S3_UPLOAD_URL_GENERATION_FAILED,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        true
+        false
       );
     }
   }
@@ -53,7 +52,7 @@ export class S3Service implements IS3Service {
       throw new BaseError(
         ERROR_MSG.S3_BUCKET_NAME_UNDEFINED,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        true
+        false
       );
     }
 
@@ -69,7 +68,7 @@ export class S3Service implements IS3Service {
       throw new BaseError(
         ERROR_MSG.S3_DELETE_FAILED,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        true
+        false
       );
     }
   }

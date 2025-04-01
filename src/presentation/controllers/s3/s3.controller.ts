@@ -30,6 +30,7 @@ export class S3Controller implements IS3Controller {
       const params: UploadParams = { folder, userId, fileType };
       const { uploadURL, key } = await this.s3Service.generateUploadURL(params);
 
+      console.log("+++++++++++",uploadURL, key);
       res.status(200).json({ uploadURL, key });
     } catch (error) {
       next(error);

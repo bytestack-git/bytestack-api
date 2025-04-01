@@ -12,7 +12,7 @@ import { RefreshTokenController } from "../../presentation/controllers/user/auth
 import { ILogoutController } from "../../domain/interfaces/controllerInterface/user/auth/logout.controller.interface";
 import { LogoutController } from "../../presentation/controllers/user/auth/logout.controller";
 import { GetUserController } from "../../presentation/controllers/user/profile/get-user.controller";
-import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
+import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/profile/get-user.controller.interface";
 import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/user/auth/forgot-password.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/user/auth/forgot-password.controller";
 import { IAdminSigninController } from "../../domain/interfaces/controllerInterface/admin/signin.controller.interface";

@@ -20,6 +20,7 @@ import { UpdateUserController } from "../../presentation/controllers/admin/updat
 import { GoogleOAuthController } from "../../presentation/controllers/user/auth/google-oauth.controller";
 import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/user/auth/github-oauth.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
+import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 
 // ----------------------------- auth -----------------------------
 export const signupController =
@@ -58,6 +59,8 @@ export const getUserController =
 
 export const updateProfileController =
   container.resolve<UpdateProfileController>("IUpdateProfileController");
+
+export const s3Controller = container.resolve<S3Controller>("IS3Controller");
 
 // ----------------------------- admin -----------------------------
 export const adminSigninController = container.resolve<AdminSigninController>(

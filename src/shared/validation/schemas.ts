@@ -93,12 +93,14 @@ export const oauthCodeSchema = z.object({
 export const updateProfileSchema = z.object({
   name: z
     .string()
-    .regex(/^[a-zA-Z\s]*$/, {
+    .trim()
+    .regex(/^[a-zA-Z\s]{2,}$/, {
       message: "Name can only contain letters and spaces",
     })
     .optional(),
   headline: z
     .string()
+    .trim()
     .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
       message:
         "Headline can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
@@ -106,6 +108,7 @@ export const updateProfileSchema = z.object({
     .optional(),
   bio: z
     .string()
+    .trim()
     .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
       message:
         "Bio can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
@@ -119,7 +122,7 @@ export const updateProfileSchema = z.object({
     .array(z.string())
     .max(20, { message: "You can add up to 20 tech interests" })
     .optional(),
-  avatar: z.any().optional(),
+  avatar: z.string().optional(),
 });
 
 // Type inference

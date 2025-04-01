@@ -11,8 +11,8 @@ import { LoginUseCase } from "../../application/useCases/user/auth/login.usecase
 import { ILoginUseCase } from "../../domain/interfaces/usecaseInterface/user/auth/login.usecase.interface";
 import { LogoutUseCase } from "../../application/useCases/user/auth/logout.usecase";
 import { ILogoutUseCase } from "../../domain/interfaces/usecaseInterface/user/auth/logout.usecase.interface";
-import { GetUserUseCase } from "../../application/useCases/user/get-user.usecase";
-import { IGetUserUseCase } from "../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
+import { GetUserUseCase } from "../../application/useCases/user/profile/get-user.usecase";
+import { IGetUserUseCase } from "../../domain/interfaces/usecaseInterface/user/profile/get-user.usecase.interface";
 import { IForgotPasswordUseCase } from "../../domain/interfaces/usecaseInterface/user/auth/forgot-password.usecase.interface";
 import { ForgotPasswordUseCase } from "../../application/useCases/user/auth/forgot-password.usecase";
 import { IAdminSigninUseCase } from "../../domain/interfaces/usecaseInterface/admin/signin.usecase.interface";

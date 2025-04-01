@@ -1,11 +1,11 @@
 import { injectable, inject } from "tsyringe";
-import { IGetUserUseCase } from "../../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
-import { IUserEntity } from "../../../domain/entities/models/user.entity";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
-import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { BaseError } from "../../../domain/errors/base.error";
+import { IGetUserUseCase } from "../../../../domain/interfaces/usecaseInterface/user/profile/get-user.usecase.interface";
+import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IUserEntity } from "../../../../domain/entities/models/user.entity";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
+import { BaseError } from "../../../../domain/errors/base.error";
 
 @injectable()
 export class GetUserUseCase implements IGetUserUseCase {

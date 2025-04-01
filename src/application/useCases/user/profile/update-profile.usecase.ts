@@ -11,11 +11,13 @@ import {
   UpdateProfileDTO,
 } from "../../../../shared/validation/schemas";
 import { ZodError } from "zod";
+import { IS3Service } from "../../../../domain/interfaces/serviceInterface/s3/s3.service.interface";
 
 @injectable()
 export class UpdateProfileUseCase implements IUpdateProfileUseCase {
   constructor(
-    @inject("IUserRepository") private userRepository: IUserRepository
+    @inject("IUserRepository") private userRepository: IUserRepository,
+    @inject("IS3Service") private s3Service: IS3Service
   ) {}
   async execute(
     userId: string,
@@ -31,7 +33,6 @@ export class UpdateProfileUseCase implements IUpdateProfileUseCase {
     try {
       validatedData = updateProfileSchema.parse(data);
     } catch (error) {
-      console.log(error);
       if (error instanceof ZodError) {
         throw new BaseError(
           ERROR_MSG.INVALID_DATA,
@@ -39,11 +40,26 @@ export class UpdateProfileUseCase implements IUpdateProfileUseCase {
           true
         );
       }
+
       throw new BaseError(
         "Failed to validate input data",
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
         false
       );
+    }
+
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new BaseError(
+        ERROR_MSG.USER_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND,
+        true
+      );
+    }
+
+    if (data.avatar && user.avatar) {
+      const oldKey = user.avatar.split("/").slice(-3).join("/");
+      await this.s3Service.deleteObject(oldKey);
     }
 
     const updatedData = await this.userRepository.update(userId, validatedData);
