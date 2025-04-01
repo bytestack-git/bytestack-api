@@ -36,9 +36,11 @@ export const sendEmailSchema = z.object({
 
 // User signup schema
 export const userSignupSchema = z.object({
-  name: z.string()
-  .min(1, { message: "Name is required" })
-  .max(10, {message: "Enter a valid name"}).trim(),
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(10, { message: "Enter a valid name" })
+    .trim(),
   email: emailSchema,
   password: z
     .string()
@@ -89,11 +91,35 @@ export const oauthCodeSchema = z.object({
 });
 
 export const updateProfileSchema = z.object({
-  userId: z
+  name: z
     .string()
-    .min(1, "User ID is required")
-    .regex(/^[0-9a-fA-F]{24}$/, "Invalid user ID format"),
-  
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: "Name can only contain letters and spaces",
+    })
+    .optional(),
+  headline: z
+    .string()
+    .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
+      message:
+        "Headline can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
+    })
+    .optional(),
+  bio: z
+    .string()
+    .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
+      message:
+        "Bio can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
+    })
+    .optional(),
+  links: z
+    .array(z.string().trim().url({ message: "Each link must be a valid URL" }))
+    .max(3, { message: "You can add up to 3 links" })
+    .optional(),
+  techInterests: z
+    .array(z.string())
+    .max(20, { message: "You can add up to 20 tech interests" })
+    .optional(),
+  avatar: z.any().optional(),
 });
 
 // Type inference
@@ -101,5 +127,6 @@ export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
-export type updateUserDTO = z.infer<typeof updateUserSchema>;
+export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
 export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+export type UpdateProfileDTO = z.infer<typeof updateProfileSchema>;

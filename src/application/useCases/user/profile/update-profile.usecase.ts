@@ -4,6 +4,13 @@ import { IUpdateProfileUseCase } from "../../../../domain/interfaces/usecaseInte
 import { IUserRepository } from "../../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
+import {
+  updateProfileSchema,
+  UpdateProfileDTO,
+} from "../../../../shared/validation/schemas";
+import { ZodError } from "zod";
 
 @injectable()
 export class UpdateProfileUseCase implements IUpdateProfileUseCase {
@@ -19,8 +26,27 @@ export class UpdateProfileUseCase implements IUpdateProfileUseCase {
     success: boolean;
     data: IUserEntity | null;
   }> {
-    const updatedData = await this.userRepository.update(userId, data);
-    console.log("updated profile",updatedData);
+    let validatedData: UpdateProfileDTO;
+
+    try {
+      validatedData = updateProfileSchema.parse(data);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ZodError) {
+        throw new BaseError(
+          ERROR_MSG.INVALID_DATA,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+      throw new BaseError(
+        "Failed to validate input data",
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
+
+    const updatedData = await this.userRepository.update(userId, validatedData);
 
     return {
       status: HTTP_STATUS.OK,
