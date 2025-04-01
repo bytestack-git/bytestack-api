@@ -1,4 +1,9 @@
-import AWS from "aws-sdk";
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 import { BaseError } from "../../../domain/errors/base.error";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
@@ -9,14 +14,23 @@ import {
   UploadParams,
 } from "../../../domain/interfaces/serviceInterface/s3/s3.service.interface";
 
-// Configure AWS SDK
-AWS.config.update({
-  accessKeyId: config.aws.AWS_ACCESS_KEY_ID,
-  secretAccessKey: config.aws.AWS_SECRET_ACCESS_KEY,
+// Initialize S3 Client
+if (!config.aws.AWS_ACCESS_KEY_ID || !config.aws.AWS_SECRET_ACCESS_KEY) {
+  throw new BaseError(
+    "AWS credentials are not defined",
+    HTTP_STATUS.INTERNAL_SERVER_ERROR,
+    false
+  );
+}
+
+const s3Client = new S3Client({
   region: config.aws.AWS_REGION,
+  credentials: {
+    accessKeyId: config.aws.AWS_ACCESS_KEY_ID,
+    secretAccessKey: config.aws.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
-const s3 = new AWS.S3();
 const URL_EXPIRATION_SECONDS = 300; // 5 minutes
 
 export class S3Service implements IS3Service {
@@ -25,20 +39,20 @@ export class S3Service implements IS3Service {
   ): Promise<{ uploadURL: string; key: string }> {
     const { folder, userId, fileType } = params;
     const extension = fileType.split("/")[1];
-    const key = `${folder}/${userId}/${uuidv4()}.${extension}`; // e.g., "profile-images/user123/abc123.jpg"
+    const key = `${folder}/${userId}/${uuidv4()}.${extension}`;
 
-    const s3Params = {
+    const command = new PutObjectCommand({
       Bucket: config.aws.S3_BUCKET_NAME,
       Key: key,
-      Expires: URL_EXPIRATION_SECONDS,
       ContentType: fileType,
-    };
+    });
 
     try {
-      const uploadURL = await s3.getSignedUrlPromise("putObject", s3Params);
+      const uploadURL = await getSignedUrl(s3Client, command, {
+        expiresIn: URL_EXPIRATION_SECONDS,
+      });
       return { uploadURL, key };
-    } catch (error) {
-      console.error("Error generating presigned URL:", error);
+    } catch {
       throw new BaseError(
         ERROR_MSG.S3_UPLOAD_URL_GENERATION_FAILED,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -56,15 +70,14 @@ export class S3Service implements IS3Service {
       );
     }
 
-    const params = {
+    const command = new DeleteObjectCommand({
       Bucket: config.aws.S3_BUCKET_NAME,
       Key: key,
-    };
+    });
 
     try {
-      await s3.deleteObject(params).promise();
-    } catch (error) {
-      console.error("Error deleting object from S3:", error);
+      await s3Client.send(command);
+    } catch {
       throw new BaseError(
         ERROR_MSG.S3_DELETE_FAILED,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
