@@ -29,5 +29,14 @@ export class UserRoutes extends BaseRoute {
         updateProfileController.handle(req, res, next);
       }
     );
+
+    this.router.post(
+      "/upload-url",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => {
+        updateProfileController.handle(req, res, next);
+      }
+    );
   }
 }

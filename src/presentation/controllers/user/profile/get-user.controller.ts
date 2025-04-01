@@ -1,9 +1,9 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IGetUserController } from "../../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
-import { IGetUserUseCase } from "../../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
-import { BaseError } from "../../../domain/errors/base.error";
-import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IGetUserController } from "../../../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { IGetUserUseCase } from "../../../../domain/interfaces/usecaseInterface/user/get-user.usecase.interface";
 
 @injectable()
 export class GetUserController implements IGetUserController {

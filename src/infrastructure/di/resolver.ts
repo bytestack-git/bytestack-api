@@ -10,7 +10,7 @@ import { LoginController } from "../../presentation/controllers/user/auth/login.
 import { RefreshTokenController } from "../../presentation/controllers/user/auth/refresh-token.controller";
 import { LogoutController } from "../../presentation/controllers/user/auth/logout.controller";
 import { AuthMiddleware } from "../../presentation/middleware/auth.middleware";
-import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
+import { GetUserController } from "../../presentation/controllers/user/profile/get-user.controller";
 import { ForgotPasswordController } from "../../presentation/controllers/user/auth/forgot-password.controller";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminMiddleware } from "../../presentation/middleware/admin.middleware";

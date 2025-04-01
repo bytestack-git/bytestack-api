@@ -21,7 +21,7 @@ export const ERROR_MSG = {
     "Invalid email or password. Please check and try again.",
 
   // Authentication
-  CONFLICT: "Email already exist",
+  CONFLICT: "Email already exists.",
   INVALID_CREDENTIALS: "Invalid username or password.",
   UNAUTHORIZED_ACCESS: "Unauthorized access. Please log in.",
   FORBIDDEN_ACCESS:
@@ -32,13 +32,13 @@ export const ERROR_MSG = {
   INVALID_MFA_CODE: "Invalid MFA code.",
   INVALID_EMAIL_TYPE: "Invalid email type.",
   EMAIL_SEND_FAILED: "Failed to send email.",
-  EMAIL_ALREADY_EXIST: "Email already exist",
-  EMAIL_NOT_FOUND: "Email not found",
+  EMAIL_ALREADY_EXIST: "Email already exists.",
+  EMAIL_NOT_FOUND: "Email not found.",
   ALREADY_LOGGED_OUT: "You are already logged out.",
-  INVALID_CODE: "Invalid OAuth code",
-  TOKEN_EXCHANGE_FAILED: "Failed to exchange OAuth code for token",
+  INVALID_CODE: "Invalid OAuth code.",
+  TOKEN_EXCHANGE_FAILED: "Failed to exchange OAuth code for token.",
 
-  //user
+  // User
   USER_NOT_FOUND: "User not found.",
 
   // Blog
@@ -60,4 +60,9 @@ export const ERROR_MSG = {
   DATABASE_ERROR: "Database error occurred.",
   REDIS_ERROR: "Failed to connect to Redis cache.",
   S3_ERROR: "Failed to interact with S3 storage.",
+
+  // AWS
+  S3_DELETE_FAILED: "Failed to delete file from S3.",
+  S3_BUCKET_NAME_UNDEFINED: "S3 bucket name is not defined.",
+  S3_UPLOAD_URL_GENERATION_FAILED: "Failed to generate S3 upload URL.",
 };

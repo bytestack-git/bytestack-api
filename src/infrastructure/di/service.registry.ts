@@ -17,6 +17,8 @@ import { IGoogleOAuthService } from "../../domain/interfaces/serviceInterface/au
 import { GoogleOAuthService } from "../../application/services/auth/google-oauth.service";
 import { IGitHubOAuthService } from "../../domain/interfaces/serviceInterface/auth/github-oauth.service.interface";
 import { GitHubOAuthService } from "../../application/services/auth/github-oauth.service";
+import { IS3Service } from "../../domain/interfaces/serviceInterface/s3/s3.service.interface";
+import { S3Service } from "../../application/services/s3/s3.service";
 
 container.register<IHashService>("IHashService", { useClass: HashService });
 
@@ -46,4 +48,8 @@ container.register<IGoogleOAuthService>("IGoogleOAuthService", {
 
 container.register<IGitHubOAuthService>("IGitHubOAuthService", {
   useClass: GitHubOAuthService,
+});
+
+container.register<IS3Service>("IS3Service", {
+  useClass: S3Service,
 });

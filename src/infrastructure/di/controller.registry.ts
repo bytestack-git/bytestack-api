@@ -11,7 +11,7 @@ import { IRefreshTokenController } from "../../domain/interfaces/controllerInter
 import { RefreshTokenController } from "../../presentation/controllers/user/auth/refresh-token.controller";
 import { ILogoutController } from "../../domain/interfaces/controllerInterface/user/auth/logout.controller.interface";
 import { LogoutController } from "../../presentation/controllers/user/auth/logout.controller";
-import { GetUserController } from "../../presentation/controllers/user/get-user.controller";
+import { GetUserController } from "../../presentation/controllers/user/profile/get-user.controller";
 import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/get-user.controller.interface";
 import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/user/auth/forgot-password.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/user/auth/forgot-password.controller";
@@ -28,7 +28,10 @@ import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterf
 import { GitHubOAuthController } from "../../presentation/controllers/user/auth/github-oauth.controller";
 import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/user/profile/update-profile.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
+import { IS3Controller } from "../../domain/interfaces/controllerInterface/s3/s3.controller.interface";
+import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 
+// user
 container.register<ISignupController>("ISignupController", {
   useClass: SignupController,
 });
@@ -59,6 +62,10 @@ container.register<ILogoutController>("ILogoutController", {
 
 container.register<IGetUserController>("IGetUserController", {
   useClass: GetUserController,
+});
+
+container.register<IS3Controller>("IS3Controller", {
+  useClass: S3Controller,
 });
 
 //admin
