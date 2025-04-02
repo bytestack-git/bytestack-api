@@ -30,6 +30,8 @@ import { IUpdateProfileController } from "../../domain/interfaces/controllerInte
 import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
 import { IS3Controller } from "../../domain/interfaces/controllerInterface/s3/s3.controller.interface";
 import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
+import { IGetProfileController } from "../../domain/interfaces/controllerInterface/user/profile/get-profile.controller.interface";
+import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
 
 // user
 container.register<ISignupController>("ISignupController", {
@@ -66,6 +68,10 @@ container.register<IGetUserController>("IGetUserController", {
 
 container.register<IS3Controller>("IS3Controller", {
   useClass: S3Controller,
+});
+
+container.register<IGetProfileController>("IGetProfileController", {
+  useClass: GetProfileController,
 });
 
 //admin

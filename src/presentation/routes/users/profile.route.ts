@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   authMiddleware,
+  getProfileController,
   getUserController,
   s3Controller,
   updateProfileController,
@@ -25,7 +26,7 @@ export class UserRoutes extends BaseRoute {
     this.router.get(
       "/:user",
       (req: Request, res: Response, next: NextFunction) => {
-        getUserController.handle(req, res, next);
+        getProfileController.handle(req, res, next);
       }
     );
 

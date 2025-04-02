@@ -29,6 +29,8 @@ import { IGitHubOAuthLoginUseCase } from "../../domain/interfaces/usecaseInterfa
 import { GitHubOAuthLoginUseCase } from "../../application/useCases/user/auth/github-oauth.usecase";
 import { IUpdateProfileUseCase } from "../../domain/interfaces/usecaseInterface/user/profile/update-profile.usecase.interface";
 import { UpdateProfileUseCase } from "../../application/useCases/user/profile/update-profile.usecase";
+import { IGetProfileUseCase } from "../../domain/interfaces/usecaseInterface/user/profile/get-profile.usecase.interface";
+import { GetProfileUseCase } from "../../application/useCases/user/profile/get-profile.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -87,4 +89,8 @@ container.register<IGitHubOAuthLoginUseCase>("IGitHubOAuthLoginUseCase", {
 
 container.register<IUpdateProfileUseCase>("IUpdateProfileUsecase", {
   useClass: UpdateProfileUseCase,
+});
+
+container.register<IGetProfileUseCase>("IGetProfileUseCase", {
+  useClass: GetProfileUseCase,
 });
