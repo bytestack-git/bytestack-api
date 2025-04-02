@@ -9,6 +9,7 @@ export interface IUserEntity {
   bio?: string;
   avatar: string;
   links?: string[];
+  slug: string;
   isBlogger: boolean;
   isSubscribed: boolean;
   githubId?: string;

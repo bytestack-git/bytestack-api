@@ -1,7 +1,6 @@
 // src/shared/validation/schemas.ts
 import { z } from "zod";
 
-// Custom email regex
 export const emailSchema = z
   .string()
   .nonempty("Email is required")
@@ -9,22 +8,18 @@ export const emailSchema = z
     message: "Please enter a valid email address",
   });
 
-// OTP schema
 export const otpSchema = z
   .string()
   .length(6, { message: "OTP must be 6 digits" })
   .regex(/^\d+$/, { message: "OTP must contain only numbers" });
 
-// Internal OTP type enum
 const internalOtpType = [
   "otp",
   "resend-otp",
   "forgot-password",
   "password-updated",
 ] as const;
-export type InternalOtpType = (typeof internalOtpType)[number];
 
-// Send email schema
 export const sendEmailSchema = z.object({
   email: emailSchema,
   type: z
@@ -34,7 +29,6 @@ export const sendEmailSchema = z.object({
     }),
 });
 
-// User signup schema
 export const userSignupSchema = z.object({
   name: z
     .string()
@@ -55,7 +49,6 @@ export const userSignupSchema = z.object({
   otp: otpSchema,
 });
 
-// Reset password schema
 export const resetPasswordSchema = z.object({
   token: z.string().min(1, "Reset token is required"),
   newPassword: z
@@ -125,7 +118,12 @@ export const updateProfileSchema = z.object({
   avatar: z.string().optional(),
 });
 
+export const userSlug = z
+  .string()
+  .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
+
 // Type inference
+export type InternalOtpType = (typeof internalOtpType)[number];
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;

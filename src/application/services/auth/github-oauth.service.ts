@@ -9,6 +9,7 @@ import {
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
+import { generateProfileSlug } from "../../../shared/utils/slug.utils";
 
 interface GitHubTokenResponse {
   access_token: string;
@@ -137,9 +138,12 @@ export class GitHubOAuthService implements IGitHubOAuthService {
           );
         }
       } else {
+        const slug = await generateProfileSlug(email, this.userRepository);
+
         const newUser: IUserEntity = {
           name,
           email,
+          slug,
           avatar: picture,
           isBlogger: false,
           isSubscribed: false,

@@ -9,4 +9,5 @@ export interface IUserRepository {
   findAll(data: Pagination): Promise<{ users: IUserEntity[]; total: number }>;
   update(id: string, updates: Partial<IUserEntity>): Promise<IUserEntity | null>;
   findByProviderId(provider: "google" | "github", providerId: string): Promise<IUserEntity | null>;
+  findBySlug(slug: string): Promise<IUserEntity | null>
 }

@@ -72,4 +72,8 @@ export class UserRepository implements IUserRepository {
     }
     return null;
   }
+
+  async findBySlug(slug: string): Promise<IUserEntity | null> {
+    return await UserModel.findOne({ slug }).lean();
+  }
 }

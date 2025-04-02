@@ -22,6 +22,13 @@ export class UserRoutes extends BaseRoute {
       }
     );
 
+    this.router.get(
+      "/:user",
+      (req: Request, res: Response, next: NextFunction) => {
+        getUserController.handle(req, res, next);
+      }
+    );
+
     this.router.put(
       "/",
       (req: Request, res: Response, next: NextFunction) =>

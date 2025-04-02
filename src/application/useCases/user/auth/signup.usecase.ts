@@ -14,6 +14,7 @@ import { SUCCESS_MSG } from "../../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 import { BaseError } from "../../../../domain/errors/base.error";
 import { ZodError } from "zod";
+import { generateProfileSlug } from "../../../../shared/utils/slug.utils";
 
 @injectable()
 export class SignupUseCase implements ISignupUseCase {
@@ -69,11 +70,14 @@ export class SignupUseCase implements ISignupUseCase {
 
     // Hash the password
     const hashedPassword = await this.hashService.hash(password);
+    const slug = await generateProfileSlug(email, this.userRepository);
+    console.log(slug);
 
     // Create user entity
     const user: IUserEntity = {
       name,
       email,
+      slug,
       password: hashedPassword,
       avatar: "default_avatar.png",
       isBlogger: false,

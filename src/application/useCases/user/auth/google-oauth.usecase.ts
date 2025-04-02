@@ -57,11 +57,8 @@ export class GoogleOAuthLoginUseCase implements IGoogleOAuthLoginUseCase {
     );
     const refreshToken = this.tokenService.generateRefreshToken(userId, "user");
 
-    const userData = {
-      email: user.email,
-      avatar: user.avatar,
-      name: user.name,
-    };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: passwd, googleId, isBanned, githubId, ...userData } = user;
 
     return {
       status: HTTP_STATUS.OK,
