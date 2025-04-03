@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
+        { slug: { $regex: search, $options: "i" } },
       ];
     }
 
@@ -75,5 +75,40 @@ export class UserRepository implements IUserRepository {
 
   async findBySlug(slug: string): Promise<IUserEntity | null> {
     return await UserModel.findOne({ slug }).lean();
+  }
+
+  async findBloggers(
+    data: Pagination
+  ): Promise<{ bloggers: IUserEntity[]; total: number }> {
+    const { page, limit, search } = data;
+    const skip = (page - 1) * limit;
+
+    const searchPipeline =
+      search !== ""
+        ? [
+            {
+              $search: {
+                index: "bloggers",
+                text: {
+                  query: search,
+                  path: ["name", "slug", "headline", "bio"],
+                  fuzzy: { maxEdits: 2 },
+                },
+              },
+            },
+          ]
+        : [{ $match: { isBlogger: true } }];
+
+    const [bloggers, total] = await Promise.all([
+      UserModel.aggregate([
+        ...searchPipeline,
+        { $sort: { _id: -1 } },
+        { $skip: skip },
+        { $limit: limit },
+      ]).exec(),
+      UserModel.aggregate([...searchPipeline, { $count: "total" }]).exec(),
+    ]);
+
+    return { bloggers, total: total[0]?.total || 0 };
   }
 }

@@ -23,7 +23,6 @@ import { UpdateProfileController } from "../../presentation/controllers/user/pro
 import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
 
-// ----------------------------- auth -----------------------------
 export const signupController =
   container.resolve<SignupController>("ISignupController");
 
@@ -54,7 +53,6 @@ export const forgotPasswordController =
 export const logoutController =
   container.resolve<LogoutController>("ILogoutController");
 
-// ----------------------------- user -----------------------------
 export const getUserController =
   container.resolve<GetUserController>("IGetUserController");
 
@@ -67,7 +65,6 @@ export const getProfileController = container.resolve<GetProfileController>(
   "IGetProfileController"
 );
 
-// ----------------------------- admin -----------------------------
 export const adminSigninController = container.resolve<AdminSigninController>(
   "IAdminSigninController"
 );
@@ -84,7 +81,6 @@ export const getAllUsersController = container.resolve<GetAllUsersController>(
   "IGetAllUsersController"
 );
 
-// ----------------------------- middleware -----------------------------
 export const authMiddleware =
   container.resolve<AuthMiddleware>("IAuthMiddleware");
 
