@@ -4,6 +4,7 @@ import { IGetUserController } from "../../../../domain/interfaces/controllerInte
 import { BaseError } from "../../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 import { IGetUserUseCase } from "../../../../domain/interfaces/usecaseInterface/user/profile/get-user.usecase.interface";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
 export class GetUserController implements IGetUserController {
@@ -16,7 +17,7 @@ export class GetUserController implements IGetUserController {
       const userId = req.user;
       if (!userId) {
         throw new BaseError(
-          "User not found in request",
+          ERROR_MSG.USER_NOT_FOUND,
           HTTP_STATUS.UNAUTHORIZED,
           true
         );

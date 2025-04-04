@@ -4,6 +4,7 @@ import { inject, injectable } from "tsyringe";
 import { IUpdateProfileUseCase } from "../../../../domain/interfaces/usecaseInterface/user/profile/update-profile.usecase.interface";
 import { BaseError } from "../../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
 export class UpdateProfileController implements IUpdateProfileController {
@@ -17,18 +18,17 @@ export class UpdateProfileController implements IUpdateProfileController {
 
     if (!user) {
       throw new BaseError(
-        "User not found in request",
+        ERROR_MSG.USER_NOT_FOUND,
         HTTP_STATUS.UNAUTHORIZED,
         true
       );
     }
 
-    console.log("body from the controller", body);
     try {
       const { data, success, status, message } =
         await this.updateProfileUsecase.execute(user.id, body);
 
-      res.status(status).json({ message, success, data });
+      res.status(status).json({ message, success, user: data });
     } catch (error) {
       next(error);
     }
