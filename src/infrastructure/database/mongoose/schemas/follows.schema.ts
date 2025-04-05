@@ -6,14 +6,15 @@ export const FollowSchema = new Schema<IFollowsEntity>(
     user: {
       type: Schema.Types.ObjectId,
       required: true,
+      unique: true,
     },
-    follower: [
+    followers: [
       {
         type: Schema.Types.ObjectId,
         ref: "users",
       },
     ],
-    following: [
+    followings: [
       {
         type: Schema.Types.ObjectId,
         ref: "users",
