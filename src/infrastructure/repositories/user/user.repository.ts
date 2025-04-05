@@ -26,26 +26,57 @@ export class UserRepository implements IUserRepository {
     const { page, limit, search, status } = data;
     const skip = (page - 1) * limit;
 
-    const query: Record<string, unknown> = {};
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { slug: { $regex: search, $options: "i" } },
-      ];
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const matchStage: Record<string, any> = {};
 
     if (status === "banned") {
-      query.isBanned = true;
+      matchStage.isBanned = true;
     } else if (status === "active") {
-      query.isBanned = false;
-    } else if (!status || status === "all") {
-      delete query.isBanned;
+      matchStage.isBanned = false;
     }
 
-    const [users, total] = await Promise.all([
-      UserModel.find(query).sort({ _id: -1 }).skip(skip).limit(limit).lean(),
-      UserModel.countDocuments(query),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const pipeline: any[] = [];
+
+    if (search) {
+      pipeline.push({
+        $search: {
+          index: "bloggers",
+          text: {
+            query: search,
+            path: ["name", "slug", "headline", "bio"],
+            fuzzy: { maxEdits: 2 },
+          },
+        },
+      });
+    }
+
+    if (Object.keys(matchStage).length > 0) {
+      pipeline.push({ $match: matchStage });
+    }
+
+    const countPipeline = [...pipeline];
+    countPipeline.push({ $count: "total" });
+
+    pipeline.push({
+      $project: {
+        name: 1,
+        email: 1,
+        isBlogger: 1,
+        slug: 1,
+        isSubscribed: 1,
+        isBanned: 1,
+      },
+    });
+
+    pipeline.push({ $sort: { _id: -1 } }, { $skip: skip }, { $limit: limit });
+
+    const [users, countResult] = await Promise.all([
+      UserModel.aggregate(pipeline),
+      UserModel.aggregate(countPipeline),
     ]);
+
+    const total = countResult.length > 0 ? countResult[0].total : 0;
 
     return { users, total };
   }

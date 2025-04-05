@@ -24,7 +24,7 @@ export class GetProfileUseCase implements IGetProfileUseCase {
       throw new BaseError(
         ERROR_MSG.USER_NOT_FOUND,
         HTTP_STATUS.NOT_FOUND,
-        false
+        true
       );
     }
 
