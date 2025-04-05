@@ -31,6 +31,8 @@ import { IUpdateProfileUseCase } from "../../domain/interfaces/usecaseInterface/
 import { UpdateProfileUseCase } from "../../application/useCases/user/profile/update-profile.usecase";
 import { IGetProfileUseCase } from "../../domain/interfaces/usecaseInterface/user/profile/get-profile.usecase.interface";
 import { GetProfileUseCase } from "../../application/useCases/user/profile/get-profile.usecase";
+import { IGetBloggersUseCase } from "../../domain/interfaces/usecaseInterface/user/profile/get-bloggers.usecase.interface";
+import { GetBloggersUseCase } from "../../application/useCases/user/profile/get-bloggers.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -93,4 +95,8 @@ container.register<IUpdateProfileUseCase>("IUpdateProfileUsecase", {
 
 container.register<IGetProfileUseCase>("IGetProfileUseCase", {
   useClass: GetProfileUseCase,
+});
+
+container.register<IGetBloggersUseCase>("IGetBloggersUseCase", {
+  useClass: GetBloggersUseCase,
 });

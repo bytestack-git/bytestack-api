@@ -114,7 +114,23 @@ export class UserRepository implements IUserRepository {
     const { page, limit, search } = data;
     const skip = (page - 1) * limit;
 
-    const searchPipeline =
+    const blogger = {
+      $project: {
+        name: 1,
+        email: 1,
+        headline: 1,
+        bio: 1,
+        avatar: 1,
+        links: 1,
+        slug: 1,
+        isBlogger: 1,
+        isSubscribed: 1,
+        followedTopics: 1,
+        techInterests: 1,
+      },
+    };
+
+    const pipeline =
       search !== ""
         ? [
             {
@@ -127,17 +143,18 @@ export class UserRepository implements IUserRepository {
                 },
               },
             },
+            blogger,
           ]
-        : [{ $match: { isBlogger: true } }];
+        : [{ $match: { isBlogger: true } }, blogger];
 
     const [bloggers, total] = await Promise.all([
       UserModel.aggregate([
-        ...searchPipeline,
+        ...pipeline,
         { $sort: { _id: -1 } },
         { $skip: skip },
         { $limit: limit },
       ]).exec(),
-      UserModel.aggregate([...searchPipeline, { $count: "total" }]).exec(),
+      UserModel.aggregate([...pipeline, { $count: "total" }]).exec(),
     ]);
 
     return { bloggers, total: total[0]?.total || 0 };

@@ -1,11 +1,9 @@
-// src/infrastructure/di/resolver.ts
 import { container } from "tsyringe";
+import "./container";
+import "./service.registry";
 import { SignupController } from "../../presentation/controllers/user/auth/signup.controller";
 import { SendOtpController } from "../../presentation/controllers/user/auth/send-otp.controller";
 import { ResetPasswordController } from "../../presentation/controllers/user/auth/reset-password.controller";
-
-import "./container";
-import "./service.registry";
 import { LoginController } from "../../presentation/controllers/user/auth/login.controller";
 import { RefreshTokenController } from "../../presentation/controllers/user/auth/refresh-token.controller";
 import { LogoutController } from "../../presentation/controllers/user/auth/logout.controller";
@@ -22,6 +20,7 @@ import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterf
 import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
 import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
+import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -86,3 +85,7 @@ export const authMiddleware =
 
 export const adminMiddleware =
   container.resolve<AdminMiddleware>("IAdminMiddleware");
+
+export const getBloggersController = container.resolve<GetBloggersController>(
+  "IGetBloggersController"
+);

@@ -1,5 +1,5 @@
 export interface ILogoutUseCase {
   execute(
-    accessToken: string
+    refreshToken: string
   ): Promise<{ status: number; message: string; success: boolean }>;
 }

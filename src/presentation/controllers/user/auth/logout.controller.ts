@@ -14,8 +14,8 @@ export class LogoutController implements ILogoutController {
 
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const accessToken = req.cookies.accessToken;
-      if (!accessToken) {
+      const refreshToken = req.cookies.refreshToken;
+      if (!refreshToken) {
         throw new BaseError(
           ERROR_MSG.ALREADY_LOGGED_OUT,
           HTTP_STATUS.UNAUTHORIZED,
@@ -24,7 +24,7 @@ export class LogoutController implements ILogoutController {
       }
 
       const { status, message, success } =
-        await this.logoutUseCase.execute(accessToken);
+        await this.logoutUseCase.execute(refreshToken);
 
       // Clear the cookies
       res.clearCookie("accessToken", {

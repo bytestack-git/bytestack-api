@@ -32,6 +32,8 @@ import { IS3Controller } from "../../domain/interfaces/controllerInterface/s3/s3
 import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 import { IGetProfileController } from "../../domain/interfaces/controllerInterface/user/profile/get-profile.controller.interface";
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
+import { IGetBloggersController } from "../../domain/interfaces/controllerInterface/user/profile/get-bloggers.controller.interface";
+import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
 
 // user
 container.register<ISignupController>("ISignupController", {
@@ -72,6 +74,10 @@ container.register<IS3Controller>("IS3Controller", {
 
 container.register<IGetProfileController>("IGetProfileController", {
   useClass: GetProfileController,
+});
+
+container.register<IGetBloggersController>("IGetBloggersController", {
+  useClass: GetBloggersController,
 });
 
 //admin

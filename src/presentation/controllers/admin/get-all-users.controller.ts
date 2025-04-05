@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
 import { IGetAllUsersController } from "../../../domain/interfaces/controllerInterface/admin/get-all-users.controller.interface";
 import { IGetAllUsersUsecase } from "../../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
@@ -22,8 +22,8 @@ export class GetAllUsersController implements IGetAllUsersController {
       if (isNaN(pageNum) || pageNum < 1) {
         throw new ValidationError("Page must be a positive integer");
       }
-      if (isNaN(limitNum) || limitNum < 1) {
-        throw new ValidationError("Limit must be a positive integer");
+      if (isNaN(limitNum) || limitNum < 1 || limitNum > 50) {
+        throw new ValidationError("Limit must be a positive integer between 1 and 50");
       }
 
       const paginationData = {

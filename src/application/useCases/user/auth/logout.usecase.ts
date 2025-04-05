@@ -10,10 +10,10 @@ export class LogoutUseCase implements ILogoutUseCase {
   constructor(@inject("ITokenService") private tokenService: ITokenService) {}
 
   async execute(
-    accessToken: string
+    refreshToken: string
   ): Promise<{ status: number; message: string; success: boolean }> {
     // Validate input
-    if (!accessToken) {
+    if (!refreshToken) {
       throw new BaseError(
         "Access token is required",
         HTTP_STATUS.UNAUTHORIZED,
@@ -24,7 +24,7 @@ export class LogoutUseCase implements ILogoutUseCase {
     // Verify access token
     let payload;
     try {
-      payload = this.tokenService.verifyToken(accessToken);
+      payload = this.tokenService.verifyToken(refreshToken, "refresh");
       if (!payload) {
         throw new BaseError(
           "Invalid access token",
@@ -34,7 +34,7 @@ export class LogoutUseCase implements ILogoutUseCase {
       }
     } catch (error) {
       if (error instanceof BaseError) {
-        throw error; // Propagate BaseError from verifyToken
+        throw error;
       }
       throw new BaseError(
         "Invalid or expired access token",
@@ -46,11 +46,11 @@ export class LogoutUseCase implements ILogoutUseCase {
     // Blacklist the token if it hasn't expired
     const { iat } = payload;
     const currentTime = Math.floor(Date.now() / 1000);
-    const tokenExpiry = this.tokenService.getAccessTokenExpiry();
+    const tokenExpiry = this.tokenService.getRefreshTokenExpiry();
     const remainingTTL = tokenExpiry - (currentTime - iat);
     if (remainingTTL > 0) {
       try {
-        await this.tokenService.blacklistToken(accessToken, remainingTTL);
+        await this.tokenService.blacklistToken(refreshToken, remainingTTL);
       } catch {
         throw new BaseError(
           "Failed to blacklist access token",
