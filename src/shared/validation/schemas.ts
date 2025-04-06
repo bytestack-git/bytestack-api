@@ -13,6 +13,10 @@ export const otpSchema = z
   .length(6, { message: "OTP must be 6 digits" })
   .regex(/^\d+$/, { message: "OTP must contain only numbers" });
 
+export const userSlug = z
+  .string()
+  .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
+
 const internalOtpType = [
   "otp",
   "resend-otp",
@@ -94,15 +98,15 @@ export const updateProfileSchema = z.object({
   headline: z
     .string()
     .trim()
-    .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
+    .regex(/^[\w\s.,'@*(){}[\]\\/|&-]*$/, {
       message:
-        "Headline can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
+        "Headline can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, &, [], \\ or /",
     })
     .optional(),
   bio: z
     .string()
     .trim()
-    .regex(/^[\w\s.,'@*(){}[\]\\/|-]*$/, {
+    .regex(/^[\w\s.,'@*(){}[\]\\/|&#-]*$/, {
       message:
         "Bio can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
     })
@@ -117,10 +121,6 @@ export const updateProfileSchema = z.object({
     .optional(),
   avatar: z.string().optional(),
 });
-
-export const userSlug = z
-  .string()
-  .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
 
 // Type inference
 export type InternalOtpType = (typeof internalOtpType)[number];

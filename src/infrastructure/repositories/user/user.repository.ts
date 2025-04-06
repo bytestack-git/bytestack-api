@@ -1,3 +1,4 @@
+import { PipelineStage } from "mongoose";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { Pagination } from "../../../shared/dtos/pagination.dto";
@@ -45,7 +46,7 @@ export class UserRepository implements IUserRepository {
           text: {
             query: search,
             path: ["name", "slug", "headline", "bio"],
-            fuzzy: { maxEdits: 2 },
+            fuzzy: { maxEdits: 1 },
           },
         },
       });
@@ -114,7 +115,7 @@ export class UserRepository implements IUserRepository {
     const { page, limit, search } = data;
     const skip = (page - 1) * limit;
 
-    const blogger = {
+    const blogger: PipelineStage = {
       $project: {
         name: 1,
         email: 1,
@@ -130,33 +131,73 @@ export class UserRepository implements IUserRepository {
       },
     };
 
-    const pipeline =
+    const basePipeline: PipelineStage[] =
       search !== ""
         ? [
             {
               $search: {
                 index: "bloggers",
-                text: {
-                  query: search,
-                  path: ["name", "slug", "headline", "bio"],
-                  fuzzy: { maxEdits: 2 },
+                compound: {
+                  should: [
+                    {
+                      text: {
+                        query: search,
+                        path: "name",
+                        fuzzy: { maxEdits: 1 },
+                        score: { boost: { value: 10 } },
+                      },
+                    },
+                    {
+                      text: {
+                        query: search,
+                        path: "slug",
+                        fuzzy: { maxEdits: 1 },
+                        score: { boost: { value: 8 } },
+                      },
+                    },
+                    {
+                      text: {
+                        query: search,
+                        path: "headline",
+                        fuzzy: { maxEdits: 1 },
+                        score: { boost: { value: 5 } },
+                      },
+                    },
+                    {
+                      text: {
+                        query: search,
+                        path: "bio",
+                        fuzzy: { maxEdits: 1 },
+                        score: { boost: { value: 1 } },
+                      },
+                    },
+                  ],
+                  minimumShouldMatch: 1,
                 },
+              },
+            },
+            {
+              $addFields: {
+                score: { $meta: "searchScore" },
+              },
+            },
+            {
+              $sort: {
+                score: -1,
               },
             },
             blogger,
           ]
-        : [{ $match: { isBlogger: true } }, blogger];
+        : [{ $match: { isBlogger: true } }, { $sort: { _id: -1 } }, blogger];
 
     const [bloggers, total] = await Promise.all([
       UserModel.aggregate([
-        ...pipeline,
-        { $sort: { _id: -1 } },
+        ...basePipeline,
         { $skip: skip },
         { $limit: limit },
       ]).exec(),
-      UserModel.aggregate([...pipeline, { $count: "total" }]).exec(),
+      UserModel.aggregate([...basePipeline, { $count: "total" }]).exec(),
     ]);
-
     return { bloggers, total: total[0]?.total || 0 };
   }
 }
