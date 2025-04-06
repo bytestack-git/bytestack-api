@@ -1,11 +1,13 @@
 import { inject, injectable } from "tsyringe";
-import { IFollowUseCase } from "../../../../domain/interfaces/usecaseInterface/user/profile/follows.usecase.interface";
+import { IFollowsUseCase } from "../../../../domain/interfaces/usecaseInterface/user/profile/follows.usecase.interface";
 import { IFollowsRepository } from "../../../../domain/interfaces/repositoryInterface/user/follows.repository.interface";
 import { HTTP_STATUS } from "../../../../shared/constants/status-codes";
 import { ResponseDto } from "../../../../shared/dtos/response.types";
+import { BaseError } from "../../../../domain/errors/base.error";
+import { ERROR_MSG } from "../../../../shared/constants/error-msg";
 
 @injectable()
-export class FollowUseCase implements IFollowUseCase {
+export class FollowsUseCase implements IFollowsUseCase {
   constructor(
     @inject("IFollowsRepository") private followRepository: IFollowsRepository
   ) {}
@@ -25,7 +27,13 @@ export class FollowUseCase implements IFollowUseCase {
       result = await this.followRepository.unfollow(followerId, followingId);
     }
 
-    console.log(result);
+    if (result && !result[0].acknowledged && !result[1].acknowledged) {
+      throw new BaseError(
+        ERROR_MSG.FAILED_TO_UPDATE_FOLLOW,
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        false
+      );
+    }
 
     return {
       success: true,

@@ -21,6 +21,7 @@ import { UpdateProfileController } from "../../presentation/controllers/user/pro
 import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
 import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
+import { FollowsController } from "../../presentation/controllers/user/profile/follows.controller";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -89,3 +90,6 @@ export const adminMiddleware =
 export const getBloggersController = container.resolve<GetBloggersController>(
   "IGetBloggersController"
 );
+
+export const followsController =
+  container.resolve<FollowsController>("IFollowsController");

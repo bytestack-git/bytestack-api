@@ -65,4 +65,7 @@ export const ERROR_MSG = {
   S3_DELETE_FAILED: "Failed to delete file from S3.",
   S3_BUCKET_NAME_UNDEFINED: "S3 bucket name is not defined.",
   S3_UPLOAD_URL_GENERATION_FAILED: "Failed to generate S3 upload URL.",
+
+  // profile
+  FAILED_TO_UPDATE_FOLLOW: "failed to update follows",
 };

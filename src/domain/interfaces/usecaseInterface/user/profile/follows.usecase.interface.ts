@@ -1,6 +1,6 @@
 import { ResponseDto } from "../../../../../shared/dtos/response.types";
 
-export interface IFollowUseCase {
+export interface IFollowsUseCase {
   execute(
     followerId: string,
     followingId: string,

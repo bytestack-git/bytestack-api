@@ -34,6 +34,8 @@ import { IGetProfileController } from "../../domain/interfaces/controllerInterfa
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
 import { IGetBloggersController } from "../../domain/interfaces/controllerInterface/user/profile/get-bloggers.controller.interface";
 import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
+import { IFollowsController } from "../../domain/interfaces/controllerInterface/user/profile/follows.controller.interface";
+import { FollowsController } from "../../presentation/controllers/user/profile/follows.controller";
 
 // user
 container.register<ISignupController>("ISignupController", {
@@ -78,6 +80,10 @@ container.register<IGetProfileController>("IGetProfileController", {
 
 container.register<IGetBloggersController>("IGetBloggersController", {
   useClass: GetBloggersController,
+});
+
+container.register<IFollowsController>("IFollowsController", {
+  useClass: FollowsController,
 });
 
 //admin

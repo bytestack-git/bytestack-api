@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   authMiddleware,
+  followsController,
   getBloggersController,
   getProfileController,
   getUserController,
@@ -55,6 +56,15 @@ export class UserRoutes extends BaseRoute {
         authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
         s3Controller.getUploadURL(req, res, next);
+      }
+    );
+
+    this.router.post(
+      "/:id/:action",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => {
+        followsController.handle(req, res, next);
       }
     );
   }

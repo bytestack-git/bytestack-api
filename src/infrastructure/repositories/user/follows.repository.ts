@@ -29,13 +29,11 @@ export class FollowsRepository implements IFollowsRepository {
     return await Promise.all([
       FollowModel.updateOne(
         { user: followerId },
-        { $pull: { followings: followingId } },
-        { upsert: true }
+        { $pull: { followings: followingId } }
       ),
       FollowModel.updateOne(
-        { userId: followingId },
-        { $pull: { followers: followerId } },
-        { upsert: true }
+        { user: followingId },
+        { $pull: { followers: followerId } }
       ),
     ]);
   }
