@@ -14,19 +14,23 @@ export class FindFollowsController implements IFindFollowsController {
   ) {}
 
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const id = req.user.id;
-    const type = req.params.type;
+    try {
+      const id = req.user.id;
+      const type = req.params.type;
 
-    if (type !== "followers" && type !== "followings") {
-      throw new BaseError(
-        ERROR_MSG.INVALID_REQUEST,
-        HTTP_STATUS.BAD_REQUEST,
-        true
-      );
+      if (type !== "followers" && type !== "followings") {
+        throw new BaseError(
+          ERROR_MSG.INVALID_REQUEST,
+          HTTP_STATUS.BAD_REQUEST,
+          true
+        );
+      }
+
+      const response = await this.findFollowsUsecase.execute(id, type);
+
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
     }
-
-    const response = await this.findFollowsUsecase.execute(id, type);
-
-    res.status(200).json(response);
   }
 }
