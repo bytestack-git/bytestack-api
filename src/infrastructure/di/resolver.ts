@@ -22,6 +22,7 @@ import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
 import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
 import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
 import { FollowsController } from "../../presentation/controllers/user/profile/follows.controller";
+import { FindFollowsController } from "../../presentation/controllers/user/profile/find-follows.controller";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -93,3 +94,7 @@ export const getBloggersController = container.resolve<GetBloggersController>(
 
 export const followsController =
   container.resolve<FollowsController>("IFollowsController");
+
+export const findFollowsController = container.resolve<FindFollowsController>(
+  "IFindFollowsController"
+);

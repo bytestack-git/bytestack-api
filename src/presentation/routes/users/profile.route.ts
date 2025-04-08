@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   authMiddleware,
+  findFollowsController,
   followsController,
   getBloggersController,
   getProfileController,
@@ -67,6 +68,15 @@ export class UserRoutes extends BaseRoute {
         authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
         followsController.handle(req, res, next);
+      }
+    );
+
+    this.router.get(
+      "/relation/:type",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => {
+        findFollowsController.handle(req, res, next);
       }
     );
   }
