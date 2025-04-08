@@ -15,6 +15,7 @@ export class GetBloggersController implements IGetBloggersController {
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { page = "1", limit = "10", search = "" } = req.query;
+      const user = req.user.id
 
       const pageNum = Number(page);
       const limitNum = Number(limit);
@@ -34,7 +35,7 @@ export class GetBloggersController implements IGetBloggersController {
         search: String(search),
       };
 
-      const result = await this.getBloggersUseCase.execute(paginationData);
+      const result = await this.getBloggersUseCase.execute(user, paginationData);
 
       const response: DataResponse<typeof result.bloggers> = {
         success: true,

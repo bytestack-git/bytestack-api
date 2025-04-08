@@ -1,4 +1,4 @@
-import { PipelineStage } from "mongoose";
+import mongoose, { PipelineStage } from "mongoose";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { Pagination } from "../../../shared/dtos/pagination.dto";
@@ -110,6 +110,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async findBloggers(
+    user: string,
     data: Pagination
   ): Promise<{ bloggers: IUserEntity[]; total: number }> {
     const { page, limit, search } = data;
@@ -122,14 +123,54 @@ export class UserRepository implements IUserRepository {
         headline: 1,
         bio: 1,
         avatar: 1,
-        links: 1,
         slug: 1,
         isBlogger: 1,
-        isSubscribed: 1,
-        followedTopics: 1,
-        techInterests: 1,
       },
     };
+
+    const objectId = new mongoose.Types.ObjectId(user);
+
+    const followStatsStage: PipelineStage[] = [
+      {
+        $lookup: {
+          from: "follows",
+          localField: "_id",
+          foreignField: "user",
+          as: "followData",
+        },
+      },
+      {
+        $addFields: {
+          followers: {
+            $size: {
+              $ifNull: [{ $arrayElemAt: ["$followData.followers", 0] }, []],
+            },
+          },
+          isFollowed: {
+            $in: [
+              objectId,
+              {
+                $ifNull: [{ $arrayElemAt: ["$followData.followers", 0] }, []],
+              },
+            ],
+          },
+          isFollower: {
+            $in: [
+              objectId,
+              {
+                $ifNull: [{ $arrayElemAt: ["$followData.followings", 0] }, []],
+              },
+            ],
+          },
+        },
+      },
+
+      {
+        $project: {
+          followData: 0,
+        },
+      },
+    ];
 
     const basePipeline: PipelineStage[] =
       search !== ""
@@ -176,6 +217,7 @@ export class UserRepository implements IUserRepository {
                 },
               },
             },
+            { $match: { _id: { $ne: objectId } } },
             {
               $addFields: {
                 score: { $meta: "searchScore" },
@@ -187,8 +229,14 @@ export class UserRepository implements IUserRepository {
               },
             },
             blogger,
+            ...followStatsStage,
           ]
-        : [{ $match: { isBlogger: true } }, { $sort: { _id: -1 } }, blogger];
+        : [
+            { $match: { _id: { $ne: objectId }, isBlogger: true } },
+            blogger,
+            ...followStatsStage,
+            { $sort: { followers: -1, _id: -1 } },
+          ];
 
     const [bloggers, total] = await Promise.all([
       UserModel.aggregate([

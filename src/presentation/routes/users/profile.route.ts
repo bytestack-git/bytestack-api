@@ -27,6 +27,8 @@ export class UserRoutes extends BaseRoute {
 
     this.router.get(
       "/bloggers",
+      (req: Request, res: Response, next: NextFunction) =>
+        authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
         getBloggersController.handle(req, res, next);
       }

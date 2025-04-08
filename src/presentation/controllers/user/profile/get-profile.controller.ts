@@ -15,6 +15,7 @@ export class GetProfileController implements IGetProfileController {
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const slug = req.params.user;
+      const userId = req.user.id;
       if (!slug) {
         throw new BaseError(
           ERROR_MSG.USER_NOT_FOUND,
@@ -23,10 +24,12 @@ export class GetProfileController implements IGetProfileController {
         );
       }
 
-      const { status, success, user } =
-        await this.getProfileUsecase.execute(slug);
+      const { status, ...data } = await this.getProfileUsecase.execute(
+        slug,
+        userId
+      );
 
-      res.status(status).json({ success, user });
+      res.status(status).json(data);
     } catch (error) {
       next(error);
     }

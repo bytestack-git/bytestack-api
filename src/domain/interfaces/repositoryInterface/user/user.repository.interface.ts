@@ -10,5 +10,5 @@ export interface IUserRepository {
   update(id: string, updates: Partial<IUserEntity>): Promise<IUserEntity | null>;
   findByProviderId(provider: "google" | "github", providerId: string): Promise<IUserEntity | null>;
   findBySlug(slug: string): Promise<IUserEntity | null>
-  findBloggers(data: Pagination): Promise<{ bloggers: IUserEntity[]; total: number }>
+  findBloggers(user: string, data: Pagination): Promise<{ bloggers: IUserEntity[]; total: number }>
 }

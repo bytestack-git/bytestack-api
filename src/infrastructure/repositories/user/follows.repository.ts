@@ -2,7 +2,7 @@ import { UpdateWriteOpResult } from "mongoose";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { IFollowsRepository } from "../../../domain/interfaces/repositoryInterface/user/follows.repository.interface";
 import { FollowModel } from "../../database/mongoose/models/follows.model";
-
+import { Types } from "mongoose";
 export class FollowsRepository implements IFollowsRepository {
   async follow(
     followerId: string,
@@ -56,19 +56,46 @@ export class FollowsRepository implements IFollowsRepository {
   }
 
   async findCount(
-    id: string
-  ): Promise<{ followers: number; following: number }> {
+    targetUserId: string,
+    currentUserId: string
+  ): Promise<{
+    followers: number;
+    following: number;
+    isFollowing: boolean;
+    isFollower: boolean;
+  }> {
     const result = await FollowModel.aggregate([
-      { $match: { user: id } },
+      {
+        $match: { user: new Types.ObjectId(targetUserId) },
+      },
       {
         $project: {
           _id: 0,
           followers: { $size: { $ifNull: ["$followers", []] } },
           following: { $size: { $ifNull: ["$followings", []] } },
+          isFollowing: {
+            $in: [
+              new Types.ObjectId(currentUserId),
+              { $ifNull: ["$followers", []] },
+            ],
+          },
+          isFollower: {
+            $in: [
+              new Types.ObjectId(currentUserId),
+              { $ifNull: ["$followings", []] },
+            ],
+          },
         },
       },
     ]);
 
-    return result[0] || { followers: 0, following: 0 };
+    return (
+      result[0] || {
+        followers: 0,
+        following: 0,
+        isFollowing: false,
+        isFollower: false,
+      }
+    );
   }
 }

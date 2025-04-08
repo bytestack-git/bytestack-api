@@ -12,5 +12,13 @@ export interface IFollowsRepository {
   ): Promise<[UpdateWriteOpResult, UpdateWriteOpResult]>;
   findFollowers(id: string): Promise<Partial<IUserEntity>[] | null>;
   findFollowing(id: string): Promise<Partial<IUserEntity>[] | null>;
-  findCount(id: string): Promise<{ followers: number; following: number }>;
+  findCount(
+    targetUserId: string,
+    currentUserId: string
+  ): Promise<{
+    followers: number;
+    following: number;
+    isFollowing: boolean;
+    isFollower: boolean;
+  }>;
 }

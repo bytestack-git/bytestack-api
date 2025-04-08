@@ -11,10 +11,13 @@ export class GetBloggersUseCase implements IGetBloggersUseCase {
   ) {}
 
   async execute(
+    user: string,
     data: Pagination
   ): Promise<{ bloggers: Partial<IUserEntity>[] | null; total: number }> {
-
-    const { bloggers, total } = await this.userRepository.findBloggers(data);
+    const { bloggers, total } = await this.userRepository.findBloggers(
+      user,
+      data
+    );
 
     return {
       bloggers,
@@ -22,4 +25,3 @@ export class GetBloggersUseCase implements IGetBloggersUseCase {
     };
   }
 }
- 
