@@ -27,7 +27,8 @@ export const SUCCESS_MSG = {
   // Payout
   PAYOUT_APPROVED: "Payout approved successfully.",
   PAYOUT_REJECTED: "Payout rejected successfully.",
-  
+
   //user
-  USER_FETCHED_SUCCESSFULLY: "User fetched successfully."
+  USER_FETCHED_SUCCESSFULLY: "User fetched successfully.",
+  PROFILE_UPDATED: "Profile updated successfully",
 };

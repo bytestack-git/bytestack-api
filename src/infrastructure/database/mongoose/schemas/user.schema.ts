@@ -32,6 +32,11 @@ export const UserSchema = new Schema<IUserModel>(
       type: [String],
       default: [],
     },
+    slug: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     isBlogger: {
       type: Boolean,
       default: false,

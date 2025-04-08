@@ -1,7 +1,6 @@
 // src/shared/validation/schemas.ts
 import { z } from "zod";
 
-// Custom email regex
 export const emailSchema = z
   .string()
   .nonempty("Email is required")
@@ -9,22 +8,22 @@ export const emailSchema = z
     message: "Please enter a valid email address",
   });
 
-// OTP schema
 export const otpSchema = z
   .string()
   .length(6, { message: "OTP must be 6 digits" })
   .regex(/^\d+$/, { message: "OTP must contain only numbers" });
 
-// Internal OTP type enum
+export const userSlug = z
+  .string()
+  .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
+
 const internalOtpType = [
   "otp",
   "resend-otp",
   "forgot-password",
   "password-updated",
 ] as const;
-export type InternalOtpType = (typeof internalOtpType)[number];
 
-// Send email schema
 export const sendEmailSchema = z.object({
   email: emailSchema,
   type: z
@@ -34,9 +33,12 @@ export const sendEmailSchema = z.object({
     }),
 });
 
-// User signup schema
 export const userSignupSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }).trim(),
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(10, { message: "Enter a valid name" })
+    .trim(),
   email: emailSchema,
   password: z
     .string()
@@ -51,7 +53,6 @@ export const userSignupSchema = z.object({
   otp: otpSchema,
 });
 
-// Reset password schema
 export const resetPasswordSchema = z.object({
   token: z.string().min(1, "Reset token is required"),
   newPassword: z
@@ -86,10 +87,47 @@ export const oauthCodeSchema = z.object({
   code: z.string(),
 });
 
+export const updateProfileSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .regex(/^[a-zA-Z\s]{2,}$/, {
+      message: "Name can only contain letters and spaces",
+    })
+    .optional(),
+  headline: z
+    .string()
+    .trim()
+    .regex(/^[\w\s.,'@*(){}[\]\\/|&-]*$/, {
+      message:
+        "Headline can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, &, [], \\ or /",
+    })
+    .optional(),
+  bio: z
+    .string()
+    .trim()
+    .regex(/^[\w\s.,'@*(){}[\]\\/|&#-]*$/, {
+      message:
+        "Bio can include letters, spaces, commas, dots, hyphens, apostrophes, @, *, (), {}, [], \\ or /",
+    })
+    .optional(),
+  links: z
+    .array(z.string().trim().url({ message: "Each link must be a valid URL" }))
+    .max(3, { message: "You can add up to 3 links" })
+    .optional(),
+  techInterests: z
+    .array(z.string())
+    .max(20, { message: "You can add up to 20 tech interests" })
+    .optional(),
+  avatar: z.string().optional(),
+});
+
 // Type inference
+export type InternalOtpType = (typeof internalOtpType)[number];
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
 export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
-export type updateUserDTO = z.infer<typeof updateUserSchema>
+export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
 export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+export type UpdateProfileDTO = z.infer<typeof updateProfileSchema>;

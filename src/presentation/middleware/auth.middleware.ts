@@ -7,7 +7,7 @@ import { ICacheService } from "../../domain/interfaces/serviceInterface/cache/ca
 
 declare module "express-serve-static-core" {
   interface Request {
-    user?: { id: string };
+    user: { id: string };
   }
 }
 

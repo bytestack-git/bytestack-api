@@ -9,6 +9,7 @@ import {
 import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
+import { generateProfileSlug } from "../../../shared/utils/slug.utils";
 
 interface GoogleTokenResponse {
   access_token: string;
@@ -133,10 +134,13 @@ export class GoogleOAuthService implements IGoogleOAuthService {
           );
         }
       } else {
+        const slug = await generateProfileSlug(email, this.userRepository);
+
         const newUser: IUserEntity = {
           name,
           email,
           avatar: picture,
+          slug,
           isBlogger: false,
           isSubscribed: false,
           subType: "trial",

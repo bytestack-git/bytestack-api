@@ -5,7 +5,7 @@ import { NotFoundError } from "../../../domain/errors/not-found.error";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { ICacheService } from "../../../domain/interfaces/serviceInterface/cache/cache.service.interface";
 import {
-  updateUserDTO,
+  UpdateUserDTO,
   updateUserSchema,
 } from "../../../shared/validation/schemas";
 import { BaseError } from "../../../domain/errors/base.error";
@@ -24,7 +24,7 @@ export class UpdateUserUsecase implements IUpdateUserUsecase {
     userId: string,
     data: { isBanned?: boolean }
   ): Promise<IUserEntity | null> {
-    let validationResult: updateUserDTO;
+    let validationResult: UpdateUserDTO;
     try {
       validationResult = updateUserSchema.parse({ userId, data });
     } catch (error) {

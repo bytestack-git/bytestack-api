@@ -8,21 +8,21 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  // if (!(error instanceof BaseError) || !error.isOperational) {
-  //   logger.error(error.message, {
-  //     stack: error.stack,
-  //     path: req.path,
-  //     method: req.method,
-  //     isOperational: error instanceof BaseError ? error.isOperational : false,
-  //   });
-  // }
+  if (!(error instanceof BaseError) || !error.isOperational) {
+    logger.error(error.message, {
+      stack: error.stack,
+      path: req.path,
+      method: req.method,
+      isOperational: error instanceof BaseError ? error.isOperational : false,
+    });
+  }
 
-  logger.error(error.message, {
-    stack: error.stack,
-    path: req.path,
-    method: req.method,
-    isOperational: error instanceof BaseError ? error.isOperational : false,
-  });
+  // logger.error(error.message, {
+  //   stack: error.stack,
+  //   path: req.path,
+  //   method: req.method,
+  //   isOperational: error instanceof BaseError ? error.isOperational : false,
+  // });
 
   if (error instanceof BaseError) {
     return res.status(error.statusCode).json({

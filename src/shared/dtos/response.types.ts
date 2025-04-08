@@ -1,7 +1,8 @@
 export interface DataResponse<T> {
   success: boolean;
-  data: T;
-  message?: string;
+  data: T | null;
+  message: string;
+  status?: number;
   meta?: {
     page?: number;
     limit?: number;
