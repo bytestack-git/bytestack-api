@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { IGetAllUsersUsecase } from "../../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/profile/user.repository.interface";
 import { Pagination } from "../../../shared/dtos/pagination.dto";
 
 @injectable()

@@ -1,4 +1,4 @@
-import { IUserRepository } from "../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IUserRepository } from "../../domain/interfaces/repositoryInterface/profile/user.repository.interface";
 
 export const generateProfileSlug = async (
   email: string,
