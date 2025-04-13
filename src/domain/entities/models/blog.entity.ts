@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 
 export interface IBlogEntity {
-  _id: string;
+  _id: ObjectId;
   userId: ObjectId;
   title: string;
   content: string;

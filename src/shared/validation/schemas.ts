@@ -1,4 +1,3 @@
-// src/shared/validation/schemas.ts
 import { z } from "zod";
 
 export const emailSchema = z
@@ -16,6 +15,8 @@ export const otpSchema = z
 export const userSlug = z
   .string()
   .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
+
+const blogStatusEnum = z.enum(["draft", "published", "hidden"]);
 
 const internalOtpType = [
   "otp",
@@ -122,6 +123,34 @@ export const updateProfileSchema = z.object({
   avatar: z.string().optional(),
 });
 
+export const blogRequestSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(200, "Title must be 200 characters or less"),
+  content: z
+    .string()
+    .min(1, "Content is required")
+    .max(100000, "Content too long"),
+  metaTitle: z
+    .string()
+    .max(70, "Meta title must be 70 characters or less")
+    .optional(),
+  metaDescription: z
+    .string()
+    .max(160, "Meta description must be 160 characters or less")
+    .optional(),
+  slug: z.string().max(100, "Slug must be 100 characters or less").optional(),
+  topics: z.array(z.string().min(1, "Topic cannot be empty")).min(0).optional(),
+  tags: z.array(z.string().min(1, "Tag cannot be empty")).min(0).optional(),
+  isPremium: z.boolean().default(false),
+  status: blogStatusEnum.default("draft"),
+  readTime: z
+    .string()
+    .max(10, "Read time must be 10 characters or less")
+    .optional(),
+});
+
 // Type inference
 export type InternalOtpType = (typeof internalOtpType)[number];
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
@@ -131,3 +160,4 @@ export type LoginDTO = z.infer<typeof loginSchema>;
 export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
 export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
 export type UpdateProfileDTO = z.infer<typeof updateProfileSchema>;
+export type BlogRequestDTO = z.infer<typeof blogRequestSchema>;
