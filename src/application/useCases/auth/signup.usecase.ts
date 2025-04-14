@@ -29,7 +29,6 @@ export class SignupUseCase implements ISignupUseCase {
   async execute(
     data: UserSignupDTO
   ): Promise<{ status: number; message: string; success: boolean }> {
-    // Validate input using schema
     let validatedData: UserSignupDTO;
     try {
       validatedData = userSignupSchema.parse(data);

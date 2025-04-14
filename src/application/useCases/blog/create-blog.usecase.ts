@@ -6,6 +6,7 @@ import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { BaseError } from "../../../domain/errors/base.error";
+import { BlogRequestDTO } from "../../../shared/validation/schemas";
 
 @injectable()
 export class CreateBlogUseCase implements ICreateBlogUseCase {
@@ -14,11 +15,12 @@ export class CreateBlogUseCase implements ICreateBlogUseCase {
   ) {}
 
   async execute(
-    blog: IBlogEntity
+    userId: string,
+    blog: BlogRequestDTO
   ): Promise<{ blog: IBlogEntity; success: string; status: number }> {
-    const newBlog = await this.blogRepository.save(blog);
+    const newBlog = await this.blogRepository.save(userId, blog);
 
-    if (newBlog) {
+    if (!newBlog) {
       throw new BaseError(
         ERROR_MSG.DATABASE_ERROR,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

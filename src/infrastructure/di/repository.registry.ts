@@ -5,6 +5,8 @@ import { IAdminRepository } from "../../domain/interfaces/repositoryInterface/ad
 import { AdminRepository } from "../repositories/admin/admin.repository";
 import { IFollowsRepository } from "../../domain/interfaces/repositoryInterface/profile/follows.repository.interface";
 import { FollowsRepository } from "../repositories/profile/follows.repository";
+import { IBlogRepository } from "../../domain/interfaces/repositoryInterface/blog/blog.repository.interface";
+import { BlogRepository } from "../repositories/blog/blog.repository";
 
 container.register<IUserRepository>("IUserRepository", {
   useClass: UserRepository,
@@ -16,4 +18,8 @@ container.register<IAdminRepository>("IAdminRepository", {
 
 container.register<IFollowsRepository>("IFollowsRepository", {
   useClass: FollowsRepository,
+});
+
+container.register<IBlogRepository>("IBlogRepository", {
+  useClass: BlogRepository,
 });

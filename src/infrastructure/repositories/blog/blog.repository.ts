@@ -2,11 +2,40 @@ import { UpdateWriteOpResult } from "mongoose";
 import { IBlogEntity } from "../../../domain/entities/models/blog.entity";
 import { IBlogRepository } from "../../../domain/interfaces/repositoryInterface/blog/blog.repository.interface";
 import { BlogModel } from "../../database/mongoose/models/blog.model";
+import { BlogRequestDTO } from "../../../shared/validation/schemas";
 // import { Pagination } from "../../../shared/dtos/pagination.dto";
 
 export class BlogRepository implements IBlogRepository {
-  async save(blog: IBlogEntity): Promise<IBlogEntity> {
-    return await BlogModel.create(blog);
+  async save(userId: string, blog: BlogRequestDTO): Promise<IBlogEntity> {
+    const {
+      content,
+      isPremium,
+      status,
+      title,
+      metaDescription,
+      metaTitle,
+      readTime,
+      slug,
+      tags,
+      topics,
+    } = blog;
+
+    return await BlogModel.create({
+      userId,
+      title,
+      content,
+      metaTitle,
+      metaDescription,
+      slug,
+      topics,
+      tags,
+      isPremium,
+      status,
+      readTime,
+      viewCount: 0,
+      likeCount: 0,
+      publishedAt: status === "published" ? new Date() : undefined,
+    });
   }
 
   async findById(id: string): Promise<IBlogEntity | null> {

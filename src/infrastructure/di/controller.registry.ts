@@ -38,6 +38,8 @@ import { IFollowsController } from "../../domain/interfaces/controllerInterface/
 import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
 import { IFindFollowsController } from "../../domain/interfaces/controllerInterface/profile/find-follows.controller.interface";
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
+import { ICreateBlogController } from "../../domain/interfaces/controllerInterface/blog/create-blog.controller.interface";
+import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
 
 // user
 container.register<ISignupController>("ISignupController", {
@@ -120,4 +122,9 @@ container.register<IGitHubOAuthController>("IGitHubOAuthController", {
 // user
 container.register<IUpdateProfileController>("IUpdateProfileController", {
   useClass: UpdateProfileController,
+});
+
+// blog
+container.register<ICreateBlogController>("ICreateBlogController", {
+  useClass: CreateBlogController,
 });

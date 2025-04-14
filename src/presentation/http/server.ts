@@ -9,6 +9,7 @@ import { errorHandler } from "../middleware/error.middleware";
 import { AuthRoutes } from "../routes/auth.route";
 import { UserRoutes } from "../routes/profile.route";
 import { AdminRoutes } from "../routes/admin.route";
+import { BlogRoutes } from "../routes/blog.route";
 
 export class Server {
   private _app: Application;
@@ -49,9 +50,11 @@ export class Server {
     const authRoutes = container.resolve(AuthRoutes);
     const userRoutes = container.resolve(UserRoutes);
     const adminRoutes = container.resolve(AdminRoutes);
+    const blogRoutes = container.resolve(BlogRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
     this._app.use("/api/v1/profile", userRoutes.router);
     this._app.use("/api/v1/admin", adminRoutes.router);
+    this._app.use("/api/v1/blog", blogRoutes.router);
   }
 
   private initializeErrorHandler(): void {

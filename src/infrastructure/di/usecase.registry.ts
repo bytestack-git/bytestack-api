@@ -37,6 +37,8 @@ import { IFollowsUseCase } from "../../domain/interfaces/usecaseInterface/profil
 import { FollowsUseCase } from "../../application/useCases/profile/follows.usecase";
 import { IFindFollowsUseCase } from "../../domain/interfaces/usecaseInterface/profile/find-follows.usecase.interface";
 import { FindFollowsUseCase } from "../../application/useCases/profile/find-follows.usecase";
+import { ICreateBlogUseCase } from "../../domain/interfaces/usecaseInterface/blog/create-blog.usecase.interface";
+import { CreateBlogUseCase } from "../../application/useCases/blog/create-blog.usecase";
 
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
@@ -111,4 +113,8 @@ container.register<IFollowsUseCase>("IFollowsUsecase", {
 
 container.register<IFindFollowsUseCase>("IFindFollowsUseCase", {
   useClass: FindFollowsUseCase,
+});
+
+container.register<ICreateBlogUseCase>("ICreateBlogUseCase", {
+  useClass: CreateBlogUseCase,
 });

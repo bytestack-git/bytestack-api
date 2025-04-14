@@ -23,6 +23,7 @@ import { GetProfileController } from "../../presentation/controllers/profile/get
 import { GetBloggersController } from "../../presentation/controllers/profile/get-bloggers.controller";
 import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
+import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
 
 export const signupController =
   container.resolve<SignupController>("ISignupController");
@@ -97,4 +98,8 @@ export const followsController =
 
 export const findFollowsController = container.resolve<FindFollowsController>(
   "IFindFollowsController"
+);
+
+export const createBlogController = container.resolve<CreateBlogController>(
+  "ICreateBlogController"
 );
