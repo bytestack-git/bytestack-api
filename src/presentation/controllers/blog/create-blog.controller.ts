@@ -10,6 +10,8 @@ import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ZodError } from "zod";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { successResponse } from "../../../shared/utils/responseHandler";
+import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 
 @injectable()
 export class CreateBlogController implements ICreateBlogController {
@@ -23,7 +25,6 @@ export class CreateBlogController implements ICreateBlogController {
       const userId = req.user.id;
       let validatedData: BlogRequestDTO;
 
-      console.log(req.body);
       try {
         validatedData = blogRequestSchema.parse(req.body);
       } catch (error) {
@@ -41,14 +42,14 @@ export class CreateBlogController implements ICreateBlogController {
         );
       }
 
-      console.log("object");
 
       const { blog, status, success } = await this.createBlogUseCase.execute(
         userId,
         validatedData
       );
 
-      res.status(status).json({ blog, success });
+      successResponse(res, blog, SUCCESS_MSG.BLOG_CREATED);
+      // res.status(status).json({ blog, success });
     } catch (error) {
       next(error);
     }

@@ -49,6 +49,10 @@ export class BlogRepository implements IBlogRepository {
     return await BlogModel.updateOne({ _id: id }, { $set: blog });
   }
 
+  async findBySlug(slug: string): Promise<IBlogEntity | null> {
+    return await BlogModel.findOne({ slug });
+  }
+
   // async find(data: Pagination): Promise<Partial<IBlogEntity[] | []>> {
   //   const { limit, page, search, status, sort } = data;
   //   const skip = (page - 1) * limit;

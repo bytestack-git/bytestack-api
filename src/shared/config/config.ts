@@ -8,7 +8,7 @@ export const config = {
   },
 
   cors: {
-    ALLOWED_ORIGIN: process.env.CORS_ALLOWED_ORIGIN || "http://localhost:5173",
+    ALLOWED_ORIGIN: process.env.CORS_ALLOWED_ORIGIN?.split(","),
   },
 
   server: {

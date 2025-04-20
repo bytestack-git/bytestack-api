@@ -1,4 +1,5 @@
-import { string, z } from "zod";
+import { z } from "zod";
+import sanitizeHtml from "sanitize-html";
 
 export const emailSchema = z
   .string()
@@ -17,6 +18,55 @@ export const userSlug = z
   .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
 
 const blogStatusEnum = z.enum(["draft", "published", "hidden"]);
+
+const sanitizeContent = (value: string): string => {
+  return sanitizeHtml(value, {
+    allowedTags: [
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "p",
+      "br",
+      "hr",
+      "strong",
+      "em",
+      "u",
+      "s",
+      "ul",
+      "ol",
+      "li",
+      "blockquote",
+      "pre",
+      "code",
+      "img",
+      "a",
+      "span",
+      "mark",
+    ],
+    allowedAttributes: {
+      img: ["src", "alt", "width", "align", "caption", "aspectratio"],
+      a: ["href", "target", "rel"],
+      span: ["style"],
+      mark: ["data-color", "style"],
+    },
+    allowedStyles: {
+      "*": {
+        color: [/^var\(--editor-text-.*\)$/],
+        "background-color": [/^var\(--editor-highlight-.*\)$/],
+        "text-align": [/^center$/],
+        float: [/^left|right$/],
+        width: [/^\d+%|\d+px$/],
+        height: [/^\d+%|\d+px$/],
+        margin: [/^\d+px$/],
+      },
+    },
+    disallowedTagsMode: "discard",
+    allowVulnerableTags: false,
+  });
+};
 
 const internalOtpType = [
   "otp",
@@ -131,7 +181,8 @@ export const blogRequestSchema = z.object({
   content: z
     .string()
     .min(1, "Content is required")
-    .max(100000, "Content too long"),
+    .max(100000, "Content too long")
+    .transform(sanitizeContent),
   metaTitle: z
     .string()
     .max(70, "Meta title must be 70 characters or less")

@@ -18,3 +18,14 @@ export const generateProfileSlug = async (
 
   return slug;
 };
+
+export const generateBlogSlug = (title: string): string => {
+  const slug: string = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  return slug;
+};

@@ -43,6 +43,7 @@ import { CreateBlogUseCase } from "../../application/useCases/blog/create-blog.u
 container.register<ISignupUseCase>("ISignupUseCase", {
   useClass: SignupUseCase,
 });
+
 container.register<ISendEmailUseCase>("ISendEmailUseCase", {
   useClass: SendEmailUseCase,
 });

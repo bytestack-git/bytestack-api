@@ -1,6 +1,10 @@
 import { container } from "tsyringe";
 import "./container";
 import "./service.registry";
+import { AuthRoutes } from "../../presentation/routes/auth.route";
+import { UserRoutes } from "../../presentation/routes/profile.route";
+import { AdminRoutes } from "../../presentation/routes/admin.route";
+import { BlogRoutes } from "../../presentation/routes/blog.route";
 import { SignupController } from "../../presentation/controllers/auth/signup.controller";
 import { SendOtpController } from "../../presentation/controllers/auth/send-otp.controller";
 import { ResetPasswordController } from "../../presentation/controllers/auth/reset-password.controller";
@@ -18,24 +22,36 @@ import { UpdateUserController } from "../../presentation/controllers/admin/updat
 import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
 import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
-import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
+import { FileUploadController } from "../../presentation/controllers/file-upload/file-upload.controller";
 import { GetProfileController } from "../../presentation/controllers/profile/get-profile.controller";
 import { GetBloggersController } from "../../presentation/controllers/profile/get-bloggers.controller";
 import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
 import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
 
-export const signupController =
-  container.resolve<SignupController>("ISignupController");
+export const authRoutes = container.resolve(AuthRoutes);
 
-export const sendOtpController =
-  container.resolve<SendOtpController>("ISendOtpController");
+export const userRoutes = container.resolve(UserRoutes);
 
-export const resetPasswordController =
-  container.resolve<ResetPasswordController>("IResetPasswordController");
+export const adminRoutes = container.resolve(AdminRoutes);
 
-export const loginController =
-  container.resolve<LoginController>("ILoginController");
+export const blogRoutes = container.resolve(BlogRoutes);
+
+export const signupController = container.resolve<SignupController>(
+  "ISignupController"
+);
+
+export const sendOtpController = container.resolve<SendOtpController>(
+  "ISendOtpController"
+);
+
+export const resetPasswordController = container.resolve<ResetPasswordController>(
+  "IResetPasswordController"
+);
+
+export const loginController = container.resolve<LoginController>(
+  "ILoginController"
+);
 
 export const refreshTokenController = container.resolve<RefreshTokenController>(
   "IRefreshTokenController"
@@ -49,19 +65,25 @@ export const githubOAuthController = container.resolve<IGitHubOAuthController>(
   "IGitHubOAuthController"
 );
 
-export const forgotPasswordController =
-  container.resolve<ForgotPasswordController>("IForgotPasswordController");
+export const forgotPasswordController = container.resolve<ForgotPasswordController>(
+  "IForgotPasswordController"
+);
 
-export const logoutController =
-  container.resolve<LogoutController>("ILogoutController");
+export const logoutController = container.resolve<LogoutController>(
+  "ILogoutController"
+);
 
-export const getUserController =
-  container.resolve<GetUserController>("IGetUserController");
+export const getUserController = container.resolve<GetUserController>(
+  "IGetUserController"
+);
 
-export const updateProfileController =
-  container.resolve<UpdateProfileController>("IUpdateProfileController");
+export const updateProfileController = container.resolve<UpdateProfileController>(
+  "IUpdateProfileController"
+);
 
-export const s3Controller = container.resolve<S3Controller>("IS3Controller");
+export const fileUploadController = container.resolve<FileUploadController>(
+  "IFileUploadController"
+);
 
 export const getProfileController = container.resolve<GetProfileController>(
   "IGetProfileController"
@@ -83,18 +105,21 @@ export const getAllUsersController = container.resolve<GetAllUsersController>(
   "IGetAllUsersController"
 );
 
-export const authMiddleware =
-  container.resolve<AuthMiddleware>("IAuthMiddleware");
+export const authMiddleware = container.resolve<AuthMiddleware>(
+  "IAuthMiddleware"
+);
 
-export const adminMiddleware =
-  container.resolve<AdminMiddleware>("IAdminMiddleware");
+export const adminMiddleware = container.resolve<AdminMiddleware>(
+  "IAdminMiddleware"
+);
 
 export const getBloggersController = container.resolve<GetBloggersController>(
   "IGetBloggersController"
 );
 
-export const followsController =
-  container.resolve<FollowsController>("IFollowsController");
+export const followsController = container.resolve<FollowsController>(
+  "IFollowsController"
+);
 
 export const findFollowsController = container.resolve<FindFollowsController>(
   "IFindFollowsController"
