@@ -11,13 +11,13 @@ import {
   UpdateProfileDTO,
 } from "../../../shared/validation/schemas";
 import { ZodError } from "zod";
-import { IS3Service } from "../../../domain/interfaces/serviceInterface/s3/s3.service.interface";
+import { IFileUploadService } from "../../../domain/interfaces/serviceInterface/file-upload/file-upload.service.interface";
 
 @injectable()
 export class UpdateProfileUseCase implements IUpdateProfileUseCase {
   constructor(
     @inject("IUserRepository") private userRepository: IUserRepository,
-    @inject("IS3Service") private s3Service: IS3Service
+    @inject("IFileUploadService") private s3Service: IFileUploadService
   ) {}
   async execute(
     userId: string,

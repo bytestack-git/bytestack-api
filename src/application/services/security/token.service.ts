@@ -1,7 +1,7 @@
 import { sign, verify } from "jsonwebtoken";
 import { injectable } from "tsyringe";
 import { ITokenService } from "../../../domain/interfaces/serviceInterface/security/token.service.interface";
-import { ITokenPayload } from "../../../domain/entities/models/token.entity";
+import { ITokenPayload } from "../../../domain/entities/services/token.entity";
 import { getRedisClient } from "../../../infrastructure/database/redis/init";
 import { config } from "../../../shared/config/config";
 import { BaseError } from "../../../domain/errors/base.error";

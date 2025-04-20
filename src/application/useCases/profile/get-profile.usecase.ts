@@ -45,9 +45,10 @@ export class GetProfileUseCase implements IGetProfileUseCase {
       );
     }
 
-    if (!user?.isBanned) {
+    if (user?.isBanned) {
       throw new BaseError("Your account has been banned", 401, true);
     }
+    
     const { followers, following, isFollowing, isFollower } =
       await this.followsRepository.findCount(user?._id.toString(), userId);
 

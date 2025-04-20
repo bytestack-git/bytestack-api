@@ -1,4 +1,4 @@
-import { ITokenPayload } from "../../../entities/models/token.entity";
+import { ITokenPayload } from "../../../entities/services/token.entity";
 
 export interface ITokenService {
   generateAccessToken(

@@ -6,7 +6,7 @@ import {
   getBloggersController,
   getProfileController,
   getUserController,
-  s3Controller,
+  fileUploadController,
   updateProfileController,
 } from "../../infrastructure/di/resolver";
 import { BaseRoute } from "./base.route";
@@ -58,7 +58,7 @@ export class UserRoutes extends BaseRoute {
       (req: Request, res: Response, next: NextFunction) =>
         authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
-        s3Controller.getUploadURL(req, res, next);
+        fileUploadController.getUploadURL(req, res, next);
       }
     );
 

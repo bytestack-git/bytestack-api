@@ -28,8 +28,8 @@ import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterf
 import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
 import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/profile/update-profile.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
-import { IS3Controller } from "../../domain/interfaces/controllerInterface/s3/s3.controller.interface";
-import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
+import { IFileUploadController } from "../../domain/interfaces/controllerInterface/file-upload/file-upload.controller.interface";
+import { FileUploadController } from "../../presentation/controllers/file-upload/file-upload.controller";
 import { IGetProfileController } from "../../domain/interfaces/controllerInterface/profile/get-profile.controller.interface";
 import { GetProfileController } from "../../presentation/controllers/profile/get-profile.controller";
 import { IGetBloggersController } from "../../domain/interfaces/controllerInterface/profile/get-bloggers.controller.interface";
@@ -74,8 +74,8 @@ container.register<IGetUserController>("IGetUserController", {
   useClass: GetUserController,
 });
 
-container.register<IS3Controller>("IS3Controller", {
-  useClass: S3Controller,
+container.register<IFileUploadController>("IFileUploadController", {
+  useClass: FileUploadController,
 });
 
 container.register<IGetProfileController>("IGetProfileController", {

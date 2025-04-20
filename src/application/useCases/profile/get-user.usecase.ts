@@ -28,6 +28,10 @@ export class GetUserUseCase implements IGetUserUseCase {
       );
     }
 
+    if (user?.isBanned) {
+      throw new BaseError("Your account has been banned", 401, true);
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, isBanned, githubId, googleId, ...userData } = user;
 

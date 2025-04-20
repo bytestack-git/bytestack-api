@@ -7,6 +7,7 @@ import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { BaseError } from "../../../domain/errors/base.error";
 import { BlogRequestDTO } from "../../../shared/validation/schemas";
+import { generateBlogSlug } from "../../../shared/utils/slug.utils";
 
 @injectable()
 export class CreateBlogUseCase implements ICreateBlogUseCase {
@@ -18,7 +19,8 @@ export class CreateBlogUseCase implements ICreateBlogUseCase {
     userId: string,
     blog: BlogRequestDTO
   ): Promise<{ blog: IBlogEntity; success: string; status: number }> {
-    const newBlog = await this.blogRepository.save(userId, blog);
+    const slug = generateBlogSlug(blog.title);
+    const newBlog = await this.blogRepository.save(userId, { ...blog, slug });
 
     if (!newBlog) {
       throw new BaseError(

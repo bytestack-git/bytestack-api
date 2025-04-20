@@ -1,34 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from "express";
 
-interface ApiResponse {
+export interface IResponse<T> {
+  status: number;
   success: boolean;
-  data?: any;
   message: string;
+  data?: T | null;
+  meta?: Record<string, any>;
   error?: string | null;
-  statusCode?: number;
 }
 
-const sendResponse = (
+const sendResponse = <T>(
   res: Response,
-  { success, data, message, error, statusCode = success ? 200 : 500 }: ApiResponse
-): Response => {
-  return res.status(statusCode).json({
+  {
+    status,
     success,
-    data,
     message,
+    data = null,
+    meta = {},
+    error = null,
+  }: IResponse<T>
+): Response => {
+  const response: IResponse<T> = {
+    status,
+    success,
+    message,
+    data,
+    ...(Object.keys(meta).length > 0 && { meta }),
     error,
-  });
+  };
+
+  return res.status(status).json(response);
 };
 
-const successResponse = (res: Response, data: any, message = "operation successful"): Response =>
-  sendResponse(res, { success: true, data, message });
+const successResponse = <T>(
+  res: Response,
+  data: T,
+  message = "Operation successful",
+  meta?: Record<string, any>
+): Response =>
+  sendResponse<T>(res, {
+    status: 200,
+    success: true,
+    message,
+    data,
+    meta,
+  });
 
 const errorResponse = (
   res: Response,
-  error: string,
   message = "An error occurred",
-  statusCode = 500
-): Response => sendResponse(res, { success: false, error, message, statusCode });
+  error: string,
+  status = 500
+): Response =>
+  sendResponse(res, {
+    status,
+    success: false,
+    message,
+    data: null,
+    error,
+  });
 
 export { sendResponse, successResponse, errorResponse };
