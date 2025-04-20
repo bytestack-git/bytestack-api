@@ -21,39 +21,40 @@ export const BlogSchema = new Schema<IBlogModel>(
     },
     metaTitle: {
       type: String,
-      required: false,
       trim: true,
+      required: false,
     },
     metaDescription: {
       type: String,
-      required: false,
       trim: true,
+      required: false,
     },
     slug: {
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     topics: {
       type: [String],
-      required: true,
       default: [],
+      required: false,
     },
     tags: {
       type: [String],
-      required: true,
       default: [],
+      required: false,
     },
     isPremium: {
       type: Boolean,
-      required: true,
       default: false,
+      required: true,
     },
     status: {
       type: String,
       enum: ["draft", "published", "hidden"],
-      required: true,
       default: "draft",
+      required: true,
     },
     readTime: {
       type: String,
@@ -61,13 +62,13 @@ export const BlogSchema = new Schema<IBlogModel>(
     },
     viewCount: {
       type: Number,
-      required: true,
       default: 0,
+      required: true,
     },
     likeCount: {
       type: Number,
-      required: true,
       default: 0,
+      required: true,
     },
     publishedAt: {
       type: Date,
@@ -75,16 +76,17 @@ export const BlogSchema = new Schema<IBlogModel>(
     },
     isHidden: {
       type: Boolean,
-      required: true,
       default: false,
+      required: true,
     },
     isFeatured: {
       type: Boolean,
-      required: true,
       default: false,
+      required: true,
     },
   },
   {
     timestamps: true,
   }
 );
+

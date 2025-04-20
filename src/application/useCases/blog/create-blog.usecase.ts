@@ -20,9 +20,38 @@ export class CreateBlogUseCase implements ICreateBlogUseCase {
     blog: BlogRequestDTO
   ): Promise<{ blog: IBlogEntity; success: string; status: number }> {
     const slug = generateBlogSlug(blog.title);
-    const newBlog = await this.blogRepository.save(userId, { ...blog, slug });
 
-    if (!newBlog) {
+    const charCount = blog.content.length;
+    const readingSpeedCpm = 500;
+    const readTimeMinutes = Math.ceil(charCount / readingSpeedCpm);
+    const readTime =
+      readTimeMinutes > 0
+        ? `${readTimeMinutes} min${readTimeMinutes > 1 ? "s" : ""}`
+        : "1 min";
+
+    const blogData = {
+      ...blog,
+      userId,
+      slug,
+      readTime,
+      publishedAt: blog.status === "published" ? new Date() : undefined,
+    };
+
+    let newBlog: IBlogEntity;
+
+    try {
+      newBlog = await this.blogRepository.save(userId, blogData);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.name === "MongoServerError" && error.code === 11000) {
+        throw new BaseError(
+          "A blog with this title already exists",
+          HTTP_STATUS.CONFLICT,
+          false
+        );
+      }
+
       throw new BaseError(
         ERROR_MSG.DATABASE_ERROR,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,

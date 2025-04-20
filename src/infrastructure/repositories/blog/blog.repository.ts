@@ -7,35 +7,7 @@ import { BlogRequestDTO } from "../../../shared/validation/schemas";
 
 export class BlogRepository implements IBlogRepository {
   async save(userId: string, blog: BlogRequestDTO): Promise<IBlogEntity> {
-    const {
-      content,
-      isPremium,
-      status,
-      title,
-      metaDescription,
-      metaTitle,
-      readTime,
-      slug,
-      tags,
-      topics,
-    } = blog;
-
-    return await BlogModel.create({
-      userId,
-      title,
-      content,
-      metaTitle,
-      metaDescription,
-      slug,
-      topics,
-      tags,
-      isPremium,
-      status,
-      readTime,
-      viewCount: 0,
-      likeCount: 0,
-      publishedAt: status === "published" ? new Date() : undefined,
-    });
+    return await BlogModel.create(blog);
   }
 
   async findById(id: string): Promise<IBlogEntity | null> {

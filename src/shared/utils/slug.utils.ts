@@ -1,4 +1,7 @@
 import { IUserRepository } from "../../domain/interfaces/repositoryInterface/profile/user.repository.interface";
+import { customAlphabet } from "nanoid";
+
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 4);
 
 export const generateProfileSlug = async (
   email: string,
@@ -20,12 +23,14 @@ export const generateProfileSlug = async (
 };
 
 export const generateBlogSlug = (title: string): string => {
-  const slug: string = title
+  const baseSlug: string = title
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
-  return slug;
+  const uniqueId: string = nanoid();
+
+  return `${baseSlug}-${uniqueId}`;
 };
