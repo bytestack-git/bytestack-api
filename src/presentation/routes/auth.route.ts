@@ -68,14 +68,14 @@ export class AuthRoutes extends BaseRoute {
     this.router.post(
       "/google",
       (req: Request, res: Response, next: NextFunction) => {
-        googleOAuthController.handleGoogleOAuth(req, res, next);
+        googleOAuthController.handle(req, res, next);
       }
     );
 
     this.router.post(
       "/github",
       (req: Request, res: Response, next: NextFunction) => {
-        githubOAuthController.handleGitHubOAuth(req, res, next);
+        githubOAuthController.handle(req, res, next);
       }
     );
 

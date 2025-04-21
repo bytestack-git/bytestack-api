@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { ILoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/login.usecase.interface";
-import { ILoginController } from "../../../domain/interfaces/controllerInterface/auth/login.controller.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class LoginController implements ILoginController {
+export class LoginController implements IController {
   constructor(@inject("ILoginUseCase") private loginUseCase: ILoginUseCase) {}
 
   async handle(req: Request, res: Response, next: NextFunction): Promise<void> {

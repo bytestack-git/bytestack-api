@@ -1,20 +1,20 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { IGitHubOAuthController } from "../../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
 import { IGitHubOAuthLoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/github-oauth.usecase.interface";
 import { OAuthCodeDTO, oauthCodeSchema } from "../../../shared/validation/schemas";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class GitHubOAuthController implements IGitHubOAuthController {
+export class GitHubOAuthController implements IController {
   constructor(
     @inject("IGitHubOAuthLoginUseCase")
     private gitHubOAuthLoginUseCase: IGitHubOAuthLoginUseCase
   ) {}
 
-  async handleGitHubOAuth(
+  async handle(
     req: Request,
     res: Response,
     next: NextFunction

@@ -20,7 +20,6 @@ import { AdminLogoutController } from "../../presentation/controllers/admin/admi
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
-import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
 import { FileUploadController } from "../../presentation/controllers/file-upload/file-upload.controller";
 import { GetProfileController } from "../../presentation/controllers/profile/get-profile.controller";
@@ -28,6 +27,7 @@ import { GetBloggersController } from "../../presentation/controllers/profile/ge
 import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
 import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
+import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
 
 export const authRoutes = container.resolve(AuthRoutes);
 
@@ -61,7 +61,7 @@ export const googleOAuthController = container.resolve<GoogleOAuthController>(
   "IGoogleOAuthController"
 );
 
-export const githubOAuthController = container.resolve<IGitHubOAuthController>(
+export const githubOAuthController = container.resolve<GitHubOAuthController>(
   "IGitHubOAuthController"
 );
 

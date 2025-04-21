@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
-import { ISignupController } from "../../../domain/interfaces/controllerInterface/auth/signup.controller.interface";
 import { ISignupUseCase } from "../../../domain/interfaces/usecaseInterface/auth/signup.usecase.interface";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class SignupController implements ISignupController {
+export class SignupController implements IController {
   constructor(
     @inject("ISignupUseCase") private signupUseCase: ISignupUseCase
   ) {}

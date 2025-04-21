@@ -1,7 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { IGoogleOAuthLoginUseCase } from "../../../domain/interfaces/usecaseInterface/auth/google-oauth.usecase.interface";
-import { IGoogleOAuthController } from "../../../domain/interfaces/controllerInterface/auth/google-oauth.controller.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import {
@@ -9,15 +8,16 @@ import {
   OAuthCodeDTO,
 } from "../../../shared/validation/schemas";
 import { ZodError } from "zod";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class GoogleOAuthController implements IGoogleOAuthController {
+export class GoogleOAuthController implements IController {
   constructor(
     @inject("IGoogleOAuthLoginUseCase")
     private googleOAuthLoginUseCase: IGoogleOAuthLoginUseCase
   ) {}
 
-  async handleGoogleOAuth(
+  async handle(
     req: Request,
     res: Response,
     next: NextFunction

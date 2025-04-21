@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { ISendEmailUseCase } from "../../../domain/interfaces/usecaseInterface/auth/send-email.usecase.interface";
-import { ISendOtpController } from "../../../domain/interfaces/controllerInterface/auth/send-otp.controller.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class SendOtpController implements ISendOtpController {
+export class SendOtpController implements IController {
   constructor(
     @inject("ISendEmailUseCase") private sendEmailUseCase: ISendEmailUseCase
   ) {}

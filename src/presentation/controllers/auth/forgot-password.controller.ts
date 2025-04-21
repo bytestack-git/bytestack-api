@@ -1,10 +1,10 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IForgotPasswordController } from "../../../domain/interfaces/controllerInterface/auth/forgot-password.controller.interface";
 import { IForgotPasswordUseCase } from "../../../domain/interfaces/usecaseInterface/auth/forgot-password.usecase.interface";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class ForgotPasswordController implements IForgotPasswordController {
+export class ForgotPasswordController implements IController {
   constructor(
     @inject("IForgotPasswordUseCase") private forgotPasswordUseCase: IForgotPasswordUseCase
   ) {}

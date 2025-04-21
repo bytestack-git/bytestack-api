@@ -2,26 +2,18 @@ import { container } from "tsyringe";
 import { SignupController } from "../../presentation/controllers/auth/signup.controller";
 import { SendOtpController } from "../../presentation/controllers/auth/send-otp.controller";
 import { ResetPasswordController } from "../../presentation/controllers/auth/reset-password.controller";
-import { ISignupController } from "../../domain/interfaces/controllerInterface/auth/signup.controller.interface";
-import { ISendOtpController } from "../../domain/interfaces/controllerInterface/auth/send-otp.controller.interface";
-import { IResetPasswordController } from "../../domain/interfaces/controllerInterface/auth/reset-password.controller.interface";
-import { ILoginController } from "../../domain/interfaces/controllerInterface/auth/login.controller.interface";
 import { LoginController } from "../../presentation/controllers/auth/login.controller";
 import { IRefreshTokenController } from "../../domain/interfaces/controllerInterface/auth/refresh-token.controller.interface";
 import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
-import { ILogoutController } from "../../domain/interfaces/controllerInterface/auth/logout.controller.interface";
 import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
 import { GetUserController } from "../../presentation/controllers/profile/get-user.controller";
 import { IGetUserController } from "../../domain/interfaces/controllerInterface/profile/get-user.controller.interface";
-import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/auth/forgot-password.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
-import { IGoogleOAuthController } from "../../domain/interfaces/controllerInterface/auth/google-oauth.controller.interface";
 import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
-import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/auth/github-oauth.controller.interface";
 import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
 import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/profile/update-profile.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
@@ -40,19 +32,19 @@ import { CreateBlogController } from "../../presentation/controllers/blog/create
 import { IController } from "../../domain/interfaces/controllerInterface/common/controller.interface";
 
 // user
-container.register<ISignupController>("ISignupController", {
+container.register<IController>("ISignupController", {
   useClass: SignupController,
 });
 
-container.register<ISendOtpController>("ISendOtpController", {
+container.register<IController>("ISendOtpController", {
   useClass: SendOtpController,
 });
 
-container.register<IResetPasswordController>("IResetPasswordController", {
+container.register<IController>("IResetPasswordController", {
   useClass: ResetPasswordController,
 });
 
-container.register<ILoginController>("ILoginController", {
+container.register<IController>("ILoginController", {
   useClass: LoginController,
 });
 
@@ -60,11 +52,11 @@ container.register<IRefreshTokenController>("IRefreshTokenController", {
   useClass: RefreshTokenController,
 });
 
-container.register<IForgotPasswordController>("IForgotPasswordController", {
+container.register<IController>("IForgotPasswordController", {
   useClass: ForgotPasswordController,
 });
 
-container.register<ILogoutController>("ILogoutController", {
+container.register<IController>("ILogoutController", {
   useClass: LogoutController,
 });
 
@@ -109,11 +101,11 @@ container.register<IController>("IUpdateUserController", {
   useClass: UpdateUserController,
 });
 
-container.register<IGoogleOAuthController>("IGoogleOAuthController", {
+container.register<IController>("IGoogleOAuthController", {
   useClass: GoogleOAuthController,
 });
 
-container.register<IGitHubOAuthController>("IGitHubOAuthController", {
+container.register<IController>("IGitHubOAuthController", {
   useClass: GitHubOAuthController,
 });
 
