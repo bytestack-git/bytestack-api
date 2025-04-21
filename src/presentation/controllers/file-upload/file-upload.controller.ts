@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "tsyringe";
-import { IFileUploadController } from "../../../domain/interfaces/controllerInterface/file-upload/file-upload.controller.interface";
 import {
   IFileUploadService,
   UploadParams,
 } from "../../../domain/interfaces/serviceInterface/file-upload/file-upload.service.interface";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 @injectable()
-export class FileUploadController implements IFileUploadController {
+export class FileUploadController implements IController {
   constructor(
     @inject("IFileUploadService") private fileUploadService: IFileUploadService
   ) {}
 
-  async getUploadURL(
+  async handle(
     req: Request,
     res: Response,
     next: NextFunction

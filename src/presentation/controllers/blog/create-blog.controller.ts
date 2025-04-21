@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { ICreateBlogController } from "../../../domain/interfaces/controllerInterface/blog/create-blog.controller.interface";
 import { ICreateBlogUseCase } from "../../../domain/interfaces/usecaseInterface/blog/create-blog.usecase.interface";
 import { Request, Response, NextFunction } from "express";
 import {
@@ -11,9 +10,10 @@ import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ZodError } from "zod";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { sendResponse } from "../../../shared/utils/response-handler";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class CreateBlogController implements ICreateBlogController {
+export class CreateBlogController implements IController {
   constructor(
     @inject("ICreateBlogUseCase")
     private createBlogUseCase: ICreateBlogUseCase

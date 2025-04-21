@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { IFindFollowsController } from "../../../domain/interfaces/controllerInterface/profile/find-follows.controller.interface";
 import { inject, injectable } from "tsyringe";
 import { BaseError } from "../../../domain/errors/base.error";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { IFindFollowsUseCase } from "../../../domain/interfaces/usecaseInterface/profile/find-follows.usecase.interface";
 import { ValidationError } from "../../../domain/errors/validation.error";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class FindFollowsController implements IFindFollowsController {
+export class FindFollowsController implements IController {
   constructor(
     @inject("IFindFollowsUseCase")
     private findFollowsUsecase: IFindFollowsUseCase

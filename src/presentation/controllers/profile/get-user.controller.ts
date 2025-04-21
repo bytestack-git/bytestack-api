@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IGetUserController } from "../../../domain/interfaces/controllerInterface/profile/get-user.controller.interface";
 import { IGetUserUseCase } from "../../../domain/interfaces/usecaseInterface/profile/get-user.usecase.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class GetUserController implements IGetUserController {
+export class GetUserController implements IController {
   constructor(
     @inject("IGetUserUseCase") private getUserByIdUseCase: IGetUserUseCase
   ) {}

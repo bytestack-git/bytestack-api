@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { IFollowsController } from "../../../domain/interfaces/controllerInterface/profile/follows.controller.interface";
 import { inject, injectable } from "tsyringe";
 import { IFollowsUseCase } from "../../../domain/interfaces/usecaseInterface/profile/follows.usecase.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class FollowsController implements IFollowsController {
+export class FollowsController implements IController {
   constructor(
     @inject("IFollowsUsecase") private followsUsecase: IFollowsUseCase
   ) {}

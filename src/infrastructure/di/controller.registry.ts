@@ -7,7 +7,6 @@ import { IRefreshTokenController } from "../../domain/interfaces/controllerInter
 import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
 import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
 import { GetUserController } from "../../presentation/controllers/profile/get-user.controller";
-import { IGetUserController } from "../../domain/interfaces/controllerInterface/profile/get-user.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
@@ -15,19 +14,12 @@ import { GetAllUsersController } from "../../presentation/controllers/admin/get-
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
 import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
-import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/profile/update-profile.controller.interface";
 import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
-import { IFileUploadController } from "../../domain/interfaces/controllerInterface/file-upload/file-upload.controller.interface";
 import { FileUploadController } from "../../presentation/controllers/file-upload/file-upload.controller";
-import { IGetProfileController } from "../../domain/interfaces/controllerInterface/profile/get-profile.controller.interface";
 import { GetProfileController } from "../../presentation/controllers/profile/get-profile.controller";
-import { IGetBloggersController } from "../../domain/interfaces/controllerInterface/profile/get-bloggers.controller.interface";
 import { GetBloggersController } from "../../presentation/controllers/profile/get-bloggers.controller";
-import { IFollowsController } from "../../domain/interfaces/controllerInterface/profile/follows.controller.interface";
 import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
-import { IFindFollowsController } from "../../domain/interfaces/controllerInterface/profile/find-follows.controller.interface";
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
-import { ICreateBlogController } from "../../domain/interfaces/controllerInterface/blog/create-blog.controller.interface";
 import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
 import { IController } from "../../domain/interfaces/controllerInterface/common/controller.interface";
 
@@ -60,27 +52,27 @@ container.register<IController>("ILogoutController", {
   useClass: LogoutController,
 });
 
-container.register<IGetUserController>("IGetUserController", {
+container.register<IController>("IGetUserController", {
   useClass: GetUserController,
 });
 
-container.register<IFileUploadController>("IFileUploadController", {
+container.register<IController>("IFileUploadController", {
   useClass: FileUploadController,
 });
 
-container.register<IGetProfileController>("IGetProfileController", {
+container.register<IController>("IGetProfileController", {
   useClass: GetProfileController,
 });
 
-container.register<IGetBloggersController>("IGetBloggersController", {
+container.register<IController>("IGetBloggersController", {
   useClass: GetBloggersController,
 });
 
-container.register<IFollowsController>("IFollowsController", {
+container.register<IController>("IFollowsController", {
   useClass: FollowsController,
 });
 
-container.register<IFindFollowsController>("IFindFollowsController", {
+container.register<IController>("IFindFollowsController", {
   useClass: FindFollowsController,
 });
 
@@ -110,11 +102,11 @@ container.register<IController>("IGitHubOAuthController", {
 });
 
 // user
-container.register<IUpdateProfileController>("IUpdateProfileController", {
+container.register<IController>("IUpdateProfileController", {
   useClass: UpdateProfileController,
 });
 
 // blog
-container.register<ICreateBlogController>("ICreateBlogController", {
+container.register<IController>("ICreateBlogController", {
   useClass: CreateBlogController,
 });

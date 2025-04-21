@@ -1,14 +1,14 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
-import { IGetProfileController } from "../../../domain/interfaces/controllerInterface/profile/get-profile.controller.interface";
 import { IGetProfileUseCase } from "../../../domain/interfaces/usecaseInterface/profile/get-profile.usecase.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 
 @injectable()
-export class GetProfileController implements IGetProfileController {
+export class GetProfileController implements IController {
   constructor(
     @inject("IGetProfileUseCase") private getProfileUsecase: IGetProfileUseCase
   ) {}

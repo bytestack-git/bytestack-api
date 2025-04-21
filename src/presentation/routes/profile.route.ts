@@ -58,7 +58,7 @@ export class UserRoutes extends BaseRoute {
       (req: Request, res: Response, next: NextFunction) =>
         authMiddleware.authenticate(req, res, next),
       (req: Request, res: Response, next: NextFunction) => {
-        fileUploadController.getUploadURL(req, res, next);
+        fileUploadController.handle(req, res, next);
       }
     );
 

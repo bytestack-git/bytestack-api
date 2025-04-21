@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
-import { IGetBloggersController } from "../../../domain/interfaces/controllerInterface/profile/get-bloggers.controller.interface";
 import { IGetBloggersUseCase } from "../../../domain/interfaces/usecaseInterface/profile/get-bloggers.usecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../../../domain/errors/validation.error";
 import { DataResponse } from "../../../shared/dtos/response.types";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class GetBloggersController implements IGetBloggersController {
+export class GetBloggersController implements IController {
   constructor(
     @inject("IGetBloggersUseCase")
     private getBloggersUseCase: IGetBloggersUseCase
