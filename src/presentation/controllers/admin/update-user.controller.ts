@@ -3,10 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { IUpdateUserUsecase } from "../../../domain/interfaces/usecaseInterface/admin/update-user.usecase.interface";
 import { DataResponse } from "../../../shared/dtos/response.types";
 import { ValidationError } from "../../../domain/errors/validation.error";
-import { IUpdateUserController } from "../../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class UpdateUserController implements IUpdateUserController {
+export class UpdateUserController implements IController {
   constructor(
     @inject("IUpdateUserUsecase") private updateUserUsecase: IUpdateUserUsecase
   ) {}

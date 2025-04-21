@@ -1,11 +1,11 @@
 import { injectable, inject } from "tsyringe";
 import { Request, Response, NextFunction } from "express";
 import { IAdminLogoutUseCase } from "../../../domain/interfaces/usecaseInterface/admin/admin-logout.usecase.interface";
-import { IAdminLogoutController } from "../../../domain/interfaces/controllerInterface/admin/admin-logout.controller.interface";
 import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class AdminLogoutController implements IAdminLogoutController {
+export class AdminLogoutController implements IController {
   constructor(
     @inject("IAdminLogoutUseCase") private logoutUseCase: IAdminLogoutUseCase
   ) {}

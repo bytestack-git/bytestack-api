@@ -15,12 +15,9 @@ import { GetUserController } from "../../presentation/controllers/profile/get-us
 import { IGetUserController } from "../../domain/interfaces/controllerInterface/profile/get-user.controller.interface";
 import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/auth/forgot-password.controller.interface";
 import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
-import { IAdminSigninController } from "../../domain/interfaces/controllerInterface/admin/signin.controller.interface";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
-import { IAdminLogoutController } from "../../domain/interfaces/controllerInterface/admin/admin-logout.controller.interface";
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
-import { IUpdateUserController } from "../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
 import { IGoogleOAuthController } from "../../domain/interfaces/controllerInterface/auth/google-oauth.controller.interface";
 import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
@@ -40,6 +37,7 @@ import { IFindFollowsController } from "../../domain/interfaces/controllerInterf
 import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
 import { ICreateBlogController } from "../../domain/interfaces/controllerInterface/blog/create-blog.controller.interface";
 import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
+import { IController } from "../../domain/interfaces/controllerInterface/common/controller.interface";
 
 // user
 container.register<ISignupController>("ISignupController", {
@@ -95,19 +93,19 @@ container.register<IFindFollowsController>("IFindFollowsController", {
 });
 
 //admin
-container.register<IAdminSigninController>("IAdminSigninController", {
+container.register<IController>("IAdminSigninController", {
   useClass: AdminSigninController,
 });
 
-container.register<IAdminLogoutController>("IAdminLogoutController", {
+container.register<IController>("IAdminLogoutController", {
   useClass: AdminLogoutController,
 });
 
-container.register<IAdminLogoutController>("IGetAllUsersController", {
+container.register<IController>("IGetAllUsersController", {
   useClass: GetAllUsersController,
 });
 
-container.register<IUpdateUserController>("IUpdateUserController", {
+container.register<IController>("IUpdateUserController", {
   useClass: UpdateUserController,
 });
 
