@@ -5,5 +5,10 @@ export interface ICreateBlogUseCase {
   execute(
     userId: string,
     blog: BlogRequestDTO
-  ): Promise<{ blog: IBlogEntity; success: string; status: number }>;
+  ): Promise<{
+    blog: IBlogEntity;
+    success: boolean;
+    status: number;
+    message: string;
+  }>;
 }

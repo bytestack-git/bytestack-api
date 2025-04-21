@@ -33,32 +33,4 @@ const sendResponse = <T>(
   return res.status(status).json(response);
 };
 
-const successResponse = <T>(
-  res: Response,
-  data: T,
-  message = "Operation successful",
-  meta?: Record<string, any>
-): Response =>
-  sendResponse<T>(res, {
-    status: 200,
-    success: true,
-    message,
-    data,
-    meta,
-  });
-
-const errorResponse = (
-  res: Response,
-  message = "An error occurred",
-  error: string,
-  status = 500
-): Response =>
-  sendResponse(res, {
-    status,
-    success: false,
-    message,
-    data: null,
-    error,
-  });
-
-export { sendResponse, successResponse, errorResponse };
+export { sendResponse };

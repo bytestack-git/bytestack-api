@@ -1,4 +1,4 @@
-import { UpdateWriteOpResult } from "mongoose";
+import { FilterQuery, UpdateWriteOpResult } from "mongoose";
 import { IBlogEntity } from "../../../domain/entities/models/blog.entity";
 import { IBlogRepository } from "../../../domain/interfaces/repositoryInterface/blog/blog.repository.interface";
 import { BlogModel } from "../../database/mongoose/models/blog.model";
@@ -23,6 +23,23 @@ export class BlogRepository implements IBlogRepository {
 
   async findBySlug(slug: string): Promise<IBlogEntity | null> {
     return await BlogModel.findOne({ slug });
+  }
+
+  async findByTitle(title: string): Promise<IBlogEntity | null> {
+    return await BlogModel.findOne({ title });
+  }
+
+  async isTitleTaken(title: string, excludeId?: string): Promise<boolean> {
+    const query: FilterQuery<IBlogEntity> = {
+      title: new RegExp(`^${title.trim()}$`, "i"),
+    };
+
+    if (excludeId) {
+      query._id = { $ne: excludeId };
+    }
+
+    const existing = await BlogModel.findOne(query).lean();
+    return !!existing;
   }
 
   // async find(data: Pagination): Promise<Partial<IBlogEntity[] | []>> {

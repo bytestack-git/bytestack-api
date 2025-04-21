@@ -10,8 +10,7 @@ import { BaseError } from "../../../domain/errors/base.error";
 import { HTTP_STATUS } from "../../../shared/constants/status-codes";
 import { ZodError } from "zod";
 import { ERROR_MSG } from "../../../shared/constants/error-msg";
-import { successResponse } from "../../../shared/utils/responseHandler";
-import { SUCCESS_MSG } from "../../../shared/constants/success-msg";
+import { sendResponse } from "../../../shared/utils/response-handler";
 
 @injectable()
 export class CreateBlogController implements ICreateBlogController {
@@ -42,14 +41,15 @@ export class CreateBlogController implements ICreateBlogController {
         );
       }
 
+      const { blog, status, success, message } =
+        await this.createBlogUseCase.execute(userId, validatedData);
 
-      const { blog, status, success } = await this.createBlogUseCase.execute(
-        userId,
-        validatedData
-      );
-
-      successResponse(res, blog, SUCCESS_MSG.BLOG_CREATED);
-      // res.status(status).json({ blog, success });
+      sendResponse(res, {
+        status,
+        success,
+        message,
+        data: blog,
+      });
     } catch (error) {
       next(error);
     }
