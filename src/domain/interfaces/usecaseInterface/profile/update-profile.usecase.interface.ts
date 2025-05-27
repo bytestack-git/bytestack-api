@@ -1,4 +1,4 @@
-import { IUserEntity } from "../../../../entities/models/user.entity";
+import { IUserEntity } from "../../../entities/models/user.entity";
 
 export interface IUpdateProfileUseCase {
   execute(

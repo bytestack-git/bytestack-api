@@ -1,4 +1,4 @@
-import { ResponseDto } from "../../../../../shared/dtos/response.types";
+import { ResponseDto } from "../../../../shared/dtos/response.types";
 
 export interface IFollowsUseCase {
   execute(

@@ -1,4 +1,4 @@
-import { UserSignupDTO } from "../../../../../shared/validation/schemas";
+import { UserSignupDTO } from "../../../../shared/validation/schemas";
 
 export interface ISignupUseCase {
   execute(data: UserSignupDTO): Promise<{

@@ -138,6 +138,8 @@ export const oauthCodeSchema = z.object({
   code: z.string(),
 });
 
+export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+
 export const updateProfileSchema = z.object({
   name: z
     .string()
@@ -209,6 +211,6 @@ export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
 export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
-export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+// export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
 export type UpdateProfileDTO = z.infer<typeof updateProfileSchema>;
 export type BlogRequestDTO = z.infer<typeof blogRequestSchema>;

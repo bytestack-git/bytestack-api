@@ -1,5 +1,5 @@
-import { LoginDTO } from "../../../../../shared/validation/schemas";
-import { IUserEntity } from "../../../../entities/models/user.entity";
+import { LoginDTO } from "../../../../shared/validation/schemas";
+import { IUserEntity } from "../../../entities/models/user.entity";
 
 export interface ILoginUseCase {
   execute(data: LoginDTO): Promise<{

@@ -1,5 +1,5 @@
-import { Pagination } from "../../../../../shared/dtos/pagination.dto";
-import { IUserEntity } from "../../../../entities/models/user.entity";
+import { Pagination } from "../../../../shared/dtos/pagination.dto";
+import { IUserEntity } from "../../../entities/models/user.entity";
 
 export interface IGetBloggersUseCase {
   execute(
