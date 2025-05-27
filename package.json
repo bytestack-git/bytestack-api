@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon src/app/index.ts",
     "build": "tsc",
-    "start": "node --max-old-space-size=512 dist/app/index.js",
+    "start": "ts-node src/app/index.ts",
     "lint": "eslint . --max-warnings=0",
     "test": "jest"
   },
