@@ -15,7 +15,7 @@ const startServer = async () => {
 
   const server = new Server(config.server.PORT);
   server.listen();
-       
+
   const shutdown = async () => {
     console.log("Shutting down server...");
     try {
