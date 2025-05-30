@@ -13,9 +13,9 @@ const startServer = async () => {
 
   await import("../infrastructure/di/container");
 
-  const server = new Server(3000);
+  const server = new Server(config.server.PORT);
   server.listen();
-
+       
   const shutdown = async () => {
     console.log("Shutting down server...");
     try {
