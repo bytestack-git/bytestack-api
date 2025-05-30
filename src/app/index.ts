@@ -13,7 +13,7 @@ const startServer = async () => {
 
   await import("../infrastructure/di/container");
 
-  const server = new Server(config.server.PORT);
+  const server = new Server(3000);
   server.listen();
 
   const shutdown = async () => {
