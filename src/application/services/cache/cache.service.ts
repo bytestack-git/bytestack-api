@@ -10,8 +10,6 @@ export class CacheService implements ICacheService {
     return await getRedisClient();
   }
 
-  // --- Generic Key-Value Operations ---
-
   async set(key: string, value: string, ttlSeconds: number): Promise<void> {
     const client = await this.getClient();
     await client.setEx(key, ttlSeconds, value);
@@ -26,8 +24,6 @@ export class CacheService implements ICacheService {
     const client = await this.getClient();
     await client.del(key);
   }
-
-  // --- Specific Operations for Blocked Users ---
 
   async addBlockedUser(userId: string): Promise<void> {
     const client = await this.getClient();

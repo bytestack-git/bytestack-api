@@ -1,5 +1,5 @@
-// src/shared/validation/schemas.ts
 import { z } from "zod";
+import sanitizeHtml from "sanitize-html";
 
 export const emailSchema = z
   .string()
@@ -16,6 +16,57 @@ export const otpSchema = z
 export const userSlug = z
   .string()
   .regex(/[^a-zA-Z0-9_]*$/, { message: "user not found" });
+
+const blogStatusEnum = z.enum(["draft", "published", "hidden"]);
+
+const sanitizeContent = (value: string): string => {
+  return sanitizeHtml(value, {
+    allowedTags: [
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "p",
+      "br",
+      "hr",
+      "strong",
+      "em",
+      "u",
+      "s",
+      "ul",
+      "ol",
+      "li",
+      "blockquote",
+      "pre",
+      "code",
+      "img",
+      "a",
+      "span",
+      "mark",
+    ],
+    allowedAttributes: {
+      img: ["src", "alt", "width", "align", "caption", "aspectratio"],
+      a: ["href", "target", "rel"],
+      span: ["style"],
+      mark: ["data-color", "style"],
+    },
+    allowedStyles: {
+      "*": {
+        color: [/^var\(--editor-text-.*\)$/],
+        "background-color": [/^var\(--editor-highlight-.*\)$/],
+        "text-align": [/^center$/],
+        float: [/^left|right$/],
+        width: [/^\d+%|\d+px$/],
+        height: [/^\d+%|\d+px$/],
+        margin: [/^\d+px$/],
+      },
+    },
+    disallowedTagsMode: "discard",
+    allowVulnerableTags: false,
+  });
+};
 
 const internalOtpType = [
   "otp",
@@ -87,6 +138,8 @@ export const oauthCodeSchema = z.object({
   code: z.string(),
 });
 
+export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+
 export const updateProfileSchema = z.object({
   name: z
     .string()
@@ -122,6 +175,35 @@ export const updateProfileSchema = z.object({
   avatar: z.string().optional(),
 });
 
+export const blogRequestSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(200, "Title must be 200 characters or less"),
+  content: z
+    .string()
+    .min(1, "Content is required")
+    .max(100000, "Content too long")
+    .transform(sanitizeContent),
+  metaTitle: z
+    .string()
+    .max(70, "Meta title must be 70 characters or less")
+    .optional(),
+  metaDescription: z
+    .string()
+    .max(160, "Meta description must be 160 characters or less")
+    .optional(),
+  slug: z.string().max(100, "Slug must be 100 characters or less").optional(),
+  topics: z.array(z.string().min(1, "Topic cannot be empty")).min(0).optional(),
+  tags: z.array(z.string().min(1, "Tag cannot be empty")).min(0).optional(),
+  isPremium: z.boolean().default(false),
+  status: blogStatusEnum.default("draft"),
+  readTime: z
+    .string()
+    .max(10, "Read time must be 10 characters or less")
+    .optional(),
+});
+
 // Type inference
 export type InternalOtpType = (typeof internalOtpType)[number];
 export type SendEmailDTO = z.infer<typeof sendEmailSchema>;
@@ -129,5 +211,6 @@ export type UserSignupDTO = z.infer<typeof userSignupSchema>;
 export type ResetPasswordDTO = z.infer<typeof resetPasswordSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
 export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
-export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
+// export type OAuthCodeDTO = z.infer<typeof oauthCodeSchema>;
 export type UpdateProfileDTO = z.infer<typeof updateProfileSchema>;
+export type BlogRequestDTO = z.infer<typeof blogRequestSchema>;

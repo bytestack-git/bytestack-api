@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { IFollowsEntity } from "../../../../domain/entities/models/follows.entity";
+import { IFollowsModel } from "../models/follows.model";
 
-export const FollowSchema = new Schema<IFollowsEntity>(
+export const FollowSchema = new Schema<IFollowsModel>(
   {
     user: {
       type: Schema.Types.ObjectId,

@@ -6,4 +6,4 @@ export interface IFollowsModel extends Omit<IFollowsEntity, "_id">, Document {
   _id: ObjectId;
 }
 
-export const FollowModel = model<IFollowsEntity>("follows", FollowSchema);
+export const FollowModel = model<IFollowsModel>("follows", FollowSchema);

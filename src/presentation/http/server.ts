@@ -3,12 +3,10 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import { config } from "../../shared/config/config";
-import { AuthRoutes } from "../routes/users/auth.route";
-import { container } from "tsyringe";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
-import { UserRoutes } from "../routes/users/profile.route";
-import { AdminRoutes } from "../routes/admin/admin.route";
+import { adminRoutes, authRoutes, blogRoutes, userRoutes } from "../../infrastructure/di/resolver";
+
 
 export class Server {
   private _app: Application;
@@ -46,12 +44,10 @@ export class Server {
   }
 
   private initializeRoutes(): void {
-    const authRoutes = container.resolve(AuthRoutes);
-    const userRoutes = container.resolve(UserRoutes);
-    const adminRoutes = container.resolve(AdminRoutes);
     this._app.use("/api/v1/auth", authRoutes.router);
     this._app.use("/api/v1/profile", userRoutes.router);
     this._app.use("/api/v1/admin", adminRoutes.router);
+    this._app.use("/api/v1/blog", blogRoutes.router);
   }
 
   private initializeErrorHandler(): void {

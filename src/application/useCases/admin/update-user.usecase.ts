@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { IUpdateUserUsecase } from "../../../domain/interfaces/usecaseInterface/admin/update-user.usecase.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/profile/user.repository.interface";
 import { NotFoundError } from "../../../domain/errors/not-found.error";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { ICacheService } from "../../../domain/interfaces/serviceInterface/cache/cache.service.interface";

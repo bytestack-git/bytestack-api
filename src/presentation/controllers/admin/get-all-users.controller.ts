@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "tsyringe";
-import { IGetAllUsersController } from "../../../domain/interfaces/controllerInterface/admin/get-all-users.controller.interface";
 import { IGetAllUsersUsecase } from "../../../domain/interfaces/usecaseInterface/admin/get-all-users.usecase.interface";
 import { DataResponse } from "../../../shared/dtos/response.types";
 import { ValidationError } from "../../../domain/errors/validation.error";
+import { IController } from "../../../domain/interfaces/controllerInterface/common/controller.interface";
 
 @injectable()
-export class GetAllUsersController implements IGetAllUsersController {
+export class GetAllUsersController implements IController {
   constructor(
     @inject("IGetAllUsersUsecase")
     private getAllUsersUsecase: IGetAllUsersUsecase

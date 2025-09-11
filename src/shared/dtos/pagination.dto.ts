@@ -3,4 +3,5 @@ export interface Pagination {
   limit: number;
   search: string;
   status?: string;
+  sort?: string;
 }

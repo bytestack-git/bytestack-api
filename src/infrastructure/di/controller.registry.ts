@@ -1,58 +1,42 @@
 import { container } from "tsyringe";
-import { SignupController } from "../../presentation/controllers/user/auth/signup.controller";
-import { SendOtpController } from "../../presentation/controllers/user/auth/send-otp.controller";
-import { ResetPasswordController } from "../../presentation/controllers/user/auth/reset-password.controller";
-import { ISignupController } from "../../domain/interfaces/controllerInterface/user/auth/signup.controller.interface";
-import { ISendOtpController } from "../../domain/interfaces/controllerInterface/user/auth/send-otp.controller.interface";
-import { IResetPasswordController } from "../../domain/interfaces/controllerInterface/user/auth/reset-password.controller.interface";
-import { ILoginController } from "../../domain/interfaces/controllerInterface/user/auth/login.controller.interface";
-import { LoginController } from "../../presentation/controllers/user/auth/login.controller";
-import { IRefreshTokenController } from "../../domain/interfaces/controllerInterface/user/auth/refresh-token.controller.interface";
-import { RefreshTokenController } from "../../presentation/controllers/user/auth/refresh-token.controller";
-import { ILogoutController } from "../../domain/interfaces/controllerInterface/user/auth/logout.controller.interface";
-import { LogoutController } from "../../presentation/controllers/user/auth/logout.controller";
-import { GetUserController } from "../../presentation/controllers/user/profile/get-user.controller";
-import { IGetUserController } from "../../domain/interfaces/controllerInterface/user/profile/get-user.controller.interface";
-import { IForgotPasswordController } from "../../domain/interfaces/controllerInterface/user/auth/forgot-password.controller.interface";
-import { ForgotPasswordController } from "../../presentation/controllers/user/auth/forgot-password.controller";
-import { IAdminSigninController } from "../../domain/interfaces/controllerInterface/admin/signin.controller.interface";
+import { SignupController } from "../../presentation/controllers/auth/signup.controller";
+import { SendOtpController } from "../../presentation/controllers/auth/send-otp.controller";
+import { ResetPasswordController } from "../../presentation/controllers/auth/reset-password.controller";
+import { LoginController } from "../../presentation/controllers/auth/login.controller";
+import { IRefreshTokenController } from "../../domain/interfaces/controllerInterface/auth/refresh-token.controller.interface";
+import { RefreshTokenController } from "../../presentation/controllers/auth/refresh-token.controller";
+import { LogoutController } from "../../presentation/controllers/auth/logout.controller";
+import { GetUserController } from "../../presentation/controllers/profile/get-user.controller";
+import { ForgotPasswordController } from "../../presentation/controllers/auth/forgot-password.controller";
 import { AdminSigninController } from "../../presentation/controllers/admin/signin.controller";
 import { AdminLogoutController } from "../../presentation/controllers/admin/admin-logout.controller";
-import { IAdminLogoutController } from "../../domain/interfaces/controllerInterface/admin/admin-logout.controller.interface";
 import { GetAllUsersController } from "../../presentation/controllers/admin/get-all-users.controller";
-import { IUpdateUserController } from "../../domain/interfaces/controllerInterface/admin/update-user.controller.interface";
 import { UpdateUserController } from "../../presentation/controllers/admin/update-user.controller";
-import { IGoogleOAuthController } from "../../domain/interfaces/controllerInterface/user/auth/google-oauth.controller.interface";
-import { GoogleOAuthController } from "../../presentation/controllers/user/auth/google-oauth.controller";
-import { IGitHubOAuthController } from "../../domain/interfaces/controllerInterface/user/auth/github-oauth.controller.interface";
-import { GitHubOAuthController } from "../../presentation/controllers/user/auth/github-oauth.controller";
-import { IUpdateProfileController } from "../../domain/interfaces/controllerInterface/user/profile/update-profile.controller.interface";
-import { UpdateProfileController } from "../../presentation/controllers/user/profile/update-profile.controller";
-import { IS3Controller } from "../../domain/interfaces/controllerInterface/s3/s3.controller.interface";
-import { S3Controller } from "../../presentation/controllers/s3/s3.controller";
-import { IGetProfileController } from "../../domain/interfaces/controllerInterface/user/profile/get-profile.controller.interface";
-import { GetProfileController } from "../../presentation/controllers/user/profile/get-profile.controller";
-import { IGetBloggersController } from "../../domain/interfaces/controllerInterface/user/profile/get-bloggers.controller.interface";
-import { GetBloggersController } from "../../presentation/controllers/user/profile/get-bloggers.controller";
-import { IFollowsController } from "../../domain/interfaces/controllerInterface/user/profile/follows.controller.interface";
-import { FollowsController } from "../../presentation/controllers/user/profile/follows.controller";
-import { IFindFollowsController } from "../../domain/interfaces/controllerInterface/user/profile/find-follows.controller.interface";
-import { FindFollowsController } from "../../presentation/controllers/user/profile/find-follows.controller";
+import { GoogleOAuthController } from "../../presentation/controllers/auth/google-oauth.controller";
+import { GitHubOAuthController } from "../../presentation/controllers/auth/github-oauth.controller";
+import { UpdateProfileController } from "../../presentation/controllers/profile/update-profile.controller";
+import { FileUploadController } from "../../presentation/controllers/file-upload/file-upload.controller";
+import { GetProfileController } from "../../presentation/controllers/profile/get-profile.controller";
+import { GetBloggersController } from "../../presentation/controllers/profile/get-bloggers.controller";
+import { FollowsController } from "../../presentation/controllers/profile/follows.controller";
+import { FindFollowsController } from "../../presentation/controllers/profile/find-follows.controller";
+import { CreateBlogController } from "../../presentation/controllers/blog/create-blog.controller";
+import { IController } from "../../domain/interfaces/controllerInterface/common/controller.interface";
 
 // user
-container.register<ISignupController>("ISignupController", {
+container.register<IController>("ISignupController", {
   useClass: SignupController,
 });
 
-container.register<ISendOtpController>("ISendOtpController", {
+container.register<IController>("ISendOtpController", {
   useClass: SendOtpController,
 });
 
-container.register<IResetPasswordController>("IResetPasswordController", {
+container.register<IController>("IResetPasswordController", {
   useClass: ResetPasswordController,
 });
 
-container.register<ILoginController>("ILoginController", {
+container.register<IController>("ILoginController", {
   useClass: LoginController,
 });
 
@@ -60,64 +44,69 @@ container.register<IRefreshTokenController>("IRefreshTokenController", {
   useClass: RefreshTokenController,
 });
 
-container.register<IForgotPasswordController>("IForgotPasswordController", {
+container.register<IController>("IForgotPasswordController", {
   useClass: ForgotPasswordController,
 });
 
-container.register<ILogoutController>("ILogoutController", {
+container.register<IController>("ILogoutController", {
   useClass: LogoutController,
 });
 
-container.register<IGetUserController>("IGetUserController", {
+container.register<IController>("IGetUserController", {
   useClass: GetUserController,
 });
 
-container.register<IS3Controller>("IS3Controller", {
-  useClass: S3Controller,
+container.register<IController>("IFileUploadController", {
+  useClass: FileUploadController,
 });
 
-container.register<IGetProfileController>("IGetProfileController", {
+container.register<IController>("IGetProfileController", {
   useClass: GetProfileController,
 });
 
-container.register<IGetBloggersController>("IGetBloggersController", {
+container.register<IController>("IGetBloggersController", {
   useClass: GetBloggersController,
 });
 
-container.register<IFollowsController>("IFollowsController", {
+container.register<IController>("IFollowsController", {
   useClass: FollowsController,
 });
 
-container.register<IFindFollowsController>("IFindFollowsController", {
+container.register<IController>("IFindFollowsController", {
   useClass: FindFollowsController,
 });
 
 //admin
-container.register<IAdminSigninController>("IAdminSigninController", {
+container.register<IController>("IAdminSigninController", {
   useClass: AdminSigninController,
 });
 
-container.register<IAdminLogoutController>("IAdminLogoutController", {
+container.register<IController>("IAdminLogoutController", {
   useClass: AdminLogoutController,
 });
 
-container.register<IAdminLogoutController>("IGetAllUsersController", {
+container.register<IController>("IGetAllUsersController", {
   useClass: GetAllUsersController,
 });
 
-container.register<IUpdateUserController>("IUpdateUserController", {
+container.register<IController>("IUpdateUserController", {
   useClass: UpdateUserController,
 });
 
-container.register<IGoogleOAuthController>("IGoogleOAuthController", {
+container.register<IController>("IGoogleOAuthController", {
   useClass: GoogleOAuthController,
 });
 
-container.register<IGitHubOAuthController>("IGitHubOAuthController", {
+container.register<IController>("IGitHubOAuthController", {
   useClass: GitHubOAuthController,
 });
 
 // user
-container.register<IUpdateProfileController>("IUpdateProfileController", {
+container.register<IController>("IUpdateProfileController", {
   useClass: UpdateProfileController,
+});
+
+// blog
+container.register<IController>("ICreateBlogController", {
+  useClass: CreateBlogController,
 });

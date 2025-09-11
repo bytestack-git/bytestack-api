@@ -6,7 +6,7 @@ import {
   IGitHubOAuthService,
   IGitHubOAuthUser,
 } from "../../../domain/interfaces/serviceInterface/auth/github-oauth.service.interface";
-import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/user/user.repository.interface";
+import { IUserRepository } from "../../../domain/interfaces/repositoryInterface/profile/user.repository.interface";
 import { BaseError } from "../../../domain/errors/base.error";
 import { IUserEntity } from "../../../domain/entities/models/user.entity";
 import { generateProfileSlug } from "../../../shared/utils/slug.utils";
