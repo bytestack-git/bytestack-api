@@ -10,6 +10,8 @@ export class EmailService implements IEmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
+      host: "smtp.sendgrid.net",
+      port: 587,
       service: config.email.SERVICE,
       auth: config.email.AUTH,
     });
