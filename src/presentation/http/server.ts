@@ -5,8 +5,12 @@ import cookieParser from "cookie-parser";
 import { config } from "../../shared/config/config";
 import { requestLogger } from "../../shared/middlewares/request-logger.middleware";
 import { errorHandler } from "../middleware/error.middleware";
-import { adminRoutes, authRoutes, blogRoutes, userRoutes } from "../../infrastructure/di/resolver";
-
+import {
+  adminRoutes,
+  authRoutes,
+  blogRoutes,
+  userRoutes,
+} from "../../infrastructure/di/resolver";
 
 export class Server {
   private _app: Application;
@@ -34,6 +38,7 @@ export class Server {
     this._app.use(requestLogger);
     this._app.use(cookieParser());
     this._app.use(express.json());
+    this._app.set("trust proxy", 1);
 
     this._app.use(
       rateLimit({
