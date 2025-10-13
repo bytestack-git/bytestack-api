@@ -30,14 +30,14 @@ export class LoginController implements IController {
         res.cookie("accessToken", tokens.accessToken, {
           httpOnly: true,
           maxAge: 15 * 60 * 1000, // 15 minutes
-          // secure: process.env.NODE_ENV === "production",
-          // sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "none",
         });
         res.cookie("refreshToken", tokens.refreshToken, {
           httpOnly: true,
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-          // secure: process.env.NODE_ENV === "production",
-          // sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "none",
         });
       }
 
